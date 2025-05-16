@@ -1,0 +1,57 @@
+{
+  "expo": {
+    "name": "VEPO",
+    "slug": "VEPO",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.jpeg",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey":  "AIzaSyAO4bp76xu5ZfOXB-qmvcUwDImpG5rgnYc"
+        }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/icon.jpeg"
+      },
+      "package": "com.mohol.VEPO",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAO4bp76xu5ZfOXB-qmvcUwDImpG5rgnYc"
+        }
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/vepo-logo.png",
+          "imageWidth": 150,
+          "resizeMode": "cover",
+          "backgroundColor": "#f0f0f0"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "30ba6e7f-b957-4fa5-9a74-fda56c2bf99d"
+      }
+    }
+  }
+}
