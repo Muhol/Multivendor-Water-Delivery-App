@@ -383,7 +383,7 @@ const Profile = () => {
 												/>
 												{/* <------EDIT BUTTON------> */}
 												<TouchableOpacity
-													className="absolute bottom-0 right-0"
+													className="absolute bottom-0 right-0 z-30"
 													activeOpacity={0.7}
 												>
 													<View className="bg-accenttxt p-3 rounded-full">
