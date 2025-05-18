@@ -1,22 +1,32 @@
-
-import { Stack } from "expo-router";
-import "react-native-reanimated";
+import { Dimensions, StatusBar, View } from "react-native";
 import "../global.css";
-import { StatusBar, View } from "react-native";
+import { Stack } from "expo-router";
 
-function RootLayout() {
+const { height, width } = Dimensions.get("window");
 
-  return (
-    <>
-      <StatusBar backgroundColor={'transparent'} barStyle={'dark-content'} />
-        <Stack
-        screenOptions={{
-          headerShown:false,
-          animation: 'slide_from_right', // Options: 'fade', 'slide_from_right', 'slide_from_left', 'none'
-          }}
-        />
-    </>
-  );
+
+export default function Layout() {
+	const statusBarHeight = StatusBar.currentHeight || 40;
+
+	return (
+		<>
+			<StatusBar
+				backgroundColor={"transparent"}
+				barStyle={"dark-content"}
+			/>
+			<View
+				className=" absolute top-0 w-full "
+				style={{
+					height: height + statusBarHeight,
+				}}
+			>
+				<Stack
+					screenOptions={{
+						headerShown: false,
+						animation: "slide_from_right", // Options: 'fade', 'slide_from_right', 'slide_from_left', 'none'
+					}}
+				/>
+			</View>
+		</>
+	);
 }
-
-export default RootLayout

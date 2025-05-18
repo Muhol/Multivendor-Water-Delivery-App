@@ -88,9 +88,7 @@ export default function Maps() {
 					]}
 				>
 					<TouchableWithoutFeedback>
-						<>
 							<MapView style={StyleSheet.absoluteFill} />
-						</>
 					</TouchableWithoutFeedback>
 				</Animated.View>
 				{/* <-------------BACK_BUTTON-------------> */}

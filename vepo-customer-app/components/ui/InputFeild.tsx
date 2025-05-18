@@ -22,14 +22,12 @@ const InputFeild = ({ label, style, type, placeholder, set }: Props) => {
   const [text, setText] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
 
-
-
   set(text);
 
   return (
     <View
       className={
-        "relative w-[90%] border rounded-xl h-[50px] p-[10px] flex-row items-center" +
+        "relative w-[90%] border rounded-xl h-[50px] pl-[10px] flex-row items-center" +
         style
       }
     >
@@ -40,12 +38,11 @@ const InputFeild = ({ label, style, type, placeholder, set }: Props) => {
         placeholder={placeholder}
         onChangeText={(text) => setText(text)}
         secureTextEntry={type === "password" && !showPassword}
-        className="outline-none border-none flex-1"
+        className="flex-1 " 
       />
       {type === "password" && (
-        <>
         <TouchableOpacity 
-          className=""
+          className="justify-center items-center"
           activeOpacity={0.7}
           onPress={() => {
             setShowPassword(!showPassword)
@@ -59,7 +56,6 @@ const InputFeild = ({ label, style, type, placeholder, set }: Props) => {
             )}
           </View>
         </TouchableOpacity>
-        </>
       )}
     </View>
   );

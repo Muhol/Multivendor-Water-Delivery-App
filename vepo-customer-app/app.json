@@ -11,8 +11,8 @@
     "ios": {
       "supportsTablet": true,
       "config": {
-        "googleMapsApiKey":  "AIzaSyAO4bp76xu5ZfOXB-qmvcUwDImpG5rgnYc"
-        }
+        "googleMapsApiKey": "AIzaSyAO4bp76xu5ZfOXB-qmvcUwDImpG5rgnYc"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -36,9 +36,9 @@
         "expo-splash-screen",
         {
           "image": "./assets/images/vepo-logo.png",
-          "imageWidth": 150,
+          "imageWidth": 200,
           "resizeMode": "cover",
-          "backgroundColor": "#f0f0f0"
+          "backgroundColor": "#000000"
         }
       ]
     ],
@@ -46,11 +46,9 @@
       "typedRoutes": true
     },
     "extra": {
-      "router": {
-        "origin": false
-      },
+      "router": {},
       "eas": {
-        "projectId": "30ba6e7f-b957-4fa5-9a74-fda56c2bf99d"
+        "projectId": "9f5839a1-af22-4817-a3c8-68420beab66e"
       }
     }
   }

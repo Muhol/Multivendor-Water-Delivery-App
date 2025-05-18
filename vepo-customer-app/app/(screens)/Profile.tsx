@@ -409,7 +409,7 @@ const Profile = () => {
 													scrollEnabled={true}
 												>
 													<TouchableWithoutFeedback>
-														<>
+														<View>
 															<ComicText
 																text={
 																	"Personal Infomation:"
@@ -615,7 +615,7 @@ const Profile = () => {
 																	</View>
 																</View>
 															</TouchableOpacity>
-														</>
+														</View>
 													</TouchableWithoutFeedback>
 												</BottomSheetScrollView>
 											</View>
