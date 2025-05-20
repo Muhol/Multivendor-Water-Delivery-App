@@ -4,17 +4,65 @@
 // };
 
 import { View, Text, Image, TouchableOpacity, StatusBar } from "react-native";
-import React from "react";
+import React, { useCallback, useState } from "react";
 // import { StatusBar } from "expo-status-bar";
 import { Dimensions } from "react-native";
 import { useRouter } from "expo-router";
 import ComicText from "@/components/styled-components/custom-texts/ComicText";
+import { useWarmUpBrowser } from "./_layout";
+import { useSSO } from "@clerk/clerk-expo";
 // import {LinearGradient} from "expo-linear-gradient"; 
+import * as AuthSession from 'expo-auth-session'
 
 const { width, height } = Dimensions.get("window");
 
 export default function Auth() {
+  // <-----------------------HOOKES----------------------->
   const router = useRouter(); 
+  const { startSSOFlow } = useSSO()
+  
+  // <-----------------------STATES----------------------->
+	const [OAuthLoading, setOAuthLoading] = useState(false);
+
+  // <----------------------VARIABLES--------------------->
+  useWarmUpBrowser()
+  // <----------------------FUNCTIONS--------------------->
+
+  const onPress = useCallback(async () => {
+		setOAuthLoading(true)
+    try {
+      // Start the authentication process by calling `startSSOFlow()`
+      const { createdSessionId, setActive, signIn, signUp } = await startSSOFlow({
+        strategy: 'oauth_google',
+        // For web, defaults to current path
+        // For native, you must pass a scheme, like AuthSession.makeRedirectUri({ scheme, path })
+        // For more info, see https://docs.expo.dev/versions/latest/sdk/auth-session/#authsessionmakeredirecturioptions
+        redirectUrl: AuthSession.makeRedirectUri({
+          scheme: 'myapp',
+          path: '(Auth)'
+        }),
+      })
+
+      // If sign in was successful, set the active session
+      if (createdSessionId) {
+        setActive!({ session: createdSessionId })
+        .then(()=> {
+          router.push("/(screens)")
+        })
+      } else {
+        // If there is no `createdSessionId`,
+        // there are missing requirements, such as MFA
+        // Use the `signIn` or `signUp` returned from `startSSOFlow`
+        // to handle next steps
+      }
+    } catch (err) {
+      // See https://clerk.com/docs/custom-flows/error-handling
+      // for more info on error handling
+      console.error(JSON.stringify(err, null, 2))
+    }finally{
+			setOAuthLoading(false)
+		}
+  }, [])
 
   return (
     <View
@@ -30,7 +78,7 @@ export default function Auth() {
       <TouchableOpacity 
         activeOpacity={0.6}
         onPress={() => {
-           router.push('/(Auth)/sign-in/screen');
+           router.replace('/(Auth)/sign-in/screen');
         }}
       >  
         <View 
@@ -71,9 +119,13 @@ export default function Auth() {
       {/* Sign in with Google */}
       <TouchableOpacity
         activeOpacity={0.6}
+        onPress={()=>{
+          console.log("pressed")
+          onPress();
+        }}
       >
         <View 
-          className="flex-row gap-4 w-[260px] h-[40px] rounded-[30px] border border-gray-200 bg-slate-50 items-center justify-center"
+          className="flex-row gap-4 w-[260px] h-[40px] rounded-[30px] border border-gray-50 shadow-2xl bg-slate-50 items-center justify-center"
           style={{
             width: width*0.6
           }}

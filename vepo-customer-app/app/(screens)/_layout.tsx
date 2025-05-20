@@ -1,5 +1,6 @@
 import TabIcon from "@/components/ui/TabIcon";
-import { Stack, usePathname, useRouter } from "expo-router";
+import { useAuth } from "@clerk/clerk-expo";
+import { Redirect, Stack, usePathname, useRouter } from "expo-router";
 import {
   Dimensions,
   SafeAreaView,
@@ -21,17 +22,22 @@ configureReanimatedLogger({
 const { width, height } = Dimensions.get("window");
 
 const Layout = () => {
+	// <--------------------HOOKES------------------->
   const router = useRouter();
   const path = usePathname();
-
-
-
+  const { isSignedIn } = useAuth()
+  
+	// <------------------FUNCTIONS------------------>
   const active = (pathname: string) => {
     return pathname === path;
   };
-
+  
+  // <------------------VARIABLES------------------>
   const statusbarHieght = StatusBar.currentHeight || 50;
   
+  if (!isSignedIn) {
+    return <Redirect href={'/(Auth)'} />
+  }
   return (
     <>
       <StatusBar

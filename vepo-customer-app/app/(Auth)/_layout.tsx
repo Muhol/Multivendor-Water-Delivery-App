@@ -9,6 +9,10 @@ import {
   ReanimatedLogLevel,
   configureReanimatedLogger,
 } from "react-native-reanimated";
+import { useAuth } from '@clerk/clerk-expo'
+import { useEffect } from "react";
+import * as WebBrowser from 'expo-web-browser'
+
 
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
@@ -17,9 +21,38 @@ configureReanimatedLogger({
 
 const { width, height } = Dimensions.get("window");
 
+
+export const useWarmUpBrowser = () => {
+  useEffect(() => {
+    // Preloads the browser for Android devices to reduce authentication load time
+    // See: https://docs.expo.dev/guides/authentication/#improving-user-experience
+    void WebBrowser.warmUpAsync()
+    return () => {
+      // Cleanup: closes browser when component unmounts
+      void WebBrowser.coolDownAsync()
+    }
+  }, [])
+}
+
+// Handle any pending authentication sessions
+WebBrowser.maybeCompleteAuthSession()
+
+
+
+
 const Layout = () => {
+  // <------------------------HOOKES------------------------->
+  const { isSignedIn } = useAuth()
+
+  // <-----------------------VARIABLES----------------------->
   const statusbarHieght = StatusBar.currentHeight || 50;
-  
+
+  // <-----------------------FUNCTIONS----------------------->
+  useWarmUpBrowser()
+
+  if (isSignedIn) {
+    return <Redirect href={'/(screens)'} />
+  }
 
   return (
     <>

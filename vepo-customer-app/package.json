@@ -15,7 +15,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "@clerk/clerk-expo": "^2.11.4",
+    "@clerk/clerk-expo": "^2.11.6",
     "@expo/vector-icons": "^14.1.0",
     "@gorhom/bottom-sheet": "^5.1.4",
     "@react-navigation/bottom-tabs": "^7.2.0",
@@ -47,6 +47,8 @@
     "react-native-css-interop": "^0.1.22",
     "react-native-gesture-handler": "~2.24.0",
     "react-native-maps": "^1.20.1",
+    "react-native-modal": "^14.0.0-rc.1",
+    "react-native-otp-entry": "^1.8.4",
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "^5.4.0",
     "react-native-screens": "~4.10.0",

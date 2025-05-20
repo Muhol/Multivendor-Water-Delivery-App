@@ -19,15 +19,15 @@ type Props = {
 
 const InputFeild = ({ label, style, type, placeholder, set }: Props) => {
   //   STATES
-  const [text, setText] = React.useState("");
+  // const [text, setText] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
 
-  set(text);
+  // set(text);
 
   return (
     <View
       className={
-        "relative w-[90%] border rounded-xl h-[50px] pl-[10px] flex-row items-center" +
+        "relative w-[90%] border rounded-xl h-[50px] px-[10px] flex-row items-center" +
         style
       }
     >
@@ -36,7 +36,7 @@ const InputFeild = ({ label, style, type, placeholder, set }: Props) => {
       </View>
       <TextInput
         placeholder={placeholder}
-        onChangeText={(text) => setText(text)}
+        onChangeText={(text) => set(text)}
         secureTextEntry={type === "password" && !showPassword}
         className="flex-1 " 
       />

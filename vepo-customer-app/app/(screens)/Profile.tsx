@@ -22,20 +22,26 @@ import BottomSheet, {
 	BottomSheetScrollView,
 	BottomSheetView,
 } from "@gorhom/bottom-sheet";
+import { useClerk } from '@clerk/clerk-expo'
+import * as Linking from 'expo-linking'
 
 const { width, height } = Dimensions.get("window");
 
 const Profile = () => {
-	// <-----------HOOKES----------->
+	// <------------------------------HOOKES------------------------------>
 	const router = useRouter();
-	// <-----------STATES----------->
+	const { signOut } = useClerk()
+
+	// <------------------------------STATES------------------------------>
 	const [theme, setTheme] = useState(false);
 	const [bottomSheetData, setBottomSheetData] = useState(""); //[ favourites , privacy , settings, help ]
 	const [displayTopBar, setDisplayTopBar] = useState(true); //[ favourites , privacy , settings, help ]
+	
+	// <------------------------------VARIABLES------------------------------>
 
-	// <--------------BOTTOM SHEET--------------->
+	// <------------------------------FUNSTIONS------------------------------>
+	// BOTTOM SHEET
 	const bottomSheetRef = useRef<BottomSheet>(null);
-
 	const handleClosePress = () => {
 		bottomSheetRef.current?.close();
 		setDisplayTopBar(true);
@@ -44,6 +50,19 @@ const Profile = () => {
 		setDisplayTopBar(false);
 		bottomSheetRef.current?.expand();
 	};
+
+	// LOGOUT
+	const handleSignOut = async () =>{
+		try {
+			await signOut()
+			// Redirect to your desired page
+			Linking.openURL(Linking.createURL('/(Auth)'))
+		  } catch (err) {
+			// See https://clerk.com/docs/custom-flows/error-handling
+			// for more info on error handling
+			console.error(JSON.stringify(err, null, 2))
+		  }
+	}
 
 	return (
 		<>
@@ -64,20 +83,21 @@ const Profile = () => {
 						{/* <-------------TOP_BAR-------------> */}
 						<View
 							className=" absolute flex-row items-center w-full h-[70px] px-5 justify-between"
-							style={[
-								displayTopBar && { zIndex: 20 },
-							]}
+							style={[displayTopBar && { zIndex: 20 }]}
 						>
-              {/* BACK BUTTON */}
+							{/* BACK BUTTON */}
 							<TouchableOpacity
 								activeOpacity={0.7}
 								onPress={() => {
 									router.back();
 								}}
 							>
-                <View className="w-12 h-12 items-center justify-center rounded-xl">
-                  <Image source={icons.leftArrow} className="w-8 h-8"/>
-                </View>
+								<View className="w-12 h-12 items-center justify-center rounded-xl">
+									<Image
+										source={icons.leftArrow}
+										className="w-8 h-8"
+									/>
+								</View>
 							</TouchableOpacity>
 							{/* THEME TOGGLE BUTTON */}
 							<TouchableOpacity
@@ -292,7 +312,7 @@ const Profile = () => {
 							{/* LOGOUT */}
 							<TouchableOpacity
 								activeOpacity={0.7}
-								onPress={() => {}}
+								onPress={handleSignOut}
 							>
 								<View className="bg-gray-100 py-3 px-5 w-[90%] rounded-full flex-row items-center gap-3">
 									<View className="w-9 h-9 items-center justify-center">
@@ -395,7 +415,7 @@ const Profile = () => {
 													</View>
 												</TouchableOpacity>
 											</View>
-											<View className="w-full flex-1 mt-5 bg-white rounded-3xl">
+											<View className="w-full flex-1 mt-5 bg-white ">
 												<BottomSheetScrollView
 													contentContainerStyle={{
 														flexGrow: 1,

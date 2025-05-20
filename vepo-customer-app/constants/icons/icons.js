@@ -28,6 +28,10 @@ import profile from '../../assets/icons/profile-black.png'
 import leftArrow from '../../assets/icons/leftArrow.png'
 // import leftArrow from '../../assets/icons/leftArrow.png'
 import spinner from '../../assets/icons/spinner.png'
+import otp from '../../assets/icons/otp.png'
+import verified from '../../assets/icons/verified.png'
+import hint from '../../assets/icons/hint.png'
+import verify_email from '../../assets/icons/verify-email.png'
 
 
 const icons = {
@@ -55,7 +59,11 @@ const icons = {
     moon: moon,
     edit: edit,
     profile: profile,
+    verify_email: verify_email,
     spinner: spinner,
+    otp: otp,
+    hint: hint,
+    verified: verified,
     leftArrow: leftArrow,
     eyeslash: eyeslash,
     eyeslash: eyeslash,
