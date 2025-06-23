@@ -1,10 +1,16 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ComicText from "../styled-components/custom-texts/ComicText";
+import { DarkTheme } from "@react-navigation/native";
+import { UIThemeContext } from "@/context/ThemeContext";
 
 type Props = {};
 
 const Reviews = (props: Props) => {
+  const {currentTheme} = useContext(UIThemeContext);
+	const darkTheme = currentTheme === "dark"
+
+
   // DUMMY DATA
   const reviews = [1, 2, 3, 4, 5, 6, 7];
   const rating = [1, 2, 3, 4];
@@ -14,18 +20,19 @@ const Reviews = (props: Props) => {
   return (
     <View className="pt-8 p-1 gap-2 ">
       <View className="flex-row justify-between items-center">
-        <ComicText text={"Reviews"} style={"text-xl"} />
+        <ComicText text={"Reviews"} style={darkTheme? "text-xl text-white" : "text-xl"} />
         <ComicText
           text={`Avg Rating:  ⭐${"4.6"}`}
           style={"text-lg text-gray-500"}
         />
       </View>
-      <View className="p-1 pb-4 bg-accentbg/5 flex-1 rounded-3xl ">
+      <View className={`p-1 pb-4 ${darkTheme? "bg-accentbg/5":"bg-accentbg/5"} flex-1 rounded-3xl `}>
         <View className="flex-row items-center gap-2 flex-1 p-3 border-b border-accentbg/20 justify-end">
           <ComicText text={`Sort by`} style="text-gray-500" />
           <Image
             source={require("../../assets/icons/filter-black.png")}
             className="w-5 h-5"
+            tintColor={darkTheme ? "white" : "black"}
           />
         </View>
         {reviews.map((i, index) => {
@@ -40,14 +47,19 @@ const Reviews = (props: Props) => {
                 {/* REVIEW TEXT */}
                 <View className="flex-1">
                   <Text>
-                    <ComicText
+                    {/* <ComicText
                       text={`${
                         comment.length > 70 && !extend
                           ? comment.substring(0, 70).trim() + "..."
                           : comment
                       }`}
                       style={"text-lg text-wrap"}
-                    />
+                    /> */}
+                    <Text className={`text-lg text-wrap ${darkTheme ? "text-white" : "text-black"}`}>{
+                        comment.length > 70 && !extend
+                          ? comment.substring(0, 70).trim() + "..."
+                          : comment
+                      }</Text>
                     {/* <ComicText text={`more`} style={'text-sm text-gray-500'} /> */}
                     <TouchableOpacity onPress={() => setextend(!extend)}>
                       <Text className="text-sm text-gray-500">

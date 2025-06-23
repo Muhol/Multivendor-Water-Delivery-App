@@ -31,13 +31,18 @@ yarn-error.*
 
 # local env files
 .env
+venv
+.venv
 expo-env.d.ts
 nativewind-env.d.ts
-
+VEPO database structure.docx
+~$PO database structure.docx
+notes.txt
 # typescript
 *.tsbuildinfo
 
 app-example
 
 #ENVIRONMENT VARIABLES
+eas.json
 

@@ -27,7 +27,7 @@ const Button = ({ style, label, type, textStyle, iconleft, iconright, iconcolor 
             </View>
           )
         }
-        <ComicText style={` ${type ==="outline" ? "" : "text-white"}  ${textStyle}`} text={label} />
+        <ComicText style={` ${type ==="outline" ? "" : textStyle !=null && textStyle != ""? "": "text-white"}  ${textStyle}`} text={label} />
         {
           iconright && (
             <View className=" w-7 h-7 ">

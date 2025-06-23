@@ -17,17 +17,16 @@ import {
 } from "react-native";
 import React, {
 	useCallback,
+	useContext,
 	useEffect,
-	useLayoutEffect,
 	useState,
 } from "react";
 import ComicText from "@/components/styled-components/custom-texts/ComicText";
 import InputFeild from "@/components/ui/InputFeild";
 import { Link, useRouter } from "expo-router";
-import Button from "@/components/ui/Button";
 import images from "@/constants/images/images";
 import { LinearGradient } from "expo-linear-gradient";
-import { isClerkAPIResponseError, useSignIn } from "@clerk/clerk-expo";
+import { isClerkAPIResponseError, useAuth, useSignIn } from "@clerk/clerk-expo";
 import icons from "@/constants/icons/icons";
 import Animated from "react-native-reanimated";
 import { useWarmUpBrowser } from "../_layout";
@@ -35,21 +34,32 @@ import { useSSO } from "@clerk/clerk-expo";
 import * as AuthSession from "expo-auth-session";
 import { ClerkAPIError } from "@clerk/types";
 import Modal from "react-native-modal";
+import { UIThemeContext } from "@/context/ThemeContext";
+import ApiRoutes from "@/API/routes/ApiRoutes";
+import * as Location from "expo-location";
+
 
 const { width, height } = Dimensions.get("window");
 
 export default function SignIn() {
 	// <-----------------------<HOOKES>------------------------>
 	const { signIn, setActive, isLoaded } = useSignIn();
+	const { getToken, isSignedIn } = useAuth()
 	const router = useRouter();
 	const { startSSOFlow } = useSSO();
+	const { currentTheme } = useContext(UIThemeContext);
+
+	const darkTheme = currentTheme === "dark";
 
 	// <-----------------------<STATES>------------------------>
 	const [emailAddress, setEmailAddress] = useState("");
 	const [password, setPassword] = useState("");
 	const [loading, setLoading] = useState(false);
-	const [OAuthLoading, setOAuthLoading] = useState(false);
+	const [AuthLoading, setAuthLoading] = useState(false);
 	const [errors, setErrors] = React.useState<ClerkAPIError[]>();
+	const [LocationFinal, setLocation] = useState<Location.LocationObject | null>(null);
+	const [ShowLocationPrompt, setShowLocationPrompt] = useState(false);
+
 
 	useEffect(() => {
 		const resetError = () => {
@@ -63,10 +73,55 @@ export default function SignIn() {
 	useWarmUpBrowser();
 
 	// <----------------------<FUNCTIONS>---------------------->
+
+	// GET CURRENT LOCATION
+	async function getCurrentLocation() {
+		setShowLocationPrompt(false);
+		try {
+			let { status } = await Location.requestForegroundPermissionsAsync();
+			console.log("status", status);
+			if (status !== "granted") {
+				// setErrorMsg("Permission to access Location was denied");
+				setShowLocationPrompt(true);
+				return;
+			}
+			let location = await Location.getCurrentPositionAsync({});
+			setLocation(location);
+		} catch (error: any) {
+			console.log(error.message)
+			setShowLocationPrompt(true)
+		} 
+	}
+
+	// UPDATE USER LOCATION
+	const updateUserLocation = async () => {
+		const token = await getToken();
+		const payload = {
+			lat: LocationFinal?.coords.latitude,
+			lng: LocationFinal?.coords.longitude,
+		};
+		try {
+			const apiCall = await fetch(ApiRoutes.UpdateUserLocation.path, {
+				method: ApiRoutes.UpdateUserLocation.method,
+				headers: {
+					Authorization: `Bearer ${token}`,
+					"Content-Type": "Application/json",
+				},
+				body: JSON.stringify(payload),
+			});
+
+			const response = await apiCall.json();
+			// setLocationUpdated(true);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	// SIGN IN ATTEMPT
 	const onSignInPress = async () => {
 		setLoading(true);
 		setErrors(undefined);
+		let success = false
 		if (!isLoaded) return;
 
 		try {
@@ -77,22 +132,28 @@ export default function SignIn() {
 
 			if (signInAttempt.status === "complete") {
 				await setActive({ session: signInAttempt.createdSessionId });
-				router.replace("/(screens)");
+				success = true
 			} else {
 				// If the status isn't complete, check why. User might need to
 				// complete further steps.
 				console.error(JSON.stringify(signInAttempt, null, 2));
+				success = false
 			}
 		} catch (err) {
 			if (isClerkAPIResponseError(err)) setErrors(err.errors);
+			success = false
 		} finally {
 			setLoading(false);
+			if (success){
+				setAuthLoading(true)
+			}
 		}
 	};
 
 	// OAUTH
 	const SignInWithGoogle = useCallback(async () => {
-		setOAuthLoading(true)
+		setAuthLoading(true);
+		let success = false
 		try {
 			// Start the authentication process by calling `startSSOFlow()`
 			const { createdSessionId, setActive, signIn, signUp } =
@@ -109,37 +170,52 @@ export default function SignIn() {
 
 			// If sign in was successful, set the active session
 			if (createdSessionId) {
-				setActive!({ session: createdSessionId }).then(() => {
-					router.replace("/(screens)");
-				});
+				setActive!({ session: createdSessionId })
+				success = true
 			} else {
 				// If there is no `createdSessionId`,
 				// there are missing requirements, such as MFA
 				// Use the `signIn` or `signUp` returned from `startSSOFlow`
 				// to handle next steps
-				signIn?.authenticateWithPopup
-				setActive!({ session: createdSessionId }).then(() => {
-					router.replace("/(screens)");
-				});
+				signIn?.authenticateWithPopup;
+				setActive!({ session: createdSessionId })
+				success = true
 			}
 		} catch (err) {
 			// See https://clerk.com/docs/custom-flows/error-handling
 			// for more info on error handling
 			console.error(JSON.stringify(err, null, 2));
-		}finally{
-			setOAuthLoading(false)
+			success = false
+		} finally {
+			if(success === false){
+				setAuthLoading(false)
+			}
 		}
 	}, []);
 
+	// useEffect(() => {
+	// 	if(LocationFinal != null && isSignedIn === true ){
+	// 		setAuthLoading(true)
+	// 		updateUserLocation().then(() => {
+	// 				router.replace("/(screens)");
+	// 		})
+	// 	}
+	// }, [isSignedIn])
+
+
+	// USE EFFECT
+	// useEffect(()=> {
+	// 	getCurrentLocation()
+	// },[])
 	return (
 		<>
 			<StatusBar
 				backgroundColor={"#00000000"}
-				barStyle={"dark-content"}
+				barStyle={darkTheme ? "light-content" : "dark-content"}
 			/>
 
 			<View
-				className="bg-primarybg"
+				className={darkTheme ? "bg-black" : "bg-primarybg"}
 				style={{
 					flex: 1,
 					height: height + statusBarHeight,
@@ -166,19 +242,33 @@ export default function SignIn() {
 							source={images.authBgLight}
 							style={{
 								height: height * 0.35,
-								marginBottom: -(height * 0.1),
+								marginBottom: -(height * 0.09),
 							}}
 						>
 							<LinearGradient
 								className="w-full h-full "
-								colors={["transparent", "#f0f0f0"]}
+								colors={[
+									darkTheme
+										? "rgba(0, 0, 0, 0.2)"
+										: "transparent",
+									darkTheme
+										? "rgba(0, 0, 0, 0.6)"
+										: "rgba(240, 240, 240, 0.7)",
+									darkTheme
+										? "rgba(0, 0, 0, 1)"
+										: "rgb(240, 240, 240)",
+								]}
 							></LinearGradient>
 						</ImageBackground>
 						<View className="w-full gap-3 px-6">
 							<View className=" w-[90%] self-center">
 								<ComicText
 									text={"Sign In to Your Account"}
-									style={"text-[30px] text-black"}
+									style={
+										darkTheme
+											? "text-[30px] text-white"
+											: "text-[30px] text-black"
+									}
 								/>
 							</View>
 							<View className="py-[50px] gap-[20px] items-center">
@@ -254,7 +344,7 @@ export default function SignIn() {
 												/>
 											</Animated.View>
 										) : (
-											<Text className="text-white text-xl font-semibold">
+											<Text className={`${darkTheme?"text-black":"text-white"} text-xl font-semibold`}>
 												Log In
 											</Text>
 										)}
@@ -279,23 +369,36 @@ export default function SignIn() {
 										SignInWithGoogle();
 									}}
 								>
-									<View className="flex-row gap-4 w-[260px] h-[40px] rounded-[30px] shadow-xl bg-slate-50 items-center justify-center">
+									<View
+										className={`flex-row gap-4 w-[260px] h-[40px] rounded-[30px]  ${
+											darkTheme ? "bg-slate-50/15" : "bg-slate-100"
+										} shadow-2xl bg-slate-50/15 items-center justify-center`}
+										style={{
+											width: width * 0.6,
+										}}
+									>
 										<Image
-											source={require("../../../assets/images/google.png")}
-											className="w-[40px] h-[40px] rounded-full"
+											source={images.google_logo}
+											className="w-[30px] h-[30px] rounded-full"
 										/>
 										<ComicText
 											text={"Sign in with Google"}
+											style={
+												darkTheme
+													? "text-lg text-gray-300"
+													: "text-lg"
+											}
 										/>
 									</View>
 								</TouchableOpacity>
 							</View>
 						</View>
 						<View className="flex-row gap-2 items-center justify-center">
-							<ComicText text={"Don't Have an Account?"} />
-							<Link
-								href={"/(Auth)/sign-up/screen"}
-								className="group"
+							<ComicText text={"Don't Have an Account?"} style={darkTheme?"text-white":""} />
+							<TouchableOpacity
+								onPress={() => {
+									router.push("/(Auth)/sign-up/screen");
+								}}
 							>
 								<View className="w-[50px] h-7 items-center justify-center">
 									<ComicText
@@ -305,12 +408,12 @@ export default function SignIn() {
 										}
 									/>
 								</View>
-							</Link>
+							</TouchableOpacity>
 						</View>
 					</ScrollView>
 				</KeyboardAvoidingView>
 
-				<Modal isVisible={OAuthLoading}>
+				<Modal isVisible={AuthLoading}>
 					<View className="items-center">
 						<Animated.View className={"animate-spin"}>
 							<Image
@@ -322,6 +425,60 @@ export default function SignIn() {
 					</View>
 				</Modal>
 
+				{/* <Modal isVisible={ShowLocationPrompt}>
+						<View className="items-center">
+							<View
+								className={`bg-white w-[80%]  gap-6 max-w-[300px] rounded-3xl p-6`}
+							>
+								<View className={`flex-row gap-3 `}>
+									<Image
+										source={icons.myLocation}
+										tintColor={"#3b82f6"}
+										className="w-7 h-7"
+									/>
+									<Text className="font-semibold text-2xl text-blue-500">
+										Location Access
+									</Text>
+								</View>
+								<View className="">
+									<View className="">
+										<Text>
+											This app requires access to your
+											current location for it to work
+											properly.{" "}
+										</Text>
+										<Text>
+											Please grant permission to access
+											your location in order to proceed
+										</Text>
+										<Text>
+											If you have allowed location
+											permission and are still getting
+											this prompt it might be a Network
+											issue so Please check your Network
+											settings{" "}
+										</Text>
+									</View>
+								</View>
+								<TouchableOpacity
+									activeOpacity={0.8}
+									onPress={() => {
+										getCurrentLocation();
+									}}
+								>
+									<View
+										className={`bg-blue-500 p-3 px-6 rounded-xl items-center `}
+									>
+										<Text
+											className={`text-white font-bold`}
+										>
+											Allow Location Access
+										</Text>
+									</View>
+								</TouchableOpacity>
+							</View>
+						</View>
+				</Modal> */}
 			</View>
 		</>
 	);

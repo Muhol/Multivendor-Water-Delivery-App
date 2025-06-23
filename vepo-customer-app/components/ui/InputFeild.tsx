@@ -6,8 +6,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import icons from "@/constants/icons/icons";
+import { UIThemeContext } from "@/context/ThemeContext";
 
 type Props = {
   label: string;
@@ -18,6 +19,10 @@ type Props = {
 };
 
 const InputFeild = ({ label, style, type, placeholder, set }: Props) => {
+  // <---------------HOOKS---------------->
+  const {currentTheme} = useContext(UIThemeContext)
+  const darkTheme = currentTheme === "dark";
+
   //   STATES
   // const [text, setText] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
@@ -26,13 +31,11 @@ const InputFeild = ({ label, style, type, placeholder, set }: Props) => {
 
   return (
     <View
-      className={
-        "relative w-[90%] border rounded-xl h-[50px] px-[10px] flex-row items-center" +
-        style
+      className={`relative w-[90%] border ${darkTheme?"border-gray-400":""} rounded-xl h-[50px] px-[10px] flex-row items-center` + style
       }
     >
-      <View className="px-2 bg-primarybg absolute -top-3 left-2">
-        <Text className=" ">{label}</Text>
+      <View className={`px-2 ${darkTheme?"bg-black":"bg-primarybg"} absolute -top-3 left-2`}>
+        <Text className={`${darkTheme?"text-white":""}`}>{label}</Text>
       </View>
       <TextInput
         placeholder={placeholder}

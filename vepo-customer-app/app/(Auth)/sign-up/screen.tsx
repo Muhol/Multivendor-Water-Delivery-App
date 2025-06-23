@@ -9,7 +9,7 @@ import {
 	Dimensions,
 	StatusBar,
 } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import ComicText from "@/components/styled-components/custom-texts/ComicText";
 import InputFeild from "@/components/ui/InputFeild";
 import { Link, useRouter } from "expo-router";
@@ -23,6 +23,8 @@ import Button from "@/components/ui/Button";
 import * as AuthSession from "expo-auth-session";
 import Animated from "react-native-reanimated";
 import { ClerkAPIError } from "@clerk/types";
+import { UIThemeContext } from "@/context/ThemeContext";
+import ApiRoutes from "@/API/routes/ApiRoutes";
 
 const { height } = Dimensions.get("window");
 
@@ -31,9 +33,14 @@ export default function SignUp() {
 	const router = useRouter();
 	const { isLoaded, signUp, setActive } = useSignUp();
 	const { startSSOFlow } = useSSO();
+	const { currentTheme } = useContext(UIThemeContext);
+	const darkTheme = currentTheme === "dark";
 
 	// <--------------------------<STATES>---------------------------->
 	const [emailAddress, setEmail] = React.useState("");
+	const [fullname, setFullname] = React.useState("");
+	const [phoneNumber, setPhoneNumber] = React.useState("");
+	const [profilePic, setProfilePic] = React.useState("");
 	const [password, setPassword] = React.useState("");
 	const [confirmPassword, setConfirmPassword] = React.useState("");
 	const [verification, setVerification] = useState("default"); // pending , success
@@ -61,6 +68,31 @@ export default function SignUp() {
 			return false;
 		}
 	};
+
+	// API CALLS
+	const create_new_database_user = async (clerk_id: string) => {
+		const payload = {
+			clerk_id,
+			full_name: fullname,
+			email: emailAddress,
+			phone_number: phoneNumber,
+			profile_pic: profilePic
+		}
+		try {
+			const apiCall = await fetch(ApiRoutes.CreateNewUser.path, {
+				method: ApiRoutes.CreateNewUser.method,
+				headers: {
+					"Content-Type" : "Application/json"
+				},
+				body: JSON.stringify(payload)
+			})
+			const response = await apiCall.json()
+			// console.log(payload)
+			console.log(response)
+		} catch (error) {
+			console.log(error)
+		}
+	}
 
 	const onSignUpPress = async () => {
 		setLoading(true);
@@ -100,6 +132,7 @@ export default function SignUp() {
 	};
 
 	const onVerifyPress = async () => {
+		let success = false
 		if (!isLoaded) return;
 
 		try {
@@ -112,22 +145,36 @@ export default function SignUp() {
 			// and redirect the user
 			if (signUpAttempt.status === "complete") {
 				setVerification("success");
+				console.log(signUpAttempt.createdUserId)
+				const clerkId = signUpAttempt?.createdUserId
+				if(clerkId === null) {
+					return
+				}
+				create_new_database_user(clerkId)
 				await setActive({ session: signUpAttempt.createdSessionId });
-				router.replace("/(screens)");
+				success = true
+				// router.replace("/(screens)");
 			} else {
 				// If the status is not complete, check why. User may need to
 				// complete further steps.
 				console.error(JSON.stringify(signUpAttempt, null, 2));
+				success = false
 			}
 		} catch (err) {
 			// See https://clerk.com/docs/custom-flows/error-handling
 			// for more info on error handling
 			console.error(JSON.stringify(err, null, 2));
+			success = false
+		}finally{
+			if (success){
+				setOAuthLoading(true)
+			}
 		}
 	};
 
 	// OAuth
 	const SignInWithGoogle = useCallback(async () => {
+		let success = false
 		setOAuthLoading(true);
 		try {
 			// Start the authentication process by calling `startSSOFlow()`
@@ -145,28 +192,27 @@ export default function SignUp() {
 
 			// If sign in was successful, set the active session
 			if (createdSessionId) {
-				setActive!({ session: createdSessionId }).then(() => {
-					router.replace("/(screens)");
-				});
+				setActive!({ session: createdSessionId })
+				success = true
 			} else {
 				// If there is no `createdSessionId`,
 				// there are missing requirements, such as MFA
 				// Use the `signIn` or `signUp` returned from `startSSOFlow`
 				// to handle next steps
 				signUp?.authenticateWithPopup;
-				setActive!({ session: createdSessionId }).then(() => {
-					router.replace("/(screens)");
-				});
+				setActive!({ session: createdSessionId })
+				success = true
 			}
-
-			
 		} catch (err) {
 			// See https://clerk.com/docs/custom-flows/error-handling
 			// for more info on error handling
 			console.error(JSON.stringify(err, null, 2));
+			success = false
 			// setError()
 		} finally {
-			setOAuthLoading(false);
+			if(success === false){
+				setOAuthLoading(false);
+			}
 		}
 	}, []);
 
@@ -174,11 +220,11 @@ export default function SignUp() {
 		<>
 			<StatusBar
 				backgroundColor={"#00000000"}
-				barStyle={"dark-content"}
+				barStyle={darkTheme?"light-content":"dark-content"}
 			/>
 
 			<View
-				className="bg-primarybg"
+				className={darkTheme ? "bg-black" : "bg-primarybg"}
 				style={{
 					flex: 1,
 					height: height + statusBarHeight,
@@ -203,19 +249,29 @@ export default function SignUp() {
 							source={images.authBgLight}
 							style={{
 								height: height * 0.32,
-								marginBottom: -(height * 0.1),
+								marginBottom: -(height * 0.09),
 							}}
 						>
 							<LinearGradient
 								className="w-full h-full "
-								colors={["transparent", "#f0f0f0"]}
+								colors={[
+									darkTheme
+										? "rgba(0, 0, 0, 0.2)"
+										: "transparent",
+									darkTheme
+										? "rgba(0, 0, 0, 0.6)"
+										: "rgba(240, 240, 240, 0.7)",
+									darkTheme
+										? "rgba(0, 0, 0, 1)"
+										: "rgb(240, 240, 240)",
+								]}
 							></LinearGradient>
 						</ImageBackground>
 						<View className="w-full gap-3 px-6">
 							<View className=" w-[90%] self-center">
 								<ComicText
 									text={"Create An Account "}
-									style={"text-[30px] text-black"}
+									style={darkTheme?"text-[30px] text-white":"text-[30px] text-black"}
 								/>
 							</View>
 							<View className="py-[50px] gap-[20px] items-center">
@@ -270,7 +326,6 @@ export default function SignUp() {
 										))}
 									</View>
 								)}
-
 								<View className="flex-row items-center justify-end w-[90%]">
 									<Link
 										href={"/(Auth)/forgot-password/screen"}
@@ -281,7 +336,6 @@ export default function SignUp() {
 										</Text>
 									</Link>
 								</View>
-
 								<TouchableOpacity
 									className="w-full items-center"
 									activeOpacity={0.7}
@@ -309,13 +363,12 @@ export default function SignUp() {
 												/>
 											</Animated.View>
 										) : (
-											<Text className="text-white text-xl font-semibold">
+											<Text className={`${darkTheme?"text-black":"text-white"} text-xl font-semibold`}>
 												Sign Up
 											</Text>
 										)}
 									</Animated.View>
 								</TouchableOpacity>
-
 								<View className="flex flex-row items-center gap-4 my-0">
 									<View
 										className={
@@ -329,14 +382,13 @@ export default function SignUp() {
 										}
 									/>
 								</View>
-
 								<TouchableOpacity
 									activeOpacity={0.7}
 									onPress={() => {
 										SignInWithGoogle();
 									}}
 								>
-									<View className="flex-row gap-4 w-[260px] h-[40px] rounded-[30px] shadow-xl bg-slate-50 items-center justify-center">
+									{/* <View className="flex-row gap-4 w-[260px] h-[40px] rounded-[30px] shadow-xl bg-slate-50 items-center justify-center">
 										<Image
 											source={require("../../../assets/images/google.png")}
 											className="w-[40px] h-[40px] rounded-full"
@@ -344,15 +396,36 @@ export default function SignUp() {
 										<ComicText
 											text={"Sign in with Google"}
 										/>
+									</View> */}
+									<View
+										className={`flex-row gap-4 w-[260px] h-[40px] rounded-[30px]  ${
+											darkTheme ? "bg-slate-50/15" : "bg-slate-100"
+										} shadow-2xl bg-slate-50/15 items-center justify-center`}
+										
+									>
+										<Image
+											source={images.google_logo}
+											className="w-[30px] h-[30px] rounded-full"
+										/>
+										<ComicText
+											text={"Sign in with Google"}
+											style={
+												darkTheme
+													? "text-lg text-gray-300"
+													: "text-lg"
+											}
+										/>
 									</View>
 								</TouchableOpacity>
 							</View>
 						</View>
 						<View className="flex-row gap-2 items-center justify-center">
-							<ComicText text={"Already Have an Account?"} />
-							<Link
-								href={"/(Auth)/sign-in/screen"}
-								className="group"
+							<ComicText text={"Already Have an Account?"} style={darkTheme?"text-white":""}/>
+							<TouchableOpacity
+								// href={"/(Auth)/sign-in/screen"}
+								onPress={() => {
+									router.push("/(Auth)/sign-in/screen");
+								}}
 							>
 								<View className="w-[40px] h-7 items-center justify-center">
 									<ComicText
@@ -362,7 +435,7 @@ export default function SignUp() {
 										}
 									/>
 								</View>
-							</Link>
+							</TouchableOpacity>
 						</View>
 					</ScrollView>
 				</KeyboardAvoidingView>
@@ -377,7 +450,6 @@ export default function SignUp() {
 						</Animated.View>
 					</View>
 				</Modal>
-
 				<Modal isVisible={verification === "pending"}>
 					<View className="bg-white p-[15px] rounded-3xl items-center gap-3 ">
 						<View className="h-[160px] w-[160px] items-center justify-center bg-accentbg rounded-full shadow-xl ">
@@ -461,7 +533,6 @@ export default function SignUp() {
 						</TouchableOpacity>
 					</View>
 				</Modal>
-
 				<Modal isVisible={verification === "success"}>
 					<View className="bg-white p-[15px] rounded-3xl items-center gap-3 ">
 						<View className="h-[160px] w-[160px] items-center justify-center bg-green-500 rounded-full shadow-xl ">

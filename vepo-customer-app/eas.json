@@ -22,7 +22,11 @@
     },
     "preview3": {
       "android": {
-        "buildType": "apk"
+        "buildType": "apk",
+        "distribution": "internal"
+      },
+      "env": {
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_cGV0LWFpcmVkYWxlLTIyLmNsZXJrLmFjY291bnRzLmRldiQ"
       }
     },
     "preview4": {

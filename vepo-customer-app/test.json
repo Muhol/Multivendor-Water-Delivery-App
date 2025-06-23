@@ -1,0 +1,930 @@
+{
+	"locationdata": {
+		"coords": {
+			"accuracy": 60,
+			"altitude": 1886.699951171875,
+			"altitudeAccuracy": 6.208041667938232,
+			"heading": 0,
+			"latitude": -1.382249,
+			"longitude": 36.6817746,
+			"speed": 0
+		},
+		"mocked": false,
+		"timestamp": 1748796490634
+	},
+
+	"imagepickerdata": {
+		"assets": [
+			{
+				"assetId": null,
+				"base64": null,
+				"duration": null,
+				"exif": null,
+				"fileName": "1c40f8da-57d9-4ab9-8e5f-af56dad3fefc.jpeg",
+				"fileSize": 798200,
+				"height": 1536,
+				"mimeType": "image/jpeg",
+				"rotation": null,
+				"type": "image",
+				"uri": "file:///data/user/0/com.mohol.VEPO/cache/ImagePicker/1c40f8da-57d9-4ab9-8e5f-af56dad3fefc.jpeg",
+				"width": 2048
+			}
+		],
+		"canceled": false
+	},
+	"images_cloudinary": {
+		"productImages": [
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749059743/zjfoz5vc9pw9dzn7jpuh.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749059894/wsoofb5s4g9yct2vflzl.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749059929/rm2385bzx9z6exlagnnb.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749059961/f7gcwn9morh82qxrqez6.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749059986/urtwpykytnl6ilwpppgm.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060012/qi85i3x93rndfzj3ns3r.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060048/kwcms2i9ezc33qn3a5il.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060077/qroz7nc5gzmbp5eoknjk.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060111/cogawqlc2vhypwrflrxn.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060134/hdpjyjykk5oqi6jd7kdw.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060169/rctalphfnadgl3dscsfa.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060201/bmpltj6ls6gytzxfblnk.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060228/grj3hiy2y4cjefodlden.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060251/veowb8nguwwlboirlgho.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060281/vwioru36ccaxa2vwrat9.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060308/vwbrtlmth8wtbllnlmac.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060330/dquatvstkcpxbepwiiv7.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060365/an2uop1xk4gg7zk3pqx2.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060380/tci21dklgnygb1uaocju.jpg"
+		],
+		"vendorProfilePics": [
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060591/to8zdm6xzme2kuopyk0n.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060655/sxyi3eziuw2t8ad14fe8.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060790/xqkh4vybgal1vvvjw0fm.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060801/kzhsjnh5e4ka30jr0qtv.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060863/n2e5r93g9gu5bkdqsfvu.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749063268/bfgtxoob6jttgrgjg9rm.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749063325/iki24xxin5pbkn45u5on.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065804/inei0y4cgkfjum6qy0hk.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065832/dhocfdjhnxrrsukbqw0k.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065850/htookfvdhxsgmm8zp5d0.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065871/l11hxxozoda2hsqxvwhv.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065886/ausfsrvkomemfvty36pv.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065901/grykkgxrdfxqd5fxxs65.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065914/kuedkwmcqtfuvbw3dtw9.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065937/ebcfn3zlek2mqgls4wk5.jpg",
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065959/ldf9kkpnr23ncldxpfu4.jpg"
+		]
+	},
+
+	"cloudinary-success-response": {
+		"asset_id": "4920ee2caa50ba949d73fc0e02068fdf",
+		"bytes": 292855,
+		"created_at": "2025-06-04T15:56:21Z",
+		"etag": "6c3c7cb9228f8ba0ed2c337132b961e8",
+		"folder": "",
+		"format": "jpg",
+		"height": 720,
+		"original_extension": "jpeg",
+		"original_filename": "5e271bf4-6e01-40c2-b3dc-53714bf565c1",
+		"placeholder": false,
+		"public_id": "hdqblt3u9uwthjwtcdrf",
+		"resource_type": "image",
+		"secure_url": "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749052581/hdqblt3u9uwthjwtcdrf.jpg",
+		"signature": "f18e568b18008108c933f6c4bc4cf71715b1b656",
+		"tags": [],
+		"type": "upload",
+		"url": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749052581/hdqblt3u9uwthjwtcdrf.jpg",
+		"version": 1749052581,
+		"version_id": "6ba419c5956e3efcb5c283288c8cd69d",
+		"width": 960
+	},
+
+	"near-by-vendors-data": [
+		{
+			"business_name": "Morgan Ltd",
+			"id": "51e20a4a-6930-4972-81b1-8c31b8712363",
+			"lat": -1.38524024570722,
+			"lng": 36.68933066850436,
+			"products": [
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"]
+			],
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065914/kuedkwmcqtfuvbw3dtw9.jpg",
+			"rating": 5
+		},
+		{
+			"business_name": "Forbes-Smith",
+			"id": "72b0882e-387a-4b7e-9558-23192a8a68fd",
+			"lat": -1.3786131676455997,
+			"lng": 36.70267897650948,
+			"products": [
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"]
+			],
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749063268/bfgtxoob6jttgrgjg9rm.jpg",
+			"rating": 3.4
+		},
+		{
+			"business_name": "Mendez, Simmons and Austin",
+			"id": "51c10660-21b1-44e1-964e-73a1d941c075",
+			"lat": -1.3539110505423382,
+			"lng": 36.663499404548816,
+			"products": [
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"]
+			],
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065901/grykkgxrdfxqd5fxxs65.jpg",
+			"rating": 3.6
+		},
+		{
+			"business_name": "Hawkins, Porter and Wright",
+			"id": "c70aeb51-7804-4b6d-bba1-eee7a833ea76",
+			"lat": -1.3362505798841595,
+			"lng": 36.68213321812271,
+			"products": [
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"]
+			],
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065832/dhocfdjhnxrrsukbqw0k.jpg",
+			"rating": 3.5
+		},
+		{
+			"business_name": "Brandt-Krause",
+			"id": "8b67265b-4673-46ed-a7cf-db69839af31b",
+			"lat": -1.416973571214456,
+			"lng": 36.65095591355229,
+			"products": [
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"],
+				["Object"]
+			],
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065886/ausfsrvkomemfvty36pv.jpg",
+			"rating": 3.7
+		}
+	],
+
+	"vendor_details_data": {
+		"business_name": "Robinson, Marsh and Beltran",
+		"delivery_radius": 2.7,
+		"email": "gordon85@example.net",
+		"id": "f390fdf1-dcb2-48af-b254-bcfc05a89ca2",
+		"lat": -1.3935263234491637,
+		"lng": 36.739179864203784,
+		"location_address": "141 Hall Crescent GA 89276",
+		"owners_name": "Barbara Walsh",
+		"phone_number": "001-837-731-0943x347",
+		"preferred_payment_method": ["cash", "mpesa"],
+		"products": [
+			{
+				"capacity": 5.5,
+				"discount": 0,
+				"id": "510a4455-8e41-4674-857d-a657f7fbfd84",
+				"image_url": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060012/qi85i3x93rndfzj3ns3r.jpg",
+				"name": "Create Water",
+				"price": 7.32,
+				"vendor_id": "f390fdf1-dcb2-48af-b254-bcfc05a89ca2"
+			},
+			{
+				"capacity": 8.6,
+				"discount": 0,
+				"id": "e8577d28-1225-419e-bb37-f0776fa3d747",
+				"image_url": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749059961/f7gcwn9morh82qxrqez6.jpg",
+				"name": "Concern Water",
+				"price": 34.95,
+				"vendor_id": "f390fdf1-dcb2-48af-b254-bcfc05a89ca2"
+			},
+			{
+				"capacity": 3.2,
+				"discount": 0,
+				"id": "28c7c620-533f-4524-82cb-9242b76ea3ca",
+				"image_url": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060169/rctalphfnadgl3dscsfa.jpg",
+				"name": "Job Water",
+				"price": 46.76,
+				"vendor_id": "f390fdf1-dcb2-48af-b254-bcfc05a89ca2"
+			},
+			{
+				"capacity": 8.4,
+				"discount": 0,
+				"id": "3a58e542-adbf-49c6-bec4-353e2c409b96",
+				"image_url": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749059743/zjfoz5vc9pw9dzn7jpuh.jpg",
+				"name": "Over Water",
+				"price": 46.83,
+				"vendor_id": "f390fdf1-dcb2-48af-b254-bcfc05a89ca2"
+			},
+			{
+				"capacity": 6.7,
+				"discount": 0,
+				"id": "ac4f65c9-7280-489b-a4f8-f38cd7bb520e",
+				"image_url": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749059986/urtwpykytnl6ilwpppgm.jpg",
+				"name": "However Water",
+				"price": 16.85,
+				"vendor_id": "f390fdf1-dcb2-48af-b254-bcfc05a89ca2"
+			},
+			{
+				"capacity": 8.7,
+				"discount": 0,
+				"id": "adfae4f6-9af3-4141-8da5-5d5f5fd6cebd",
+				"image_url": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060077/qroz7nc5gzmbp5eoknjk.jpg",
+				"name": "Suffer Water",
+				"price": 25.32,
+				"vendor_id": "f390fdf1-dcb2-48af-b254-bcfc05a89ca2"
+			},
+			{
+				"capacity": 7.1,
+				"discount": 0,
+				"id": "debb53d4-4519-4e8d-92c8-3ae3b5ef9311",
+				"image_url": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749059986/urtwpykytnl6ilwpppgm.jpg",
+				"name": "Stock Water",
+				"price": 24.55,
+				"vendor_id": "f390fdf1-dcb2-48af-b254-bcfc05a89ca2"
+			},
+			{
+				"capacity": 6.7,
+				"discount": 0,
+				"id": "59920030-4244-41c8-aed2-b54ee4ae246f",
+				"image_url": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749059961/f7gcwn9morh82qxrqez6.jpg",
+				"name": "Republican Water",
+				"price": 32.77,
+				"vendor_id": "f390fdf1-dcb2-48af-b254-bcfc05a89ca2"
+			},
+			{
+				"capacity": 7.2,
+				"discount": 0,
+				"id": "7999486d-d205-41c0-bc04-6e0dc03ddee6",
+				"image_url": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060281/vwioru36ccaxa2vwrat9.jpg",
+				"name": "The Water",
+				"price": 44.28,
+				"vendor_id": "f390fdf1-dcb2-48af-b254-bcfc05a89ca2"
+			},
+			{
+				"capacity": 7.8,
+				"discount": 0,
+				"id": "30a6b403-f205-416a-be81-a3a4f7ce0149",
+				"image_url": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060077/qroz7nc5gzmbp5eoknjk.jpg",
+				"name": "Itself Water",
+				"price": 12.27,
+				"vendor_id": "f390fdf1-dcb2-48af-b254-bcfc05a89ca2"
+			}
+		],
+		"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065914/kuedkwmcqtfuvbw3dtw9.jpg",
+		"rating": 4.4,
+		"shift_end": "19:00:00",
+		"shift_start": "07:00:00",
+		"verification_status": "pending"
+	},
+
+	"product details data ": {
+		"capacity": 2.1,
+		"description": "Best smile particular. Do option able specific others.",
+		"discount": 0,
+		"id": "623c806f-7219-4e3b-9cf3-f95b8dc943cf",
+		"image_url": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749059961/f7gcwn9morh82qxrqez6.jpg",
+		"is_available": true,
+		"name": "Police Water",
+		"price": 9.53,
+		"stock": 41,
+		"unit": "ml",
+		"vendor_id": "d285f50e-1e52-49f5-97b6-48e98ac28e16"
+	},
+
+	"successfull sign up attempt": {
+		"abandonAt": 1749575071380,
+		"attemptEmailAddressVerification": ["Function anonymous"],
+		"attemptPhoneNumberVerification": ["Function anonymous"],
+		"attemptVerification": ["Function anonymous"],
+		"attemptWeb3WalletVerification": ["Function anonymous"],
+		"authenticateWithCoinbaseWallet": ["Function anonymous"],
+		"authenticateWithMetamask": ["Function anonymous"],
+		"authenticateWithOKXWallet": ["Function anonymous"],
+		"authenticateWithPopup": ["Function anonymous"],
+		"authenticateWithRedirect": ["Function anonymous"],
+		"authenticateWithRedirectOrPopup": ["Function anonymous"],
+		"authenticateWithWeb3": ["Function anonymous"],
+		"create": ["Function anonymous"],
+		"createEmailLinkFlow": ["Function anonymous"],
+		"createdSessionId": "sess_2yHPtV5qcQv4Gj01eMBBHIfI1LZ",
+		"createdUserId": "user_2yHPtTH4shCJ6LN5HuxQx9bFgCY",
+		"emailAddress": "ianmuhol48@gmail.com",
+		"firstName": null,
+		"hasPassword": "undefined",
+		"id": "sua_2yHPktiMTQlrPXwyFBWeQCAZR6V",
+		"lastName": null,
+		"legalAcceptedAt": null,
+		"missingFields": [],
+		"optionalFields": ["oauth_google"],
+		"pathRoot": "/client/sign_ups",
+		"phoneNumber": null,
+		"prepareEmailAddressVerification": ["Function anonymous"],
+		"preparePhoneNumberVerification": ["Function anonymous"],
+		"prepareVerification": ["Function anonymous"],
+		"prepareWeb3WalletVerification": ["Function anonymous"],
+		"requiredFields": ["email_address", "password"],
+		"status": "complete",
+		"unsafeMetadata": {},
+		"unverifiedFields": [],
+		"update": ["Function anonymous"],
+		"upsert": ["Function anonymous"],
+		"username": null,
+		"validatePassword": ["Function anonymous"],
+		"verifications": {
+			"emailAddress": {
+				"attempts": 1,
+				"channel": "undefined",
+				"error": null,
+				"expireAt": "2025-06-09T17:14:34.262Z",
+				"externalVerificationRedirectURL": null,
+				"message": null,
+				"nextAction": "",
+				"nonce": null,
+				"pathRoot": "",
+				"status": "verified",
+				"strategy": "email_code",
+				"supportedStrategies": ["Array"],
+				"verifiedAtClient": "undefined",
+				"verifiedFromTheSameClient": ["Function anonymous"]
+			},
+			"externalAccount": {
+				"attempts": null,
+				"error": null,
+				"expireAt": null,
+				"externalVerificationRedirectURL": null,
+				"message": null,
+				"nonce": null,
+				"pathRoot": "",
+				"status": null,
+				"strategy": null,
+				"verifiedAtClient": null,
+				"verifiedFromTheSameClient": ["Function anonymous"]
+			},
+			"phoneNumber": {
+				"attempts": null,
+				"error": null,
+				"expireAt": null,
+				"externalVerificationRedirectURL": null,
+				"message": null,
+				"nextAction": "",
+				"nonce": null,
+				"pathRoot": "",
+				"status": null,
+				"strategy": null,
+				"supportedStrategies": ["Array"],
+				"verifiedAtClient": null,
+				"verifiedFromTheSameClient": ["Function anonymous"]
+			},
+			"web3Wallet": {
+				"attempts": null,
+				"error": null,
+				"expireAt": null,
+				"externalVerificationRedirectURL": null,
+				"message": null,
+				"nextAction": "",
+				"nonce": null,
+				"pathRoot": "",
+				"status": null,
+				"strategy": null,
+				"supportedStrategies": ["Array"],
+				"verifiedAtClient": null,
+				"verifiedFromTheSameClient": ["Function anonymous"]
+			}
+		},
+		"web3wallet": null
+	},
+
+	"decoded clerk token": {
+		"exp": "1749495416",
+		"fva": [17, -1],
+		"iat": 1749495356,
+		"iss": "https://pet-airedale-22.clerk.accounts.dev",
+		"nbf": 1749495346,
+		"sid": "sess_2yHbEUHffOt2LzMUd9tbMw8eMEF",
+		"sub": "user_2yHbEUAx8Egwk9tN40aa3HZ2dRn",
+		"v": 2
+	},
+
+	"signIn attempt": {
+		"attemptFirstFactor": ["Function anonymous"],
+		"attemptSecondFactor": ["Function anonymous"],
+		"authenticateWithCoinbaseWallet": ["Function anonymous"],
+		"authenticateWithMetamask": ["Function anonymous"],
+		"authenticateWithOKXWallet": ["Function anonymous"],
+		"authenticateWithPasskey": ["Function anonymous"],
+		"authenticateWithPopup": ["Function anonymous"],
+		"authenticateWithRedirect": ["Function anonymous"],
+		"authenticateWithRedirectOrPopup": ["Function anonymous"],
+		"authenticateWithWeb3": ["Function anonymous"],
+		"create": ["Function anonymous"],
+		"createEmailLinkFlow": ["Function anonymous"],
+		"createdSessionId": "sess_2yiZR1zVZyO2RUl8stvS6nJGbpx",
+		"firstFactorVerification": {
+			"attempts": 1,
+			"channel": "undefined",
+			"error": null,
+			"expireAt": "2025-06-19T07:49:01.394Z",
+			"externalVerificationRedirectURL": null,
+			"message": null,
+			"nonce": null,
+			"pathRoot": "",
+			"status": "verified",
+			"strategy": "password",
+			"verifiedAtClient": "undefined",
+			"verifiedFromTheSameClient": ["Function anonymous"]
+		},
+		"id": "sia_2yiZR8X2VNO9MRoKrAESGi8Wr7X",
+		"identifier": "ianmuhol48@gmail.com",
+		"pathRoot": "/client/sign_ins",
+		"prepareFirstFactor": ["Function anonymous"],
+		"prepareSecondFactor": ["Function anonymous"],
+		"resetPassword": ["Function anonymous"],
+		"secondFactorVerification": {
+			"attempts": null,
+			"error": null,
+			"expireAt": null,
+			"externalVerificationRedirectURL": null,
+			"message": null,
+			"nonce": null,
+			"pathRoot": "",
+			"status": null,
+			"strategy": null,
+			"verifiedAtClient": null,
+			"verifiedFromTheSameClient": ["Function anonymous"]
+		},
+		"status": "complete",
+		"supportedFirstFactors": null,
+		"supportedIdentifiers": ["email_address"],
+		"supportedSecondFactors": null,
+		"userData": {},
+		"validatePassword": ["Function anonymous"]
+	},
+
+	"Top Brands>>": [
+		{
+			"business_name": "Soto and Sons",
+			"id": "dec2217b-0964-443f-8b25-36d0999e80f3",
+			"lat": -1.180839259063737,
+			"lng": 36.601940255504104,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749063268/bfgtxoob6jttgrgjg9rm.jpg",
+			"rating": 4.3,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Clay, Grant and Stephenson",
+			"id": "79db22d3-8836-4556-b307-e19bca3a9895",
+			"lat": -1.5929323184621076,
+			"lng": 36.55064913142913,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065886/ausfsrvkomemfvty36pv.jpg",
+			"rating": 4.1,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Mckenzie-Malone",
+			"id": "fcf027fe-952e-4e63-85d0-04db1c968f6b",
+			"lat": -1.5049115570062588,
+			"lng": 37.19101128481558,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749063325/iki24xxin5pbkn45u5on.jpg",
+			"rating": 4.5,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Watts PLC",
+			"id": "60d243ff-e10d-44cd-8b2f-11e17eb941ae",
+			"lat": -1.3075407949442595,
+			"lng": 37.30672691143633,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060863/n2e5r93g9gu5bkdqsfvu.jpg",
+			"rating": 4.9,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Walker, Weaver and Torres",
+			"id": "061937c6-1a1e-4fa0-afc9-8587817af9f5",
+			"lat": -1.1733183116129395,
+			"lng": 36.028489380999766,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065832/dhocfdjhnxrrsukbqw0k.jpg",
+			"rating": 4.1,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Crawford Group",
+			"id": "586e4ee6-dcba-4960-985d-9c9b1b9cb691",
+			"lat": -0.6976252523412629,
+			"lng": 36.403513744622714,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060863/n2e5r93g9gu5bkdqsfvu.jpg",
+			"rating": 4.1,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Baker, Myers and Sanders",
+			"id": "7e6bee59-f403-4715-9d9d-caef6e50d452",
+			"lat": -0.689400684933624,
+			"lng": 36.41286638348247,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060801/kzhsjnh5e4ka30jr0qtv.jpg",
+			"rating": 4.6,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Jones Ltd",
+			"id": "4c048668-b5db-46fd-ac59-1959f15663c7",
+			"lat": -0.9224472158913539,
+			"lng": 37.31596087913922,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065804/inei0y4cgkfjum6qy0hk.jpg",
+			"rating": 4,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Silva-Hurley",
+			"id": "073fa7a6-5176-4824-bd3e-ce729ff6392a",
+			"lat": -0.5318343103540157,
+			"lng": 36.16363330719202,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065804/inei0y4cgkfjum6qy0hk.jpg",
+			"rating": 4.9,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Garcia Ltd",
+			"id": "6f3061e9-195f-4471-9432-e4e9d36fb854",
+			"lat": -0.6720015629484397,
+			"lng": 35.916566366379705,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065901/grykkgxrdfxqd5fxxs65.jpg",
+			"rating": 4.5,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Harris-Jackson",
+			"id": "cb1276f2-84b4-4f28-9043-bda1164f2979",
+			"lat": -1.0924739894237638,
+			"lng": 35.662010092761655,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065804/inei0y4cgkfjum6qy0hk.jpg",
+			"rating": 5,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Mcguire PLC",
+			"id": "46cf6fdf-81b9-4b84-837b-64c8670da93f",
+			"lat": -1.2976838383411806,
+			"lng": 37.80825702558553,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060801/kzhsjnh5e4ka30jr0qtv.jpg",
+			"rating": 4.3,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Harrell-Martinez",
+			"id": "05f9a103-c06d-419f-823f-4ff8212bcc18",
+			"lat": -0.25373134887089144,
+			"lng": 36.86796367921245,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065804/inei0y4cgkfjum6qy0hk.jpg",
+			"rating": 4.8,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Simpson-Williams",
+			"id": "a69fed61-9e45-46cf-aa49-ffc3f9732e27",
+			"lat": -1.4536290589937475,
+			"lng": 35.3126140460453,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065804/inei0y4cgkfjum6qy0hk.jpg",
+			"rating": 4.9,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Curry-Rodriguez",
+			"id": "c8b7675e-5f4b-4794-b518-51acaf4fc982",
+			"lat": -0.516151851496957,
+			"lng": 35.59346001456226,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749063325/iki24xxin5pbkn45u5on.jpg",
+			"rating": 5,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Lambert-Hall",
+			"id": "ac25011b-35a8-4ba9-bd11-544310f8665f",
+			"lat": -0.0781628262347609,
+			"lng": 36.011633047968544,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060801/kzhsjnh5e4ka30jr0qtv.jpg",
+			"rating": 4.9,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Harmon, Joseph and Cooke",
+			"id": "12bf05c8-bf54-49d2-b143-a9590b4ea91c",
+			"lat": 0.07408522886081426,
+			"lng": 36.00963756473846,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060591/to8zdm6xzme2kuopyk0n.jpg",
+			"rating": 4.1,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Jones-Adams",
+			"id": "7ffbc0ca-9488-49ae-af90-6bea0c0680ec",
+			"lat": 0.12401626055473014,
+			"lng": 36.02036793922058,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065937/ebcfn3zlek2mqgls4wk5.jpg",
+			"rating": 4.5,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Curry and Sons",
+			"id": "83f26fe2-c27d-41c1-8846-155305103e2f",
+			"lat": -0.40288572589316485,
+			"lng": 35.17311984917274,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749063268/bfgtxoob6jttgrgjg9rm.jpg",
+			"rating": 4.3,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Neal, Hunt and Wagner",
+			"id": "d94e1bd3-41e8-4e55-a5b0-cf89cb55d966",
+			"lat": 0.29220762670023404,
+			"lng": 35.93857850951701,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065886/ausfsrvkomemfvty36pv.jpg",
+			"rating": 4.2,
+			"vendor_type": "whole_seller"
+		}
+	],
+
+	"Top Rated>>": [
+		{
+			"business_name": "Soto and Sons",
+			"id": "dec2217b-0964-443f-8b25-36d0999e80f3",
+			"lat": -1.180839259063737,
+			"lng": 36.601940255504104,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749063268/bfgtxoob6jttgrgjg9rm.jpg",
+			"rating": 4.3,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Clay, Grant and Stephenson",
+			"id": "79db22d3-8836-4556-b307-e19bca3a9895",
+			"lat": -1.5929323184621076,
+			"lng": 36.55064913142913,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065886/ausfsrvkomemfvty36pv.jpg",
+			"rating": 4.1,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Mckenzie-Malone",
+			"id": "fcf027fe-952e-4e63-85d0-04db1c968f6b",
+			"lat": -1.5049115570062588,
+			"lng": 37.19101128481558,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749063325/iki24xxin5pbkn45u5on.jpg",
+			"rating": 4.5,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Watts PLC",
+			"id": "60d243ff-e10d-44cd-8b2f-11e17eb941ae",
+			"lat": -1.3075407949442595,
+			"lng": 37.30672691143633,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060863/n2e5r93g9gu5bkdqsfvu.jpg",
+			"rating": 4.9,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Walker, Weaver and Torres",
+			"id": "061937c6-1a1e-4fa0-afc9-8587817af9f5",
+			"lat": -1.1733183116129395,
+			"lng": 36.028489380999766,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065832/dhocfdjhnxrrsukbqw0k.jpg",
+			"rating": 4.1,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Crawford Group",
+			"id": "586e4ee6-dcba-4960-985d-9c9b1b9cb691",
+			"lat": -0.6976252523412629,
+			"lng": 36.403513744622714,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060863/n2e5r93g9gu5bkdqsfvu.jpg",
+			"rating": 4.1,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Baker, Myers and Sanders",
+			"id": "7e6bee59-f403-4715-9d9d-caef6e50d452",
+			"lat": -0.689400684933624,
+			"lng": 36.41286638348247,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060801/kzhsjnh5e4ka30jr0qtv.jpg",
+			"rating": 4.6,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Jones Ltd",
+			"id": "4c048668-b5db-46fd-ac59-1959f15663c7",
+			"lat": -0.9224472158913539,
+			"lng": 37.31596087913922,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065804/inei0y4cgkfjum6qy0hk.jpg",
+			"rating": 4,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Silva-Hurley",
+			"id": "073fa7a6-5176-4824-bd3e-ce729ff6392a",
+			"lat": -0.5318343103540157,
+			"lng": 36.16363330719202,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065804/inei0y4cgkfjum6qy0hk.jpg",
+			"rating": 4.9,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Garcia Ltd",
+			"id": "6f3061e9-195f-4471-9432-e4e9d36fb854",
+			"lat": -0.6720015629484397,
+			"lng": 35.916566366379705,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065901/grykkgxrdfxqd5fxxs65.jpg",
+			"rating": 4.5,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Harris-Jackson",
+			"id": "cb1276f2-84b4-4f28-9043-bda1164f2979",
+			"lat": -1.0924739894237638,
+			"lng": 35.662010092761655,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065804/inei0y4cgkfjum6qy0hk.jpg",
+			"rating": 5,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Mcguire PLC",
+			"id": "46cf6fdf-81b9-4b84-837b-64c8670da93f",
+			"lat": -1.2976838383411806,
+			"lng": 37.80825702558553,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060801/kzhsjnh5e4ka30jr0qtv.jpg",
+			"rating": 4.3,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Harrell-Martinez",
+			"id": "05f9a103-c06d-419f-823f-4ff8212bcc18",
+			"lat": -0.25373134887089144,
+			"lng": 36.86796367921245,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065804/inei0y4cgkfjum6qy0hk.jpg",
+			"rating": 4.8,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Simpson-Williams",
+			"id": "a69fed61-9e45-46cf-aa49-ffc3f9732e27",
+			"lat": -1.4536290589937475,
+			"lng": 35.3126140460453,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065804/inei0y4cgkfjum6qy0hk.jpg",
+			"rating": 4.9,
+			"vendor_type": "whole_seller"
+		},
+		{
+			"business_name": "Curry-Rodriguez",
+			"id": "c8b7675e-5f4b-4794-b518-51acaf4fc982",
+			"lat": -0.516151851496957,
+			"lng": 35.59346001456226,
+			"profile_pic": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749063325/iki24xxin5pbkn45u5on.jpg",
+			"rating": 5,
+			"vendor_type": "whole_seller"
+		}
+	],
+
+	"cart detailed": [
+		{
+			"cart_item": [
+				{
+					"cart_id": "e31ea86e-b885-4ff4-9679-55aff46ca53b",
+					"id": "94988e7b-bc24-4f31-9d41-bbb57d4f8469",
+					"price": 9.94,
+					"product": ["Object"],
+					"product_id": "002930fb-b007-47fa-bb75-9394e18df440",
+					"quantity": 6,
+					"vendor_id": "dc03bd12-e6e9-42fa-8d3a-c88d7765b609"
+				},
+				{
+					"cart_id": "e31ea86e-b885-4ff4-9679-55aff46ca53b",
+					"id": "445de292-5c43-440b-8f6a-7f6713cbadff",
+					"price": 10.14,
+					"product": ["Object"],
+					"product_id": "ca941fdc-c6ac-409d-92a6-3279cf01f5e9",
+					"quantity": 4,
+					"vendor_id": "0b6723ed-7901-4025-9074-abe92a3bb0b9"
+				},
+				{
+					"cart_id": "e31ea86e-b885-4ff4-9679-55aff46ca53b",
+					"id": "1c8e2c87-00d9-4203-9cc3-e34b3735e0c1",
+					"price": 17.72,
+					"product": ["Object"],
+					"product_id": "2385f934-45fb-4bc8-ac61-4141c9d28ad6",
+					"quantity": 3,
+					"vendor_id": "0b6723ed-7901-4025-9074-abe92a3bb0b9"
+				},
+				{
+					"cart_id": "e31ea86e-b885-4ff4-9679-55aff46ca53b",
+					"id": "29073be8-cd06-47fa-9ebe-180702f8cb54",
+					"price": 17.28,
+					"product": ["Object"],
+					"product_id": "a5a79e7e-6837-4861-add3-8cb3e9e4e720",
+					"quantity": 1,
+					"vendor_id": "0b6723ed-7901-4025-9074-abe92a3bb0b9"
+				},
+				{
+					"cart_id": "e31ea86e-b885-4ff4-9679-55aff46ca53b",
+					"id": "098d026b-ee89-4a29-b0b1-5006e9c24565",
+					"price": 49,
+					"product": ["Object"],
+					"product_id": "baa9ac72-bd79-42f4-8d4d-d97b08e5a8d2",
+					"quantity": 1,
+					"vendor_id": "0b6723ed-7901-4025-9074-abe92a3bb0b9"
+				},
+				{
+					"cart_id": "e31ea86e-b885-4ff4-9679-55aff46ca53b",
+					"id": "36317df3-36b0-4a32-b0b5-84ac33b85c82",
+					"price": 30.66,
+					"product": ["Object"],
+					"product_id": "589e3c8f-8604-4c50-b5aa-767fb44e6d0a",
+					"quantity": 10,
+					"vendor_id": "30d94c18-87c4-40e9-a9b3-ea400c12bba9"
+				},
+				{
+					"cart_id": "e31ea86e-b885-4ff4-9679-55aff46ca53b",
+					"id": "523283cd-3eca-4f57-a89b-a0a334c7fc4c",
+					"price": 21.99,
+					"product": ["Object"],
+					"product_id": "8febe115-ff65-4a1d-b6a0-4f5300f2e847",
+					"quantity": 2,
+					"vendor_id": "a86b86da-2cb4-4390-9405-e9af7835696a"
+				},
+				{
+					"cart_id": "e31ea86e-b885-4ff4-9679-55aff46ca53b",
+					"id": "a5fba959-851b-497d-ad1b-fb9b194709b5",
+					"price": 8.54,
+					"product": ["Object"],
+					"product_id": "323a517a-feab-4d70-9fb9-d60d17f17b8c",
+					"quantity": 1,
+					"vendor_id": "a86b86da-2cb4-4390-9405-e9af7835696a"
+				},
+				{
+					"cart_id": "e31ea86e-b885-4ff4-9679-55aff46ca53b",
+					"id": "e130a684-2503-4dab-a4b6-beb1acdcbdfe",
+					"price": 29.2,
+					"product": ["Object"],
+					"product_id": "bf0fcc97-2733-408e-bbd1-d514060a82cc",
+					"quantity": 1,
+					"vendor_id": "a86b86da-2cb4-4390-9405-e9af7835696a"
+				},
+				{
+					"cart_id": "e31ea86e-b885-4ff4-9679-55aff46ca53b",
+					"id": "dd5b6bae-fbe8-4d18-9c9d-a0669e5961ec",
+					"price": 28.25,
+					"product": ["Object"],
+					"product_id": "a1a9a51c-e3dc-48e9-8b92-ea6cdafa7a0d",
+					"quantity": 1,
+					"vendor_id": "a86b86da-2cb4-4390-9405-e9af7835696a"
+				}
+			],
+			"customer_id": "b8382f45-16f6-46d3-9aba-ce2e6dcf3d32",
+			"id": "e31ea86e-b885-4ff4-9679-55aff46ca53b",
+			"items_count": 10,
+			"total_amount": 636.21
+		}
+	],
+	"product for cart ": {
+		"capacity": 2.3,
+		"description": "Agency notice up picture support no agreement. System across side be.",
+		"discount": 0,
+		"id": "002930fb-b007-47fa-bb75-9394e18df440",
+		"image_url": "http://res.cloudinary.com/dn5f0jksu/image/upload/v1749060201/bmpltj6ls6gytzxfblnk.jpg",
+		"is_available": true,
+		"name": "Car Water",
+		"price": 9.94,
+		"stock": 67,
+		"unit": "L",
+		"vendor_id": "dc03bd12-e6e9-42fa-8d3a-c88d7765b609"
+	}
+}

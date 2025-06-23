@@ -26,16 +26,19 @@ import eyeslash from '../../assets/icons/eyeslash.png'
 import eye from '../../assets/icons/eye.png'
 import profile from '../../assets/icons/profile-black.png'
 import leftArrow from '../../assets/icons/leftArrow.png'
+import bike from '../../assets/icons/bike-black.png'
 // import leftArrow from '../../assets/icons/leftArrow.png'
 import spinner from '../../assets/icons/spinner.png'
 import otp from '../../assets/icons/otp.png'
 import verified from '../../assets/icons/verified.png'
 import hint from '../../assets/icons/hint.png'
 import verify_email from '../../assets/icons/verify-email.png'
+import vendor_marker from '../../assets/icons/water-map-icon-marker.png'
 
 
 const icons = {
     search : Search,
+    bike : bike,
     cart : Cart,
     location: Location,
     notifications: Notifications,
@@ -69,6 +72,8 @@ const icons = {
     eyeslash: eyeslash,
     eye: eye,
     close: close,
+    vendor_marker: vendor_marker,
+
 }
 
 export default icons

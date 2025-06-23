@@ -1,0 +1,11 @@
+{
+  "cSpell.words": [
+    "dotenv",
+    "fastapi",
+    "geoalchemy",
+    "joinedload",
+    "pydantic",
+    "sessionmaker",
+    "sqlalchemy"
+  ]
+}

@@ -1,5 +1,10 @@
-import React, { useLayoutEffect, useState } from "react";
-import MapView from "react-native-maps";
+import React, {
+	useCallback,
+	useEffect,
+	useLayoutEffect,
+	useState,
+} from "react";
+import MapView, { Callout, Marker } from "react-native-maps";
 import {
 	Dimensions,
 	Keyboard,
@@ -34,27 +39,65 @@ import MiniVendorCard from "@/components/common/MiniVendorCard";
 import Button from "@/components/ui/Button";
 import ComicText from "@/components/styled-components/custom-texts/ComicText";
 import TrackOrderCard from "@/components/common/TrackOrderCard";
+import ApiRoutes from "@/API/routes/ApiRoutes";
+import { Clusterer } from "react-native-clusterer";
+import * as Location from "expo-location";
 
 const { width, height } = Dimensions.get("window");
+const MAP_DIMENSIONS = {
+	width: width,
+	height: (height + (StatusBar.currentHeight || 0) - 55) * 0.55,
+};
+
+type Vendor = {
+	id: string;
+	owners_name: string;
+	business_name: string;
+	email: string;
+	phone_number: string;
+	profile_pic: string;
+	location_address: string;
+	lat: number;
+	lng: number;
+	delivery_radius: number;
+	shift_start: string; // e.g. "07:00:00"
+	shift_end: string; // e.g. "19:00:00"
+	verification_status: "pending" | "verified" | "rejected"; // enum-like union
+	rating: number;
+	preferred_payment_method: ("cash" | "mpesa" | "card" | "bank_transfer")[];
+};
 
 export default function Maps() {
-	// <------------------------HOOKES------------------------->
+	// <------------------------HOOKS------------------------->
 	const router = useRouter();
+
 	// <------------------------STATES------------------------->
 	const [dataShown, setDataShown] = useState("vendorDetails"); // either ['setLocation', 'vendorDetails', 'orders', 'all'] : View for a vendor picked on the map, View for ongoing orders/in transit or View for edit and set location
+	const [Loading, setLoading] = useState(false);
+	const [Vendors, setVendors] = useState<any[]>([]);
+	const [Vendor, setVendor] = useState<any>();
+	const [location, setLocation] = useState<Location.LocationObject | null>(
+		null
+	);
+	const [errorMsg, setErrorMsg] = useState<string | null>(null);
+	const [markers, setMarkers] = useState<any[]>([]);
 
+	const initialRegion = {
+		latitude: location?.coords.latitude || 1,
+		longitude: location?.coords.longitude || 36,
+		latitudeDelta: 0.5922,
+		longitudeDelta: 0.5421,
+	};
+	const [region, setRegion] = useState(initialRegion);
+
+	// <-----------------------VARIABLES----------------------->
 	const StatusBarHeight = StatusBar.currentHeight || 0;
 	const finalHeight = height + StatusBarHeight - 55;
-	// <--------------------GESTURE HANDLER-------------------->
 	const mapHeight = useSharedValue(finalHeight * 0.55);
 	const viewHeight = useSharedValue(finalHeight * 0.46);
-	const defaultViewHeight = useSharedValue(finalHeight * 0.36);
-	const position = useSharedValue("relative");
-	const [FullMap, setFullMap] = useState(false);
-	// <-----------DUMMY DATA----------->
-	const location =
-		"Lorem ipsum dolor sit amet consectetur, adipisicing elit. At tenetur cumque autem sunt rem? Nulla neque sit minus quo. Eum ut minus vitae animi molestiae beatae nulla labore! Ea, esse?";
 
+	// <----------------------FUNCTIONS------------------------>
+	// >---->> GESTURE HANDLER
 	const flingUp = Gesture.Fling()
 		.direction(Directions.UP)
 		.onStart(() => {
@@ -62,7 +105,6 @@ export default function Maps() {
 				duration: 300,
 			});
 		});
-
 	const flingDown = Gesture.Fling()
 		.direction(Directions.DOWN)
 		.onStart(() => {
@@ -70,8 +112,99 @@ export default function Maps() {
 				duration: 300,
 			});
 		});
-
 	const flingGesture = Gesture.Simultaneous(flingUp, flingDown); // or .Simultaneous
+
+	// >---->> FETCHING DATA FROM BACKEND
+	const fetchVendor = async () => {
+		setLoading(true);
+		try {
+			const callApi = await fetch(ApiRoutes.AllVendors.path, {
+				method: ApiRoutes.AllVendors.method,
+				headers: {
+					Content_type: "application/json",
+				},
+			});
+			const response = await callApi.json();
+			// setVendors(response);
+			const convertToClusterPoints = (vendors: Vendor[]) => {
+				return vendors.map((vendor: Vendor) => ({
+					type: "Feature",
+					geometry: {
+						type: "Point",
+						coordinates: [vendor.lng, vendor.lat], // [lng, lat]
+					},
+					properties: {
+						id: vendor.id,
+						title: vendor.business_name,
+						owners_name: vendor.owners_name,
+						rating: vendor.rating,
+					},
+				}));
+			};
+			// console.log(convertToClusterPoints(response))
+			setMarkers(convertToClusterPoints(response));
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	// MAP MARKERS CALLBACK
+	const renderClusterMarker = useCallback((item: any) => {
+		return (
+			<Marker
+				key={`cluster-${item.properties.cluster_id}`}
+				coordinate={{
+					latitude: item.geometry.coordinates[1],
+					longitude: item.geometry.coordinates[0],
+				}}
+				pinColor="lightblue"
+			>
+				<View
+					className={`w-[45px] h-[45px] items-center justify-center rounded-full border-2 border-white bg-sky-400`}
+				>
+					<Text className="text-white font-semibold">
+						{item.properties.point_count}
+					</Text>
+				</View>
+			</Marker>
+		);
+	}, []);
+
+	const renderSingleMarker = useCallback((item: any) => {
+		return (
+			<Marker
+				key={item.properties.id}
+				coordinate={{
+					latitude: item.geometry.coordinates[1],
+					longitude: item.geometry.coordinates[0],
+				}}
+				title={item.properties.title}
+				pinColor="lightblue"
+				onPress={() => {
+					setVendor(item.properties);
+					setDataShown("vendorDetails");
+				}}
+			/>
+		);
+	}, []);
+
+	// GET CURRENT USER LOCATION FUNCTION
+	async function getCurrentLocation() {
+		let { status } = await Location.requestForegroundPermissionsAsync();
+		if (status !== "granted") {
+			setErrorMsg("Permission to access location was denied");
+			return;
+		}
+		let location = await Location.getCurrentPositionAsync({});
+		setLocation(location);
+	}
+	useEffect(() => {
+		getCurrentLocation();
+		fetchVendor();
+	}, []);
+
 	return (
 		<>
 			<StatusBar
@@ -80,7 +213,7 @@ export default function Maps() {
 			/>
 			<GestureHandlerRootView>
 				<Animated.View
-					className={`w-screen absolute ${FullMap && "flex-1"}`}
+					className={`w-screen absolute`}
 					style={[
 						{
 							height: mapHeight,
@@ -88,7 +221,27 @@ export default function Maps() {
 					]}
 				>
 					<TouchableWithoutFeedback>
-							<MapView style={StyleSheet.absoluteFill} />
+						<MapView
+							style={StyleSheet.absoluteFill}
+							onRegionChangeComplete={setRegion}
+							initialRegion={initialRegion}
+							mapType="standard"
+							userLocationUpdateInterval={3000}
+							showsUserLocation={true}
+							showsMyLocationButton
+						>
+							<Clusterer
+								data={markers}
+								region={region}
+								options={{}}
+								mapDimensions={MAP_DIMENSIONS}
+								renderItem={(item) =>
+									item.properties.cluster
+										? renderClusterMarker(item)
+										: renderSingleMarker(item)
+								}
+							/>
+						</MapView>
 					</TouchableWithoutFeedback>
 				</Animated.View>
 				{/* <-------------BACK_BUTTON-------------> */}
@@ -114,13 +267,7 @@ export default function Maps() {
 				>
 					<GestureDetector gesture={flingGesture}>
 						<Animated.View
-							className={`bg-white  ${
-								""
-							} rounded-t-[15px] shadow-black shadow-2xl items-center p-2 ${
-								FullMap
-									? " mx-4 absolute bottom-7 min-h-[100px] max-h-[190px] w-[90%] self-center"
-									: "relative bottom-0 w-full"
-							}`}
+							className={`bg-white  ${""} rounded-t-[15px] shadow-black shadow-2xl items-center p-2  relative bottom-0 w-full`}
 							style={{
 								shadowColor: "black",
 								shadowOpacity: 1,
@@ -129,14 +276,13 @@ export default function Maps() {
 							}}
 						>
 							{/* <-------------------------GESTURE CONTROLLER---------------------------> */}
-
 							<TouchableOpacity
 								activeOpacity={0.7}
 								style={{
 									width: width,
 								}}
 							>
-								<View className="pb-4 px-3 w-full items-center justify-center bg-blac">
+								<View className="pb-4 px-3 w-full items-center justify-center ">
 									<View
 										className={`w-14 h-2 rounded-full bg-accentbg/40`}
 									></View>
@@ -239,7 +385,9 @@ export default function Maps() {
 													onPress={() => {}}
 												>
 													<Button
-														style={"px-[60px] rounded"}
+														style={
+															"px-[60px] rounded"
+														}
 														textStyle={
 															"text-gray-500"
 														}
@@ -279,7 +427,7 @@ export default function Maps() {
 																		}
 																	/>
 																</View>
-																<Text className="text-nowrap text-gray-500">
+																{/* <Text className="text-nowrap text-gray-500">
 																	{location.length >
 																	70
 																		? location
@@ -288,9 +436,9 @@ export default function Maps() {
 																					70
 																				)
 																				.trim() +
-																		  "..."
+																				"..."
 																		: location}
-																</Text>
+																</Text> */}
 															</View>
 														</View>
 													</TouchableOpacity>
@@ -301,8 +449,12 @@ export default function Maps() {
 								)}
 
 								{dataShown === "vendorDetails" && (
-									<MiniVendorCard FullMap={FullMap} />
+									<MiniVendorCard
+										FullMap={false}
+										data={Vendor}
+									/>
 								)}
+
 								{dataShown === "orders" && (
 									<View className="gap-2 p-3">
 										<View className="">
@@ -335,7 +487,9 @@ export default function Maps() {
 										}}
 									>
 										<Button
-											style={" px-[30px] py-[9px] rounded-lg "}
+											style={
+												" px-[30px] py-[9px] rounded-lg "
+											}
 											label={"Edit My Location"}
 											type={"outline"}
 										/>
@@ -364,3 +518,22 @@ export default function Maps() {
 		</>
 	);
 }
+
+// {Vendors?.map(( vendor: any, index: React.Key | null | undefined) => {
+// 	return(
+// 		<Marker
+// 			key={index}
+// 			coordinate={{
+// 				latitude: vendor?.lat,
+// 				longitude: vendor?.lng,
+// 			}}
+// 			title={vendor.business_name}
+// 			pinColor={"blue"}
+// 			onPress={()=>{
+// 				setVendor(vendor)
+// 				setDataShown("vendorDetails")
+// 			}}
+// 		/>
+// 	)
+// }
+// )}

@@ -1,0 +1,23 @@
+from fastapi import HTTPException
+from sqlalchemy.ext.asyncio import AsyncSession
+from uuid import UUID
+from sqlalchemy.future import select
+from models.product_model import Product
+from schemas.product_schemas import ProductFull,BaseProduct
+
+async def get_product_details(session : AsyncSession, id : UUID) -> ProductFull:
+  query = select(Product).where(Product.id == id)
+  result = await session.execute(query)
+  product = result.unique().scalar_one_or_none()
+  if not product:
+    raise HTTPException(status_code=404, detail="Product by this id does not exist")
+  return product
+
+
+async def get_product_for_cart(session : AsyncSession, id : UUID) -> BaseProduct:
+  query = select(Product).where(Product.id == id)
+  result = await session.execute(query)
+  product = result.unique().scalar_one_or_none()
+  if not product:
+    raise HTTPException(status_code=404, detail="Product by this id does not exist")
+  return product

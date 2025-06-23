@@ -1,17 +1,25 @@
 // import { useAuth } from "@clerk/clek-expo";
-import { Redirect, Stack } from "expo-router";
+import { Redirect, Stack, useRouter } from "expo-router";
 import {
   Dimensions,
+  Image,
   StatusBar,
+  Text,
+  TouchableOpacity,
   View,
 } from "react-native";
-import {
+import Animated, {
   ReanimatedLogLevel,
   configureReanimatedLogger,
 } from "react-native-reanimated";
 import { useAuth } from '@clerk/clerk-expo'
-import { useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import * as WebBrowser from 'expo-web-browser'
+import { UIThemeContext } from "@/context/ThemeContext";
+import * as Location from "expo-location";
+import ApiRoutes from "@/API/routes/ApiRoutes";
+import icons from "@/constants/icons/icons";
+import Modal from "react-native-modal";
 
 
 configureReanimatedLogger({
@@ -42,7 +50,17 @@ WebBrowser.maybeCompleteAuthSession()
 
 const Layout = () => {
   // <------------------------HOOKES------------------------->
-  const { isSignedIn } = useAuth()
+  const { isSignedIn , getToken } = useAuth()
+  const router = useRouter();
+  const { currentTheme } = useContext(UIThemeContext);
+
+  // <------------------------STATES------------------------->
+	const [LocationFinal, setLocation] = useState<Location.LocationObject | null>(null);
+	const [ShowLocationPrompt, setShowLocationPrompt] = useState(false);
+	const [AuthLoading, setAuthLoading] = useState(false);
+
+
+	const darkTheme = currentTheme === "dark";
 
   // <-----------------------VARIABLES----------------------->
   const statusbarHieght = StatusBar.currentHeight || 50;
@@ -50,8 +68,58 @@ const Layout = () => {
   // <-----------------------FUNCTIONS----------------------->
   useWarmUpBrowser()
 
-  if (isSignedIn) {
-    return <Redirect href={'/(screens)'} />
+  // GET CURRENT LOCATION
+	async function getCurrentLocation() {
+		setShowLocationPrompt(false);
+		try {
+			let { status } = await Location.requestForegroundPermissionsAsync();
+			console.log("status", status);
+			if (status !== "granted") {
+				// setErrorMsg("Permission to access Location was denied");
+				setShowLocationPrompt(true);
+				return;
+			}
+			let location = await Location.getCurrentPositionAsync({});
+			setLocation(location);
+		} catch (error: any) {
+			console.log(error.message)
+			setShowLocationPrompt(true)
+		} 
+	}
+
+  // UPDATE USER LOCATION
+	const updateUserLocation = async () => {
+		const token = await getToken();
+		const payload = {
+			lat: LocationFinal?.coords.latitude,
+			lng: LocationFinal?.coords.longitude,
+		};
+		try {
+			const apiCall = await fetch(ApiRoutes.UpdateUserLocation.path, {
+				method: ApiRoutes.UpdateUserLocation.method,
+				headers: {
+					Authorization: `Bearer ${token}`,
+					"Content-Type": "Application/json",
+				},
+				body: JSON.stringify(payload),
+			});
+
+			const response = await apiCall.json();
+			// setLocationUpdated(true);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+  useEffect(()=>{
+    getCurrentLocation()
+  },[])
+
+  if (LocationFinal != null && isSignedIn) {
+    // setAuthLoading(true)
+    updateUserLocation().then(()=>{
+      router.replace("/(screens)")
+    })
   }
 
   return (
@@ -64,7 +132,7 @@ const Layout = () => {
       />
 
       <View
-        className="absolute bg-white"
+        className={`absolute ${darkTheme? 'bg-black' : 'bg-white'}`}
         style={{
           minHeight: height+statusbarHieght,
           minWidth: width,
@@ -76,6 +144,74 @@ const Layout = () => {
             animation: 'slide_from_right', // Options: 'fade', 'slide_from_right', 'slide_from_left', 'none'
         }}
         />
+        {/* loading modal */}
+        {/* <Modal isVisible={AuthLoading}>
+					<View className="items-center">
+						<Animated.View className={"animate-spin"}>
+							<Image
+								source={icons.spinner}
+								className="w-28 h-28"
+								tintColor={"#d9a31b"}
+							/>
+						</Animated.View>
+					</View>
+				</Modal> */}
+
+        {/* location access prompt modal */}
+        <Modal isVisible={ShowLocationPrompt}>
+						<View className="items-center">
+							<View
+								className={`bg-white w-[80%]  gap-6 max-w-[300px] rounded-3xl p-6`}
+							>
+								<View className={`flex-row gap-3 `}>
+									<Image
+										source={icons.myLocation}
+										tintColor={"#3b82f6"}
+										className="w-7 h-7"
+									/>
+									<Text className="font-semibold text-2xl text-blue-500">
+										Location Access
+									</Text>
+								</View>
+								<View className="">
+									<View className="">
+										<Text>
+											This app requires access to your
+											current location for it to work
+											properly.{" "}
+										</Text>
+										<Text>
+											Please grant permission to access
+											your location in order to proceed
+										</Text>
+										<Text>
+											If you have allowed location
+											permission and are still getting
+											this prompt it might be a Network
+											issue so Please check your Network
+											settings{" "}
+										</Text>
+									</View>
+								</View>
+								<TouchableOpacity
+									activeOpacity={0.8}
+									onPress={() => {
+										getCurrentLocation();
+									}}
+								>
+									<View
+										className={`bg-blue-500 p-3 px-6 rounded-xl items-center `}
+									>
+										<Text
+											className={`text-white font-bold`}
+										>
+											Allow Location Access
+										</Text>
+									</View>
+								</TouchableOpacity>
+							</View>
+						</View>
+				</Modal>
       </View>
     </>
   );
