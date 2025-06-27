@@ -79,7 +79,7 @@ export default function SignIn() {
 		setShowLocationPrompt(false);
 		try {
 			let { status } = await Location.requestForegroundPermissionsAsync();
-			console.log("status", status);
+			// console.log("status", status);
 			if (status !== "granted") {
 				// setErrorMsg("Permission to access Location was denied");
 				setShowLocationPrompt(true);
@@ -88,7 +88,7 @@ export default function SignIn() {
 			let location = await Location.getCurrentPositionAsync({});
 			setLocation(location);
 		} catch (error: any) {
-			console.log(error.message)
+			// console.log(error.message)
 			setShowLocationPrompt(true)
 		} 
 	}
@@ -113,7 +113,7 @@ export default function SignIn() {
 			const response = await apiCall.json();
 			// setLocationUpdated(true);
 		} catch (error) {
-			console.log(error);
+			// console.log(error);
 		}
 	};
 
@@ -136,7 +136,7 @@ export default function SignIn() {
 			} else {
 				// If the status isn't complete, check why. User might need to
 				// complete further steps.
-				console.error(JSON.stringify(signInAttempt, null, 2));
+				// console.error(JSON.stringify(signInAttempt, null, 2));
 				success = false
 			}
 		} catch (err) {
@@ -184,7 +184,7 @@ export default function SignIn() {
 		} catch (err) {
 			// See https://clerk.com/docs/custom-flows/error-handling
 			// for more info on error handling
-			console.error(JSON.stringify(err, null, 2));
+			// console.error(JSON.stringify(err, null, 2));
 			success = false
 		} finally {
 			if(success === false){
@@ -193,20 +193,6 @@ export default function SignIn() {
 		}
 	}, []);
 
-	// useEffect(() => {
-	// 	if(LocationFinal != null && isSignedIn === true ){
-	// 		setAuthLoading(true)
-	// 		updateUserLocation().then(() => {
-	// 				router.replace("/(screens)");
-	// 		})
-	// 	}
-	// }, [isSignedIn])
-
-
-	// USE EFFECT
-	// useEffect(()=> {
-	// 	getCurrentLocation()
-	// },[])
 	return (
 		<>
 			<StatusBar

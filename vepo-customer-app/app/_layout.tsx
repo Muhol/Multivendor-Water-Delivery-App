@@ -8,6 +8,7 @@ import ThemeContextProvider from '../context/ThemeContext'
 import { useEffect, useState } from "react";
 import * as SplashScreen from 'expo-splash-screen';
 import { preloadImages } from "@/constants/images/images";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 
 SplashScreen.preventAutoHideAsync();
@@ -31,7 +32,7 @@ export default function Layout() {
 			try {
 				await preloadImages();
 			} catch (e) {
-				console.warn("Error loading images:", e);
+				// console.warn("Error loading images:", e);
 			} finally {
 				// setIsReady(true);
 				await SplashScreen.hideAsync();
@@ -47,24 +48,26 @@ export default function Layout() {
 				backgroundColor={"transparent"}
 				barStyle={"dark-content"}
 			/>
-			<ThemeContextProvider>
-					<ClerkProvider publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY} tokenCache={tokenCache}>
-						<View
-							className={` absolute top-0 w-full ${darkTheme?"bg-black":""}`}
-							style={{
-								height: height + statusBarHeight,
-							}}
-						>
-							<Stack
-								screenOptions={{
-									headerShown: false,
-									animation: "slide_from_right", // Options: 'fade', 'slide_from_right', 'slide_from_left', 'none'
-									statusBarAnimation: "slide"
+			<GestureHandlerRootView>
+				<ThemeContextProvider>
+						<ClerkProvider publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY} tokenCache={tokenCache}>
+							<View
+								className={` absolute top-0 w-full ${darkTheme?"bg-black":""}`}
+								style={{
+									height: height + statusBarHeight,
 								}}
-							/>
-						</View>
-					</ClerkProvider>
-			</ThemeContextProvider>
+							>
+								<Stack
+									screenOptions={{
+										headerShown: false,
+										animation: "slide_from_right", // Options: 'fade', 'slide_from_right', 'slide_from_left', 'none'
+										statusBarAnimation: "slide"
+									}}
+								/>
+							</View>
+						</ClerkProvider>
+				</ThemeContextProvider>
+			</GestureHandlerRootView>
 		</>
 	);
 }

@@ -24,7 +24,6 @@ export default function Auth() {
   const { startSSOFlow } = useSSO()
   const {currentTheme} = useContext(UIThemeContext)
   const darkTheme = currentTheme === "dark";
-  console.log()
   
   // <-----------------------STATES----------------------->
 	const [OAuthLoading, setOAuthLoading] = useState(false);
@@ -63,7 +62,7 @@ export default function Auth() {
     } catch (err) {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
-      console.error(JSON.stringify(err, null, 2))
+      // console.error(JSON.stringify(err, null, 2))
     }finally{
 			setOAuthLoading(false)
 		}
@@ -124,7 +123,6 @@ export default function Auth() {
       <TouchableOpacity
         activeOpacity={0.6}
         onPress={()=>{
-          console.log("pressed")
           onPress();
         }}
       >

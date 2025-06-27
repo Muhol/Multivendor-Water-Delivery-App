@@ -65,7 +65,7 @@ const Profile = () => {
 		} catch (err) {
 			// See https://clerk.com/docs/custom-flows/error-handling
 			// for more info on error handling
-			console.error(JSON.stringify(err, null, 2));
+			// console.error(JSON.stringify(err, null, 2));
 		}
 	};
 

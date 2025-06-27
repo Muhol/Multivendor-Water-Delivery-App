@@ -27,6 +27,7 @@ import ApiRoutes from "@/API/routes/ApiRoutes";
 import { useAuth } from "@clerk/clerk-expo";
 import * as Location from "expo-location";
 import { UIThemeContext } from "@/context/ThemeContext";
+import CarouselComponent from "@/components/common/Carousel";
 
 export default function Home() {
 	// <----------------HOOKS---------------->
@@ -67,6 +68,7 @@ export default function Home() {
 	// API CALLS
 	const fetchNearByVendors = async () => {
 		const token = await getToken();
+		console.log(ApiRoutes.NearByVendors.path)
 		try {
 			const apiCall = await fetch(ApiRoutes.NearByVendors.path, {
 				method: ApiRoutes.NearByVendors.method,
@@ -78,9 +80,8 @@ export default function Home() {
 
 			const response = await apiCall.json();
 			setNearByVendors(response);
-			// console.log(response.data)
-		} catch (error) {
-			// console.log("Something went wrong :", error);
+		} catch (error: any) {
+			console.log(error.message)
 		} finally {
 			setNearbyVendorsLoaded(true);
 		}
@@ -88,10 +89,7 @@ export default function Home() {
 
 	const fetchTopRatedVendors = async () => {
 		const token = await getToken();
-		// const payload = {
-		// 	lat: location?.coords.latitude || 1,
-		// 	lng: location?.coords.longitude|| 36
-		// }
+		
 		try {
 			const apiCall = await fetch(ApiRoutes.TopRatedVendors.path, {
 				method: ApiRoutes.TopRatedVendors.method,
@@ -102,8 +100,6 @@ export default function Home() {
 			});
 
 			const response = await apiCall.json();
-			// console.log(response)
-			// console.log(response, "<------------>TOP RATED VENDORS........>")
 			setTopRatedVendors(response);
 		} catch (error) {
 			Alert.alert("Error", "Network Error");
@@ -134,9 +130,9 @@ export default function Home() {
 			}else{
 				setGeneral(response)
 			}
-		} catch (error) {
+		} catch (error: any) {
 			Alert.alert("Error", "Something went wrong");
-			console.log(error);
+			console.log(error.message)
 		}finally{
 			if(vendor_type == "refill"){
 				setRefillVendorsLoaded(true)
@@ -162,7 +158,7 @@ export default function Home() {
 			const response = await apiCall.json();
 			setTopBrands(response)
 		} catch (error: any) {
-			console.log(error.message);
+			console.log(error.message)
 		}finally{
 			setTopBrandsloaded(true)
 		}
@@ -178,29 +174,11 @@ export default function Home() {
 			let location = await Location.getCurrentPositionAsync({});
 			setLocation(location);
 		}
-		getCurrentLocation();
+		// getCurrentLocation();
 	}, []);
-
-	// useEffect(() => {
-	// 	const readyToExecute = async () => {
-	// 		// await fetchNearByVendors();
-	// 		await fetchTopBrands();
-	// 		if (location != null) {
-	// 			console.log("ready to execute");
-	// 			if (NearByVendors === undefined) {
-	// 				await fetchNearByVendors();
-	// 			}
-	// 			if (TopRatedVendors === undefined) {
-	// 				await fetchTopRatedVendors();
-	// 			}
-	// 		}
-	// 	};
-	// 	readyToExecute();
-	// }, [location]);
 
 	useEffect(() => {
 		const readyToExecute =() => {
-			console.log("ready to execute");
 			fetchNearByVendors();
 			fetchTopRatedVendors();
 			fetchTopBrands();
@@ -257,7 +235,7 @@ export default function Home() {
 											className={`${
 												darkTheme
 													? "bg-accentbg/15"
-													: "bg-gray-100"
+													: ""
 											} rounded-full self-center  w-12 h-12 items-center justify-center`}
 										>
 											<Image
@@ -280,10 +258,10 @@ export default function Home() {
 										}}
 									>
 										<View
-											className={`${
-												darkTheme
-													? "bg-accentbg/15"
-													: "bg-gray-100"
+											className={`${""
+												// darkTheme
+												// 	? "bg-accentbg/15"
+												// 	: ""
 											} rounded-full  w-12 h-12 items-center justify-center`}
 										>
 											<View className="absolute z-10 -right-2 -top-2 bg-accentbg  items-center justify-center w-7 h-7 rounded-full">
@@ -338,12 +316,8 @@ export default function Home() {
 								{/* spacial offers */}
 								{/* quick order */}
 								{/* <FullHorizontalList title="Special Offers" /> */}
-								<FullHorizontalList
-									title="Quick Orders"
-									data={NearByVendors}
-									loaded={NearbyVendorsLoaded}
-								/>
-								
+								<CarouselComponent/>
+
 								{/* cartegories */}
 								<CartegoriesList
 									data={[
@@ -370,6 +344,14 @@ export default function Home() {
 										"Customer Favorites",
 									]}
 								/>
+
+								<FullHorizontalList
+									title="Quick Orders"
+									data={NearByVendors}
+									loaded={NearbyVendorsLoaded}
+								/>
+								
+
 
 								{/* Top Rated  */}
 								<HorizontalList

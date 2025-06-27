@@ -73,7 +73,6 @@ const Layout = () => {
 		setShowLocationPrompt(false);
 		try {
 			let { status } = await Location.requestForegroundPermissionsAsync();
-			console.log("status", status);
 			if (status !== "granted") {
 				// setErrorMsg("Permission to access Location was denied");
 				setShowLocationPrompt(true);
@@ -82,7 +81,7 @@ const Layout = () => {
 			let location = await Location.getCurrentPositionAsync({});
 			setLocation(location);
 		} catch (error: any) {
-			console.log(error.message)
+			// console.log(error.message)
 			setShowLocationPrompt(true)
 		} 
 	}
@@ -107,7 +106,7 @@ const Layout = () => {
 			const response = await apiCall.json();
 			// setLocationUpdated(true);
 		} catch (error) {
-			console.log(error);
+			// console.log(error);
 		}
 	};
 
@@ -115,11 +114,12 @@ const Layout = () => {
     getCurrentLocation()
   },[])
 
-  if (LocationFinal != null && isSignedIn) {
-    // setAuthLoading(true)
-    updateUserLocation().then(()=>{
-      router.replace("/(screens)")
-    })
+  if (isSignedIn) {
+  // if (LocationFinal != null && isSignedIn) {
+		router.replace("/(screens)") //for simulator to work
+    // updateUserLocation().then(()=>{
+    //   router.replace("/(screens)")
+    // })
   }
 
   return (

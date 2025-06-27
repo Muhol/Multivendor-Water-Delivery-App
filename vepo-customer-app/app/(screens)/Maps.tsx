@@ -141,10 +141,8 @@ export default function Maps() {
 					},
 				}));
 			};
-			// console.log(convertToClusterPoints(response))
 			setMarkers(convertToClusterPoints(response));
 		} catch (error) {
-			console.log(error);
 		} finally {
 			setLoading(false);
 		}

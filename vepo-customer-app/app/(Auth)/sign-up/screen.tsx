@@ -87,10 +87,8 @@ export default function SignUp() {
 				body: JSON.stringify(payload)
 			})
 			const response = await apiCall.json()
-			// console.log(payload)
-			console.log(response)
 		} catch (error) {
-			console.log(error)
+			// console.log(error)
 		}
 	}
 
@@ -99,7 +97,6 @@ export default function SignUp() {
 		setErrors(undefined);
 
 		if (!isLoaded) return;
-		console.log(emailAddress, password);
 		checkPassword();
 		if (!checkPassword()) {
 			return;
@@ -124,7 +121,6 @@ export default function SignUp() {
 		} catch (err) {
 			// See https://clerk.com/docs/custom-flows/error-handling
 			// for more info on error handling
-			// console.error(JSON.stringify(err, null, 2));
 			if (isClerkAPIResponseError(err)) setErrors(err.errors);
 		} finally {
 			setLoading(false);
@@ -145,7 +141,6 @@ export default function SignUp() {
 			// and redirect the user
 			if (signUpAttempt.status === "complete") {
 				setVerification("success");
-				console.log(signUpAttempt.createdUserId)
 				const clerkId = signUpAttempt?.createdUserId
 				if(clerkId === null) {
 					return
@@ -157,13 +152,12 @@ export default function SignUp() {
 			} else {
 				// If the status is not complete, check why. User may need to
 				// complete further steps.
-				console.error(JSON.stringify(signUpAttempt, null, 2));
 				success = false
 			}
 		} catch (err) {
 			// See https://clerk.com/docs/custom-flows/error-handling
 			// for more info on error handling
-			console.error(JSON.stringify(err, null, 2));
+			// console.error(JSON.stringify(err, null, 2));
 			success = false
 		}finally{
 			if (success){
@@ -206,7 +200,7 @@ export default function SignUp() {
 		} catch (err) {
 			// See https://clerk.com/docs/custom-flows/error-handling
 			// for more info on error handling
-			console.error(JSON.stringify(err, null, 2));
+			// console.error(JSON.stringify(err, null, 2));
 			success = false
 			// setError()
 		} finally {
@@ -499,12 +493,13 @@ export default function SignUp() {
 								type="numeric"
 								secureTextEntry={false}
 								focusStickBlinkingDuration={500}
-								onFocus={() => console.log("Focused")}
-								onBlur={() => console.log("Blurred")}
+								onFocus={() => {}}
+								onBlur={() => {}}
 								onTextChange={(text) => setCode(text)}
 								onFilled={() =>
 									// onVerifyPress()
-									console.log("the code is", code)
+									// console.log("the code is", code)
+									{}
 								}
 								textInputProps={{
 									accessibilityLabel: "One-Time Password",

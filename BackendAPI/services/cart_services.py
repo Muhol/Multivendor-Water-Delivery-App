@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from uuid import UUID
 from sqlalchemy import select, and_
-from sqlalchemy.orm import joinedload, selectinload
+from sqlalchemy.orm import joinedload, selectinload, with_loader_criteria
 from models.cart_model import Cart, CartItem
 from schemas.cart_schemas import CartDetailed
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -21,18 +21,19 @@ async def fetch_cart(user_id: UUID, session: AsyncSession) -> Cart:
   return cart
 
 async def fetch_detailed_cart(user_id: UUID, session: AsyncSession) -> CartDetailed:
-  query = select(Cart).where(Cart.customer_id == user_id).options(joinedload(Cart.cart_item).joinedload(CartItem.product))
+  query = select(Cart).where(Cart.customer_id == user_id).options(joinedload(Cart.cart_item).joinedload(CartItem.product),  with_loader_criteria( CartItem, lambda cls: True, include_aliases=True, ))
   result = await session.execute(query)
   cart =  result.unique().scalar_one_or_none()
   if not cart:
     raise HTTPException(status_code=200, detail="There are no items in the cart yet")
+  cart.cart_item.sort(key=lambda item: item.id)  # or item.product.name.lower()
   return cart
 
 async def add_to_cart_service( user_id: UUID, session: AsyncSession, product_id : UUID, quantity : int):
   # prepare details for the cart item [customer id, vendor id, product id, quantity, product Price, subtotal]
   product = await get_product_for_cart(session=session,id=product_id)
   # check if the cart exists 
-  query = select(Cart).where(Cart.customer_id == user_id)
+  query = select(Cart).where(Cart.customer_id == user_id).options(selectinload(Cart.cart_item))
   result = await session.execute(query)
   existing_cart =  result.unique().scalar_one_or_none()
   if not existing_cart:
@@ -41,8 +42,8 @@ async def add_to_cart_service( user_id: UUID, session: AsyncSession, product_id 
       customer_id = user_id
     )
     session.add(new_cart)
-    session.flush()
-    await session.commit()
+    await session.flush()
+    # await session.commit()
     # add the cart item 
     cart_item = CartItem(
       cart_id = new_cart.id,
@@ -58,9 +59,10 @@ async def add_to_cart_service( user_id: UUID, session: AsyncSession, product_id 
     await session.commit()
   else: 
     # check if item already exists in the cart 
-    existing_item_query = select(CartItem).where(and_(CartItem.cart_id == existing_cart.id, CartItem.product_id == product_id))
-    result = await session.execute(existing_item_query)
-    existing_item = result.unique().scalar_one_or_none()
+    # existing_item_query = select(CartItem).where(and_(CartItem.cart_id == existing_cart.id, CartItem.product_id == product_id))
+    # result = await session.execute(existing_item_query)
+    # existing_item = result.unique().scalar_one_or_none()
+    existing_item = next((item for item in existing_cart.cart_item if item.product_id == product_id), None)
     if existing_item:
     # if it exists update the [quantity of the item , the subtotal , and the total for the cart  ]
       existing_item.quantity += quantity
@@ -82,44 +84,21 @@ async def add_to_cart_service( user_id: UUID, session: AsyncSession, product_id 
       existing_cart.items_count += 1
       await session.commit()
 
-async def change_cart_item_quantity_service(user_id: UUID, session: AsyncSession, type: str, id: UUID):
-  # find the cart item using its id 
-  # find the cart 
-  # if type is decrease [
-      # check if item quantity is 1
-      # if true [delete item or just return]
-      # if false [decrease quantity by one]
-  # ]
-  # if type is increase [
-      # check the stock of the product
-      # if it is more than the current quantity of the item [increase the quantity of the cart item ]
-      # else return 
-  # ]
-  
-  # find cart item 
-  item_query = select(CartItem).where(CartItem.id == id)
-  item_result = await session.execute(item_query)
-  cart_item  =item_result.unique().scalar_one_or_none()
-  # find the cart
-  query = select(Cart).where(Cart.customer_id == user_id)
+async def change_cart_item_quantity_service(user_id: UUID, session: AsyncSession, quantity: int, id: UUID):
+  query = select(Cart).where(Cart.customer_id == user_id).options(selectinload(Cart.cart_item))
   result = await session.execute(query)
   cart =  result.unique().scalar_one_or_none()
-  
-  if type == "decrease":
-    if cart_item.quantity > 1 : 
-      cart_item.quantity -= 1
-      cart_item.Subtotal -= cart_item.price
-      cart.total_amount -= cart_item.price
-      await session.commit()
-    else:
-      return
-  elif  type == "increase":
-    cart_item.quantity += 1
-    cart_item.Subtotal += cart_item.price
-    cart.total_amount += cart_item.price
-    await session.commit()
-  else: 
-    return
+  if not cart: 
+    raise HTTPException(status_code=404, detail="Cart Not Found")
+  cart_item = next((item for item in cart.cart_item if item.id == id), None)
+  if not cart_item:
+    raise HTTPException(status_code=404, detail="Cart item not found")
+  cart.total_amount -= cart_item.Subtotal
+  cart_item.quantity = quantity
+  cart_item.Subtotal = quantity * cart_item.price
+  cart.total_amount += quantity * cart_item.price
+  await session.commit()
+  return
 
 async def delete_cart_item_service(cart_item_id: UUID, session: AsyncSession):
     result = await session.execute(

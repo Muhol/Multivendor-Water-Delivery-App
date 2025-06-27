@@ -41,50 +41,50 @@ const FullHorizontalList = ({ title, data, loaded }: Props) => {
 					<Animated.View
 						className={`${
 							darkTheme ? "bg-gray-100/15" : "bg-gray-200"
-						} w-[100px] h-3 rounded-full animate-pulse`}
+						} w-[100px] h-3 rounded-full animate-pulse `}
 					/>
 				</View>
 				<ScrollView
 					contentContainerStyle={{
 						height: 200,
-						gap: 20,
-						paddingHorizontal: 20,
+						gap: wid * 0.05,
+						paddingHorizontal: wid * 0.05,
 						paddingVertical: 10,
 					}}
 					horizontal
 					showsHorizontalScrollIndicator={false}
 				>
-					{[...Array(10)].map((item, index) => {
+					{[...Array(3)].map((item, index) => {
 						return (
 							<TouchableWithoutFeedback key={index}>
-								<View
-									className={`relative ${
-										darkTheme ? "bg-gray-200/20" : "bg-white"
-									} h-[190px] rounded-xl shadow-x overflow-hidden`}
+								<Animated.View
+									className={`relative animate-pulse ${
+										darkTheme ? "bg-gray-200/10" : "bg-white"
+									} h-[190px] rounded shadow-x overflow-hidden`}
 									style={{
 										width: wid * 0.9,
 									}}
 								>
-									<View className="w-full h-full justify-end overflow-hidden">
-										<LinearGradient
-											className="w-full h-[60px] items-end flex-row gap-3  justify-between p-2 rounded-xl self-center"
-											colors={[
-												"transparent",
-												darkTheme ? "black" : "white",
-											]}
+									<Animated.View className="w-full h-full justify-end overflow-hidden">
+										<View
+											className="w-full h-[60px] items-end flex-row gap-3  justify-between p-2 rounded self-center"
+											// colors={[
+											// 	"transparent",
+											// 	darkTheme ? "black" : "white",
+											// ]}
 										>
 											<View className="items-start gap-2">
 												<Animated.View
-													className={`w-[170px] h-3 rounded-full ${darkTheme?"bg-gray-100/15":"bg-gray-200"} animate-pulse`}
+													className={`w-[170px] h-3 rounded-full ${darkTheme?"bg-gray-100/15":"bg-gray-200"} `}
 												/>
 												<Animated.View
-													className={`w-[100px] h-3 rounded-full ${darkTheme?"bg-gray-100/15":"bg-gray-200"} animate-pulse`}
+													className={`w-[100px] h-3 rounded-full ${darkTheme?"bg-gray-100/15":"bg-gray-200"} `}
 												/>
 											</View>
-											<Animated.View className={`w-[100px] h-[35px] flex-row gap-1 items-center rounded-xl ${darkTheme?"bg-gray-100/20":"bg-gray-200"} animate-pulse`}/>
-										</LinearGradient>
-									</View>
-								</View>
+											<Animated.View className={`w-[100px] h-[35px] flex-row gap-1 items-center rounded ${darkTheme?"bg-gray-100/20":"bg-gray-200"} `}/>
+										</View>
+									</Animated.View>
+								</Animated.View>
 							</TouchableWithoutFeedback>
 						);
 					})}
@@ -99,8 +99,8 @@ const FullHorizontalList = ({ title, data, loaded }: Props) => {
 			<ScrollView
 				contentContainerStyle={{
 					height: 200,
-					gap: 20,
-					paddingHorizontal: 20,
+					gap: wid*0.05,
+					paddingHorizontal: wid*0.05,
 					paddingVertical: 10,
 				}}
 				horizontal
@@ -112,21 +112,21 @@ const FullHorizontalList = ({ title, data, loaded }: Props) => {
 							<View
 								className={`relative ${
 									darkTheme ? "bg-black" : "bg-white"
-								} h-[190px] rounded-xl shadow-x overflow-hidden`}
+								} h-[190px] rounded shadow-x overflow-hidden`}
 								style={{
-									width: wid * 0.9,
+									width: wid *0.9,
 								}}
 							>
 								<View className="w-full h-full justify-end overflow-hidden">
 									<Image
 										// source={{ uri: item.products[0].image_url }}
 										source={{ uri: item.profile_pic }}
-										className=" absolute w-full h-full rounded-xl rounded-b-2xl"
+										className=" absolute w-full h-full rounded"
 										style={{}}
 										resizeMode="cover"
 									/>
 									<LinearGradient
-										className="w-full h-[60px] items-end flex-row gap-3  justify-between p-2 rounded-xl self-center"
+										className="w-full h-[60px] items-end flex-row gap-3  justify-between p-2 rounded self-center"
 										colors={[
 											"transparent",
 											darkTheme ? "black" : "white",
@@ -179,7 +179,7 @@ const FullHorizontalList = ({ title, data, loaded }: Props) => {
 												);
 											}}
 										>
-											<View className="px-3 py-2 flex-row gap-1 items-center rounded-xl bg-accentbg">
+											<View className="px-3 py-2 flex-row gap-1 items-center rounded bg-accentbg">
 												<Text className="text-whie">
 													Order Now
 												</Text>

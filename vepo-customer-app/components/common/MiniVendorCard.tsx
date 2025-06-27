@@ -37,7 +37,6 @@ const MiniVendorCard = ({ data, FullMap }: Props) => {
 	// DUMMY DATA
 	const rating = 5;
 
-	// console.log(data)
 
   if(data === undefined){
     return

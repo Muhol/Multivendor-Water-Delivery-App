@@ -26,7 +26,9 @@
         "distribution": "internal"
       },
       "env": {
-        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_cGV0LWFpcmVkYWxlLTIyLmNsZXJrLmFjY291bnRzLmRldiQ"
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_cGV0LWFpcmVkYWxlLTIyLmNsZXJrLmFjY291bnRzLmRldiQ",
+        "EXPO_PUBLIC_BACKEND_BASE_URL" : "https://multivendor-water-delivery-app.onrender.com/api",
+        "EXPO_PUBLIC_AUTHORIZED_REDIRECT_URI" : "https://clerk.vepo.com/v1/oauth_callback"
       }
     },
     "preview4": {

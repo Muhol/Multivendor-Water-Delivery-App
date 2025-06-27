@@ -64,7 +64,6 @@ export default function Cart() {
 			const response = await apiCall.json()
 			setCart(response)
 		} catch (error: any) {
-			console.log(error.message)
 		}finally{
 			setCartLoaded(true)
 		}
@@ -144,7 +143,7 @@ export default function Cart() {
 										): (
 											Cart?.cart_item.map((item: any) => {
 												return(
-													<CartItem  data={item} key={item.id} func={() => {fetch_cart()}}  />
+													<CartItem  data={item} key={item.id} func={ async () => {fetch_cart()}}  />
 												)
 											})
 										)}

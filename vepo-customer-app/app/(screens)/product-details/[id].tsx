@@ -7,6 +7,7 @@ import {
 	Dimensions,
 	Image,
 	Alert,
+	Modal,
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -29,14 +30,16 @@ const ProductDetails = () => {
 	// <---------------HOOKES--------------->
 	const router = useRouter();
 	const { currentTheme } = useContext(UIThemeContext);
-	const { fetchCart } = useContext(Context)
-	const {getToken}= useAuth();
-	
+	const { fetchCart } = useContext(Context);
+	const { getToken } = useAuth();
 
 	// <---------------STATES--------------->
 	const [Product, setProduct] = useState<any>();
 	const [ProductLoaded, setProductLoaded] = useState<boolean>(false);
-	const [Quantity, setQuantity] = useState(1)
+	const [Quantity, setQuantity] = useState(1);
+	const [cartChanged, setCartChanged] = useState<boolean>(false);
+	const [loading, setLoading] = useState<boolean>(false);
+	const [CartSuccess, setCartSuccess] = useState<boolean>(false);
 
 	// <---------------VARAIBLES--------------->
 	const darkTheme = currentTheme === "dark";
@@ -47,7 +50,7 @@ const ProductDetails = () => {
 	// <---------------FUNCTIONS--------------->
 	// API CALLS
 	const fetch_product_details = async () => {
-		const token = await getToken()
+		const token = await getToken();
 		try {
 			const apiCall = await fetch(ApiRoutes.ProductDetails.path, {
 				method: ApiRoutes.ProductDetails.method,
@@ -59,7 +62,6 @@ const ProductDetails = () => {
 			});
 
 			const response = await apiCall.json();
-			// console.log(response)
 			setProduct(response);
 			setProductLoaded(true);
 		} catch (error) {
@@ -69,29 +71,32 @@ const ProductDetails = () => {
 	};
 
 	const add_to_cart = async () => {
-		const token = await getToken()
+		setCartSuccess(false);
+		setLoading(true);
+		const token = await getToken();
 		const payload = {
 			id: id,
-			quantity: Quantity 
-		}
-		console.log(payload)
+			quantity: Quantity,
+		};
+		console.log(payload);
 		try {
 			const apiCall = await fetch(ApiRoutes.AddToCart.path, {
 				method: ApiRoutes.AddToCart.method,
 				headers: {
-					"Authorization": `Bearer ${token}`,
-					"Content-Type": "Application/json"
+					Authorization: `Bearer ${token}`,
+					"Content-Type": "Application/json",
 				},
-				body: JSON.stringify(payload)
+				body: JSON.stringify(payload),
+			});
+			const response = await apiCall.json();
+			fetchCart().then(() => {
+				setLoading(false);
 			})
-			const response = await apiCall.json()
-			console.log(response)
-		} catch (error) {
-			console.log(error)
-		}finally{
-			fetchCart()
+		} catch (error: any) {
+			console.log(error.message);
+			setLoading(false);
 		}
-	}
+	};
 
 	// Dummy Data
 	const location =
@@ -109,6 +114,11 @@ const ProductDetails = () => {
 	useEffect(() => {
 		fetch_product_details();
 	}, []);
+
+	useEffect(() => {
+		if (CartSuccess == true) {
+		}
+	}, [CartSuccess]);
 
 	return (
 		<>
@@ -153,39 +163,86 @@ const ProductDetails = () => {
 					>
 						<View className="w-full items-center justify-center gap-4">
 							<Animated.View
-								className={`rounded-3xl ${darkTheme ? "bg-gray-200/20":"bg-gray-100"} animate-pulse`}
+								className={`rounded-3xl ${
+									darkTheme ? "bg-gray-200/20" : "bg-gray-100"
+								} animate-pulse`}
 								style={{
 									width: width * 0.7,
 									height: width * 0.6,
 								}}
 							/>
-							
 
-							<Animated.View className={`w-[40%] h-3 rounded-full ${darkTheme ?"bg-gray-200/20":"bg-gray-100"} animate-pulse`}/>
+							<Animated.View
+								className={`w-[40%] h-3 rounded-full ${
+									darkTheme ? "bg-gray-200/20" : "bg-gray-100"
+								} animate-pulse`}
+							/>
 						</View>
 
 						{/* Description */}
-						<Animated.View className={`w-[80%] h-3 rounded-full ${darkTheme ?"bg-gray-200/20":"bg-gray-100"} animate-pulse`}/>
+						<Animated.View
+							className={`w-[80%] h-3 rounded-full ${
+								darkTheme ? "bg-gray-200/20" : "bg-gray-100"
+							} animate-pulse`}
+						/>
 
 						<View className="gap-4">
-							<Animated.View className={`w-[30%] h-3 rounded-full ${darkTheme ?"bg-gray-200/20":"bg-gray-100"} animate-pulse`}/>
-							<Animated.View className={`w-[40%] h-3 rounded-full ${darkTheme ?"bg-gray-200/20":"bg-gray-100"} animate-pulse`}/>
-							<Animated.View className={`w-[60%] h-3 rounded-full ${darkTheme ?"bg-gray-200/20":"bg-gray-100"} animate-pulse`}/>
-							<Animated.View className={`w-[50%] h-3 rounded-full ${darkTheme ?"bg-gray-200/20":"bg-gray-100"} animate-pulse`}/>
+							<Animated.View
+								className={`w-[30%] h-3 rounded-full ${
+									darkTheme ? "bg-gray-200/20" : "bg-gray-100"
+								} animate-pulse`}
+							/>
+							<Animated.View
+								className={`w-[40%] h-3 rounded-full ${
+									darkTheme ? "bg-gray-200/20" : "bg-gray-100"
+								} animate-pulse`}
+							/>
+							<Animated.View
+								className={`w-[60%] h-3 rounded-full ${
+									darkTheme ? "bg-gray-200/20" : "bg-gray-100"
+								} animate-pulse`}
+							/>
+							<Animated.View
+								className={`w-[50%] h-3 rounded-full ${
+									darkTheme ? "bg-gray-200/20" : "bg-gray-100"
+								} animate-pulse`}
+							/>
 						</View>
 
 						{/* Quantity Selector */}
 						<View className="flex-row items-center justify-between gap-4">
 							<View className="flex-row items-center gap-4">
 								{/* minus */}
-								<Animated.View className={`h-[40px] w-[40px] rounded-2xl items-center justify-center ${darkTheme?"bg-gray-200/20":"bg-gray-100"} animate-pulse`}/>
-								<Animated.View className={`h-[10px] w-[10px] rounded-2xl items-center justify-center ${darkTheme?"bg-gray-200/20":"bg-gray-100"} animate-pulse`}/>
-								
-								<Animated.View className={`h-[40px] w-[40px] rounded-2xl items-center justify-center ${darkTheme?"bg-gray-200/20":"bg-gray-100"} animate-pulse`}/>
+								<Animated.View
+									className={`h-[40px] w-[40px] rounded-2xl items-center justify-center ${
+										darkTheme
+											? "bg-gray-200/20"
+											: "bg-gray-100"
+									} animate-pulse`}
+								/>
+								<Animated.View
+									className={`h-[10px] w-[10px] rounded-2xl items-center justify-center ${
+										darkTheme
+											? "bg-gray-200/20"
+											: "bg-gray-100"
+									} animate-pulse`}
+								/>
+
+								<Animated.View
+									className={`h-[40px] w-[40px] rounded-2xl items-center justify-center ${
+										darkTheme
+											? "bg-gray-200/20"
+											: "bg-gray-100"
+									} animate-pulse`}
+								/>
 							</View>
 
 							{/* Subtotal */}
-							<Animated.View className={`w-[30%] h-3 rounded-full ${darkTheme ?"bg-gray-200/20":"bg-gray-100"} animate-pulse`}/>
+							<Animated.View
+								className={`w-[30%] h-3 rounded-full ${
+									darkTheme ? "bg-gray-200/20" : "bg-gray-100"
+								} animate-pulse`}
+							/>
 						</View>
 
 						<View
@@ -195,23 +252,37 @@ const ProductDetails = () => {
 							}}
 						>
 							{/* <----------------------add to cart----------------------> */}
-							<Animated.View className={`h-[40px] flex-1 rounded-2xl items-center justify-center ${darkTheme ?"bg-gray-200/20":"bg-gray-100"} animate-pulse`}/>
+							<Animated.View
+								className={`h-[40px] flex-1 rounded-2xl items-center justify-center ${
+									darkTheme ? "bg-gray-200/20" : "bg-gray-100"
+								} animate-pulse`}
+							/>
 
 							{/* <------------------------buy now------------------------> */}
-							<Animated.View className={`h-[40px] flex-1 rounded-2xl items-center justify-center ${darkTheme ?"bg-gray-200/20":"bg-gray-100"} animate-pulse`}/>
+							<Animated.View
+								className={`h-[40px] flex-1 rounded-2xl items-center justify-center ${
+									darkTheme ? "bg-gray-200/20" : "bg-gray-100"
+								} animate-pulse`}
+							/>
 							{/*  */}
 						</View>
 
 						{/* Vendor Info Snippet */}
-						<Animated.View className={`h-[100px] p-4 ${darkTheme ? "bg-gray-200/20" : "bg-slate-200"} gap-2 rounded-2xl animate-pulse`}/>
+						<Animated.View
+							className={`h-[100px] p-4 ${
+								darkTheme ? "bg-gray-200/20" : "bg-slate-200"
+							} gap-2 rounded-2xl animate-pulse`}
+						/>
 						{/* scheduled delivery */}
 
 						<View>
-							<Animated.View 
-										style={{
-											width: width * 0.8,
-										}}
-										className={`h-[40px] rounded-2xl items-center self-center justify-center ${darkTheme ?"bg-gray-200/20":"bg-gray-100"} animate-pulse`}
+							<Animated.View
+								style={{
+									width: width * 0.8,
+								}}
+								className={`h-[40px] rounded-2xl items-center self-center justify-center ${
+									darkTheme ? "bg-gray-200/20" : "bg-gray-100"
+								} animate-pulse`}
 							/>
 						</View>
 
@@ -347,11 +418,11 @@ const ProductDetails = () => {
 						<View className="flex-row items-center justify-between gap-4">
 							<View className="flex-row items-center gap-4">
 								{/* minus */}
-								<TouchableOpacity 
+								<TouchableOpacity
 									activeOpacity={0.7}
-									onPress={()=>{
-										setQuantity(Quantity-1)
-										console.log(Quantity)
+									onPress={() => {
+										setQuantity(Quantity - 1);
+										console.log(Quantity);
 									}}
 									disabled={Quantity === 1}
 								>
@@ -374,11 +445,11 @@ const ProductDetails = () => {
 								/>
 
 								{/* add */}
-								<TouchableOpacity 
+								<TouchableOpacity
 									activeOpacity={0.7}
-									onPress={()=>{
-										setQuantity(Quantity+1)
-										console.log(Quantity)
+									onPress={() => {
+										setQuantity(Quantity + 1);
+										console.log(Quantity);
 									}}
 								>
 									<View className="h-[40px] w-[40px] rounded-2xl items-center justify-center bg-accentbg/80">
@@ -404,7 +475,8 @@ const ProductDetails = () => {
 								</Text>
 								<ComicText
 									text={`ksh ${
-										(Product?.price - Product?.discount) * Quantity
+										(Product?.price - Product?.discount) *
+										Quantity
 									}`}
 									style={
 										darkTheme ? "text-white" : "text-black"
@@ -424,7 +496,7 @@ const ProductDetails = () => {
 								className="flex-1"
 								activeOpacity={0.7}
 								onPress={() => {
-									add_to_cart()
+									add_to_cart();
 								}}
 							>
 								<View className="p-2 rounded-2xl items-center justify-center border border-accentbg ">
@@ -544,13 +616,43 @@ const ProductDetails = () => {
 							</TouchableOpacity>
 						</View>
 
-						<View>
-							{/* <Reviews /> */}
-						</View>
+						<View>{/* <Reviews /> */}</View>
 						{/* Future: Delivery options, estimated delivery time, delivery cost */}
 					</ScrollView>
 				)}
 			</SafeAreaView>
+			<Modal visible={loading} backdropColor={"transparent"}>
+				<View className={`items-center justify-end w-full h-full`}>
+					<View
+						className={`w-full h-[100px] ${darkTheme?"bg-black":"bg-white"} rounded items-center justify-center `}
+					>
+						{CartSuccess ? (
+							<View className={`flex-row items-center gap-3`}>
+								<Animated.View className={`bg-green-400 rounded-full p-1`}>
+									<Image
+										source={icons.verified}
+										className={`w-10 h-10`}
+										tintColor={
+											darkTheme ? "black" : "white"
+										}
+									/>
+								</Animated.View>
+								<Text className={`${darkTheme?"text-white":"text-black"}`}>Item Added To Cart</Text>
+							</View>
+						) : (
+							<View className={`flex-row items-center gap-3`}>
+								<Animated.View className={`animate-spin`}>
+									<Image
+										source={icons.spinner}
+										className={`w-10 h-10`}
+									/>
+								</Animated.View>
+								<Text className={`${darkTheme?"text-white":"text-black"}`}>Adding Item To Cart</Text>
+							</View>
+						)}
+					</View>
+				</View>
+			</Modal>
 		</>
 	);
 };

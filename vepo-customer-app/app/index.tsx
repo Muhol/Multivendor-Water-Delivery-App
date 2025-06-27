@@ -29,7 +29,6 @@ export default function Index() {
 	const { getToken } = useAuth();
 	const { isSignedIn } = useAuth();
 
-	// console.log(Auth.getToken(),"token")
 	// <-----------------STATES----------------->
 	const [IsReady, setIsReady] = useState(false);
 	const [ImagesLoaded, setImagesLoaded] = useState(false);
@@ -72,7 +71,6 @@ export default function Index() {
 			const response = await apiCall.json();
 			setLocationUpdated(true);
 		} catch (error) {
-			console.log(error);
 		}
 	};
 
@@ -81,7 +79,6 @@ export default function Index() {
 		setShowLocationPrompt(false);
 		try {
 			let { status } = await Location.requestForegroundPermissionsAsync();
-			console.log("status", status);
 			if (status !== "granted") {
 				setErrorMsg("Permission to access Location was denied");
 				// setShowLocationPrompt(true);
@@ -91,7 +88,6 @@ export default function Index() {
 			setLocation(location);
 		} catch (error: any) {
 			// Example error handling for GPS off
-			console.log(error.message)
 			setShowLocationPrompt(true)
 		} finally{
 			
@@ -103,17 +99,14 @@ export default function Index() {
 			try {
 				getCurrentLocation()
 			} catch (error) {
-				console.log(error);
 			}
 		};
 
 		if (isSignedIn){
-			console.log(isSignedIn)
-			// setIsReady(true) // for it to work on the simulator
+			setIsReady(true) // for it to work on the simulator
 			StartUpLogic()
 		}
 		if(isSignedIn === false){
-			console.log(isSignedIn)
 			setIsReady(true)
 		}
 	}, [ isSignedIn ]);
@@ -213,7 +206,6 @@ export default function Index() {
 	}
 
 	if(isSignedIn){
-		console.log("signed in")
 		return <Redirect href={"/(screens)"} />;
 	}else{
 		return <Redirect href={"/(Auth)"}/>

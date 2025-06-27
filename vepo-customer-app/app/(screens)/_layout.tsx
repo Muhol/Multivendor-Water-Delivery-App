@@ -37,8 +37,6 @@ const Layout = () => {
   const { isSignedIn, getToken } = useAuth()
   const user = useUser()
   // const {getToken} = useAuth()
-	// console.log(user)
-	// console.log(user.user?.imageUrl)
   
 	// <--------------------HOOKES------------------->
   const [Cart, setCart] = useState<any>()
@@ -62,9 +60,7 @@ const Layout = () => {
 
       const response = await apiCall.json()
       setCart(response)
-      // console.log(response)
     } catch (error: any) {
-      console.log(error.message)
     }
   }
   

@@ -7,6 +7,7 @@ import {
 	Dimensions,
 	Image,
 	useColorScheme,
+	Modal,
 } from "react-native";
 import React, { useContext, useState } from "react";
 import ComicText from "../styled-components/custom-texts/ComicText";
@@ -60,12 +61,12 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 			})
 
 			const response = await apiCall.json()
-			console.log(response)
+			fetchCart().then(() => {
+				setAddToCartLoading(false);
+			})
 		} catch (error: any) {
-			console.log(error.message)
-		}finally{
-			fetchCart()
-			setAddToCartLoading(false)
+			setAddToCartLoading(false);
+			// console.log(error.message)
 		}
 	}
 
@@ -91,28 +92,28 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 					className="py-1 "
 				>
 					<View className="flex-row gap-3 px-3">
-						{[...Array(4)].map((item, index) => {
+						{[...Array(3)].map((item, index) => {
 							return (
 								<TouchableOpacity
 									key={index}
 									activeOpacity={0.9}
 								>
-									<View
-										className={`overflow-hidden shadow justify-end ${
+									<Animated.View
+										className={`overflow-hidden justify-end animate-pulse ${
 											darkTheme
-												? "bg-gray-200/20 rounded-t-xl"
-												: "bg-white  rounded-xl"
+												? "bg-gray-200/10 rounded"
+												: "bg-white  rounded"
 										}  h-full`}
 										style={{
 											width: w * 0.39,
 										}}
 									>
-										<LinearGradient
+										<View
 											className="justify-end h-[45%] px-1 pb-1"
-											colors={[
-												"transparent",
-												darkTheme ? "black" : "white",
-											]}
+											// colors={[
+											// 	"transparent",
+											// 	darkTheme ? "black" : "white",
+											// ]} 
 										>
 											<View className="gap-2">
 												{/* <-----------------<RENDER ACCORDING TO TYPE OF LIST>-----------------> */}
@@ -122,7 +123,7 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 															darkTheme
 																? "bg-gray-100/15"
 																: "bg-gray-200"
-														} rounded-full animate-pulse`}
+														} rounded-full `}
 													/>
 												) : (
 													<Animated.View
@@ -130,7 +131,7 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 															darkTheme
 																? "bg-gray-100/15"
 																: " bg-gray-200"
-														} rounded-full animate-pulse`}
+														} rounded-full `}
 													/>
 												)}
 
@@ -142,7 +143,7 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 															darkTheme
 																? "bg-gray-100/15"
 																: " bg-gray-200"
-														} rounded-full animate-pulse`}
+														} rounded-full `}
 													/>
 												) : (
 													// <------------------------<RATING>------------------------->
@@ -152,7 +153,7 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 																darkTheme
 																	? "bg-gray-100/15"
 																	: " bg-gray-200"
-															} rounded-full animate-pulse`}
+															} rounded-full `}
 														/>
 														<View className="flex-row gap-1 items-center">
 															<Text></Text>
@@ -161,7 +162,7 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 																	darkTheme
 																		? "bg-gray-100/15"
 																		: " bg-gray-200"
-																} rounded-full animate-pulse`}
+																} rounded-full `}
 															/>
 														</View>
 													</View>
@@ -184,7 +185,7 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 																	darkTheme
 																		? "bg-gray-100/15"
 																		: " bg-gray-200"
-																} rounded-lg animate-pulse`}
+																} rounded `}
 															/>
 														</TouchableOpacity>
 													</>
@@ -192,8 +193,8 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 													<></>
 												)}
 											</View>
-										</LinearGradient>
-									</View>
+										</View>
+									</Animated.View>
 								</TouchableOpacity>
 							);
 						})}
@@ -206,12 +207,13 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 	return (
 		<View className={`  ${darkTheme ? "" : ""} shadow-2x`}>
 			<View className="px-5  justify-between flex-row items-center">
-				<ComicText
+				{/* <ComicText
 					text={title}
 					style={
 						darkTheme ? "text-lg text-white" : "text-lg text-black"
 					}
-				/>
+				/> */}
+				<Text className={`${darkTheme ? "text-lg text-white" : "text-lg text-black"}`}>{title}</Text>
 			</View>
 			<ScrollView
 				horizontal={true}
@@ -238,10 +240,10 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 								activeOpacity={0.9}
 							>
 								<View
-									className={`overflow-hidden  shadow justify-end ${
+									className={`overflow-hidden  rounded shadow justify-end ${
 										darkTheme
-											? "bg-black rounded-t-xl"
-											: "bg-white border border-gray-100 rounded-xl"
+											? "bg-black "
+											: "bg-white border border-gray-100"
 									}  h-full`}
 									style={{
 										width: w * 0.39,
@@ -253,13 +255,13 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 											type == "product" ? (
 												<Image
 													source={{uri : item.image_url}}
-													className="w-full h-full rounded-xl"
+													className="w-full h-full rounded"
 													resizeMode="cover"
 												/>
 											):(
 												<Image
 													source={{uri : item.profile_pic}}
-													className="w-full h-full rounded-xl"
+													className="w-full h-full rounded"
 													resizeMode="cover"
 												/>
 											)
@@ -367,7 +369,7 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 															AddToCart(item.id)
 														}}
 													>
-														<View className="bg-accentbg p-2 rounded-lg">
+														<View className="bg-accentbg p-2 rounded">
 															<Image
 																source={require("../../assets/icons/addtocart-black.png")}
 																className="w-5 h-5"
@@ -389,6 +391,23 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 					})}
 				</View>
 			</ScrollView>
+			<Modal visible={AddToCartLoading} backdropColor={"transparent"}>
+				<View className={`items-center justify-end w-full h-full`}>
+					<View
+						className={`w-full h-[100px] ${darkTheme?"bg-black":"bg-white"} rounded items-center justify-center `}
+					>
+							<View className={`flex-row items-center gap-3`}>
+								<Animated.View className={`animate-spin`}>
+									<Image
+										source={icons.spinner}
+										className={`w-10 h-10`}
+									/>
+								</Animated.View>
+								<Text className={`${darkTheme?"text-white":"text-black"}`}>Adding Item To Cart</Text>
+							</View>
+					</View>
+				</View>
+			</Modal>
 		</View>
 	);
 };

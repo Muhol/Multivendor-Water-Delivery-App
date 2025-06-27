@@ -33,6 +33,7 @@ yarn-error.*
 .env
 venv
 .venv
+eas.json
 expo-env.d.ts
 nativewind-env.d.ts
 VEPO database structure.docx
@@ -44,5 +45,4 @@ notes.txt
 app-example
 
 #ENVIRONMENT VARIABLES
-eas.json
 

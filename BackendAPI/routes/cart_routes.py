@@ -54,11 +54,11 @@ async def get_detailed_cart(db: AsyncSession = Depends(get_db), user = Depends(g
   return cart
 
 @router.post("/change_cart_item_quantity")
-async def change_cart_item_quantity(request_body: RequestBodyIdAndType, db: AsyncSession= Depends(get_db), user = Depends(get_current_user)):
+async def change_cart_item_quantity(request_body: RequestBodyIdAndQuantity, db: AsyncSession= Depends(get_db), user = Depends(get_current_user)):
   clerkId = user["sub"]
   # get user id
   user = await get_user(session=db, clerk_id=clerkId)
-  await change_cart_item_quantity_service(user_id=user.id, session=db, type=request_body.type, id=request_body.id)
+  await change_cart_item_quantity_service(user_id=user.id, session=db, quantity=request_body.quantity, id=request_body.id)
   return {
     "message": "Cart Quantity Updated"
   }
