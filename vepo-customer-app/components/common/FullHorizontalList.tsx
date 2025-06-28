@@ -171,6 +171,7 @@ const FullHorizontalList = ({ title, data, loaded }: Props) => {
 												/>
 											</View>
 										</View>
+										{/* ORDER NOW BUTTON */}
 										<TouchableOpacity
 											activeOpacity={0.6}
 											onPress={() => {
@@ -179,8 +180,8 @@ const FullHorizontalList = ({ title, data, loaded }: Props) => {
 												);
 											}}
 										>
-											<View className="px-3 py-2 flex-row gap-1 items-center rounded bg-accentbg">
-												<Text className="text-whie">
+											<View className="px-5 py-2 flex-row gap-1 items-center rounded-2xl bg-accentbg">
+												<Text className="text-black ">
 													Order Now
 												</Text>
 												<Image

@@ -1,3 +1,4 @@
+import { UIThemeContext } from "@/context/ThemeContext";
 import * as React from "react";
 import { Dimensions, Image, Text, View } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
@@ -13,9 +14,13 @@ type Props = {
 };
 
 const CarouselComponent = (props: Props) => {
+	// <-----------------HOOKES----------------->
 	const ref = React.useRef<ICarouselInstance>(null);
 	const progress = useSharedValue<number>(0);
+	const { currentTheme } = React.useContext(UIThemeContext);
+	const darkTheme = currentTheme === "dark";
 
+	// <---------------FUNCTIONS---------------->
 	const onPressPagination = (index: number) => {
 		ref.current?.scrollTo({
 			/**
@@ -52,21 +57,21 @@ const CarouselComponent = (props: Props) => {
 	];
 
 	return (
-		<View className={`w-full min-h-[200px]`}>
+		<View className={`w-full `}>
 			{/* <Text>Carousel</Text> */}
 			<Carousel
 				ref={ref}
 				width={width}
-				height={width / 2}
+				height={width * 0.4}
 				data={images}
 				autoPlay
-				autoPlayInterval={5000}
-				mode="parallax"
-				modeConfig={{
-					parallaxScrollingScale: 0.99,
-					parallaxScrollingOffset: 30,
-					parallaxAdjacentItemScale: 0.7,
-				}}
+				autoPlayInterval={3000}
+				// mode="parallax"
+				// modeConfig={{
+				// 	parallaxScrollingScale: 0.99,
+				// 	parallaxScrollingOffset: 0,
+				// 	parallaxAdjacentItemScale: 1,
+				// }}
 				onProgressChange={progress}
 				renderItem={({ index, item }) => (
 					<View
@@ -82,9 +87,10 @@ const CarouselComponent = (props: Props) => {
 			/>
 			<Pagination.Custom
 				progress={progress}
-				data={data}
+				data={images}
 				dotStyle={{
-					backgroundColor: "rgba(0,0,0,0.2)",
+					// backgroundColor: "rgba(0,0,0,0.2)",
+					backgroundColor: darkTheme? "rgba(255,255,255,0.4)":"rgba(0,0,0,0.2)",
 					borderRadius: 50,
 				}}
 				// containerStyle={{ gap: 5, marginTop: 10 }}
@@ -95,7 +101,7 @@ const CarouselComponent = (props: Props) => {
 					width: 20,
 					height: 5,
 					overflow: "hidden",
-					backgroundColor: "#000000",
+					backgroundColor: darkTheme? "#fff":"#000000",
 				}}
 				containerStyle={{
 					gap: 5,

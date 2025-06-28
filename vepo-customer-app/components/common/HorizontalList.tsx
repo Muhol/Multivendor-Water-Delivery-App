@@ -94,26 +94,20 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 					<View className="flex-row gap-3 px-3">
 						{[...Array(3)].map((item, index) => {
 							return (
-								<TouchableOpacity
-									key={index}
-									activeOpacity={0.9}
-								>
+								
 									<Animated.View
+										key={index}
 										className={`overflow-hidden justify-end animate-pulse ${
 											darkTheme
 												? "bg-gray-200/10 rounded"
 												: "bg-white  rounded"
 										}  h-full`}
 										style={{
-											width: w * 0.39,
+											width: w * 0.36,
 										}}
 									>
 										<View
 											className="justify-end h-[45%] px-1 pb-1"
-											// colors={[
-											// 	"transparent",
-											// 	darkTheme ? "black" : "white",
-											// ]} 
 										>
 											<View className="gap-2">
 												{/* <-----------------<RENDER ACCORDING TO TYPE OF LIST>-----------------> */}
@@ -171,15 +165,6 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 												{/* <--------------------<ADD TO CART BUTTON>--------------------> */}
 												{type === "product" ? (
 													<>
-														<TouchableOpacity
-															activeOpacity={0.6}
-															style={{
-																position:
-																	"absolute",
-																bottom: 1,
-																right: 2,
-															}}
-														>
 															<Animated.View
 																className={`h-[30px] w-[30px] ${
 																	darkTheme
@@ -187,7 +172,6 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 																		: " bg-gray-200"
 																} rounded `}
 															/>
-														</TouchableOpacity>
 													</>
 												) : (
 													<></>
@@ -195,7 +179,6 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 											</View>
 										</View>
 									</Animated.View>
-								</TouchableOpacity>
 							);
 						})}
 					</View>
@@ -246,7 +229,7 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 											: "bg-white border border-gray-100"
 									}  h-full`}
 									style={{
-										width: w * 0.39,
+										width: w * 0.36,
 									}}
 								>
 									{/* IMAGE */}
@@ -369,7 +352,7 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 															AddToCart(item.id)
 														}}
 													>
-														<View className="bg-accentbg p-2 rounded">
+														<View className="bg-accentbg p-2 rounded-xl">
 															<Image
 																source={require("../../assets/icons/addtocart-black.png")}
 																className="w-5 h-5"

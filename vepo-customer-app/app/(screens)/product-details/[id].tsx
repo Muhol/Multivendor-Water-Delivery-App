@@ -23,6 +23,7 @@ import ApiRoutes from "@/API/routes/ApiRoutes";
 import { useAuth } from "@clerk/clerk-expo";
 import Animated from "react-native-reanimated";
 import Context from "@/context/context";
+import BackButtonMinimal from "@/components/ui/BackButtonMinimal";
 
 const { width } = Dimensions.get("window");
 
@@ -141,7 +142,7 @@ const ProductDetails = () => {
 					activeOpacity={0.7}
 					onPress={() => router.back()}
 				>
-					<BackButton />
+					<BackButtonMinimal />
 				</TouchableOpacity>
 
 				{/* Product Image and Name */}
@@ -304,16 +305,15 @@ const ProductDetails = () => {
 					>
 						<View className="w-full items-center justify-center">
 							<View
-								className="rounded-3xl bg-gray-50"
+								className="rounded-lg bg-gray-50 overflow-hidden"
 								style={{
 									width: width * 0.7,
 									height: width * 0.7,
 								}}
 							>
 								<Image
-									// source={require("@/assets/prop-images/Product_Aqualife_100C_Refill5gal.jpg")}
 									source={{ uri: Product?.image_url }}
-									className="w-full h-full rounded-3xl"
+									className="w-full h-full rounded"
 									resizeMode="cover"
 								/>
 							</View>
@@ -332,13 +332,18 @@ const ProductDetails = () => {
 
 						{/* Description */}
 						<ComicText
-							text={Product?.description}
-							style={
+									text={Product?.description}
+									style={
+										darkTheme
+											? "text-lg text-white"
+											: "text-lg text-black"
+									}
+								/>
+						{/* <Text className={`${
 								darkTheme
 									? "text-lg text-white"
 									: "text-lg text-black"
-							}
-						/>
+							}`}>{Product?.description}</Text> */}
 
 						<View className="">
 							{/* Price */}
@@ -421,17 +426,20 @@ const ProductDetails = () => {
 								<TouchableOpacity
 									activeOpacity={0.7}
 									onPress={() => {
+										if(Quantity === 1){
+											return
+										}
 										setQuantity(Quantity - 1);
 										console.log(Quantity);
 									}}
 									disabled={Quantity === 1}
 								>
-									<View className="h-[40px] w-[40px] rounded-2xl items-center justify-center bg-accentbg/80">
+									<View className="h-[40px] w-[40px] rounded-2xl items-center justify-center ">
 										<Image
 											source={icons.minus}
 											className="w-5 h-5"
 											tintColor={
-												darkTheme ? "black" : "white"
+												darkTheme ? "white":"black"
 											}
 										/>
 									</View>
@@ -452,12 +460,12 @@ const ProductDetails = () => {
 										console.log(Quantity);
 									}}
 								>
-									<View className="h-[40px] w-[40px] rounded-2xl items-center justify-center bg-accentbg/80">
+									<View className="h-[40px] w-[40px] rounded-2xl items-center justify-center ">
 										<Image
 											source={icons.add}
 											className="w-5 h-5"
 											tintColor={
-												darkTheme ? "black" : "white"
+												darkTheme ? "white":"black"
 											}
 										/>
 									</View>
@@ -598,7 +606,7 @@ const ProductDetails = () => {
 							>
 								{/* <Button style={""} label={"Schedule Delivery"} /> */}
 								<View
-									className="p-2 bg-accentbg self-center rounded-2xl items-center"
+									className={`p-2 self-center rounded-full items-center ${darkTheme?"bg-accentbg":"bg-black"}`}
 									// <View className="p-2 border border-gray-400 self-center rounded-full items-center"
 									style={{
 										width: width * 0.8,
