@@ -3,6 +3,7 @@ import { Redirect, Stack, useRouter } from "expo-router";
 import {
   Dimensions,
   Image,
+  Modal,
   StatusBar,
   Text,
   TouchableOpacity,
@@ -12,14 +13,14 @@ import Animated, {
   ReanimatedLogLevel,
   configureReanimatedLogger,
 } from "react-native-reanimated";
-import { useAuth } from '@clerk/clerk-expo'
+import { useAuth, useUser } from '@clerk/clerk-expo'
 import { useContext, useEffect, useState } from "react";
 import * as WebBrowser from 'expo-web-browser'
 import { UIThemeContext } from "@/context/ThemeContext";
 import * as Location from "expo-location";
 import ApiRoutes from "@/API/routes/ApiRoutes";
 import icons from "@/constants/icons/icons";
-import Modal from "react-native-modal";
+// import Modal from "react-native-modal";
 
 
 configureReanimatedLogger({
@@ -53,6 +54,8 @@ const Layout = () => {
   const { isSignedIn , getToken } = useAuth()
   const router = useRouter();
   const { currentTheme } = useContext(UIThemeContext);
+	const { user } = useUser()
+
 
   // <------------------------STATES------------------------->
 	const [LocationFinal, setLocation] = useState<Location.LocationObject | null>(null);
@@ -86,6 +89,28 @@ const Layout = () => {
 		} 
 	}
 
+	const create_new_database_user = async ( clerk_id: string, full_name?:string, email?: string, phone_number?: string, profile_pic?: string) => {
+		const payload = {
+			clerk_id,
+			full_name,
+			email,
+			phone_number,
+			profile_pic
+		}
+		try {
+			const apiCall = await fetch(ApiRoutes.CreateNewUser.path, {
+				method: ApiRoutes.CreateNewUser.method,
+				headers: {
+					"Content-Type" : "Application/json"
+				},
+				body: JSON.stringify(payload)
+			})
+			const response = await apiCall.json()
+		} catch (error) {
+			// console.log(error)
+		}
+	}
+
   // UPDATE USER LOCATION
 	const updateUserLocation = async () => {
 		const token = await getToken();
@@ -104,7 +129,6 @@ const Layout = () => {
 			});
 
 			const response = await apiCall.json();
-			// setLocationUpdated(true);
 		} catch (error) {
 			// console.log(error);
 		}
@@ -115,11 +139,23 @@ const Layout = () => {
   },[])
 
   if (isSignedIn) {
-  // if (LocationFinal != null && isSignedIn) {
-		router.replace("/(screens)") //for simulator to work
-    // updateUserLocation().then(()=>{
-    //   router.replace("/(screens)")
-    // })
+			if (user) {
+				create_new_database_user(
+					user.id,
+					user.fullName || "",
+					user.emailAddresses[0]?.emailAddress || "",
+					user.phoneNumbers[0]?.phoneNumber || "",
+					user.imageUrl || ""
+				)
+				.then(()=>{
+					if(location != null) {
+						updateUserLocation()
+						.then(()=>{
+							router.replace("/(screens)")
+						})
+					}
+				})
+			}
   }
 
   return (
@@ -145,7 +181,7 @@ const Layout = () => {
         }}
         />
         {/* loading modal */}
-        {/* <Modal isVisible={AuthLoading}>
+        <Modal visible={AuthLoading}>
 					<View className="items-center">
 						<Animated.View className={"animate-spin"}>
 							<Image
@@ -155,11 +191,11 @@ const Layout = () => {
 							/>
 						</Animated.View>
 					</View>
-				</Modal> */}
+				</Modal>
 
         {/* location access prompt modal */}
-        <Modal isVisible={ShowLocationPrompt}>
-						<View className="items-center">
+        <Modal visible={ShowLocationPrompt} backdropColor={"transparent"}>
+						<View className="items-center flex-1 justify-center">
 							<View
 								className={`bg-white w-[80%]  gap-6 max-w-[300px] rounded-3xl p-6`}
 							>

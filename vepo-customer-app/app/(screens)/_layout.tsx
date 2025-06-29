@@ -2,24 +2,20 @@ import ApiRoutes from "@/API/routes/ApiRoutes";
 import TabIcon from "@/components/ui/TabIcon";
 import { UIThemeContext } from "@/context/ThemeContext";
 import Context from "@/context/context";
-import { useAuth, useUser } from "@clerk/clerk-expo";
-import { isLoaded } from "expo-font";
+import { useAuth } from "@clerk/clerk-expo";
 import { Redirect, Stack, usePathname, useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import {
   Dimensions,
   SafeAreaView,
   StatusBar,
-  Text,
   TouchableOpacity,
   View,
-  useColorScheme,
 } from "react-native";
 import {
   ReanimatedLogLevel,
   configureReanimatedLogger,
 } from "react-native-reanimated";
-import { SafeAreaProvider} from "react-native-safe-area-context";
 
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
@@ -35,7 +31,6 @@ const Layout = () => {
   const router = useRouter();
   const path = usePathname();
   const { isSignedIn, getToken } = useAuth()
-  const user = useUser()
   // const {getToken} = useAuth()
   
 	// <--------------------HOOKES------------------->
@@ -67,14 +62,14 @@ const Layout = () => {
   // <------------------VARIABLES------------------>
   const statusbarHieght = StatusBar.currentHeight || 50;
   
-  if (isSignedIn === false) {
-    return <Redirect href={'/(Auth)'} />
-  }
-
+  
   useEffect(() =>{
     fetchCart()
   },[])
-
+  
+  if (isSignedIn === false) {
+    return <Redirect href={'/(Auth)'} />
+  }
   return (
     <>
       <StatusBar

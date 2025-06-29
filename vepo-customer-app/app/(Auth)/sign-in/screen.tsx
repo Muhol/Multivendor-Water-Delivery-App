@@ -14,6 +14,7 @@ import {
 	KeyboardAvoidingView,
 	StatusBar,
 	ImageBackground,
+	Modal,
 } from "react-native";
 import React, {
 	useCallback,
@@ -33,7 +34,6 @@ import { useWarmUpBrowser } from "../_layout";
 import { useSSO } from "@clerk/clerk-expo";
 import * as AuthSession from "expo-auth-session";
 import { ClerkAPIError } from "@clerk/types";
-import Modal from "react-native-modal";
 import { UIThemeContext } from "@/context/ThemeContext";
 import ApiRoutes from "@/API/routes/ApiRoutes";
 import * as Location from "expo-location";
@@ -399,8 +399,8 @@ export default function SignIn() {
 					</ScrollView>
 				</KeyboardAvoidingView>
 
-				<Modal isVisible={AuthLoading}>
-					<View className="items-center">
+				<Modal visible={AuthLoading} backdropColor={"transparent"}>
+					<View className="flex-1 items-center justify-center">
 						<Animated.View className={"animate-spin"}>
 							<Image
 								source={icons.spinner}

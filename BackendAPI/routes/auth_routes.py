@@ -17,7 +17,8 @@ async def create_user(user_data : BaseUser, session: AsyncSession = Depends(get_
   # check if user exists in the database 
   existing_user = await get_existing_user(clerk_id=user_data.clerk_id, db=session)
   if existing_user: 
-    raise HTTPException(status_code=400, detail="User already exists")
+    # raise HTTPException(status_code=400, detail="User already exists")
+    return
 
   existing_user_by_email = await get_existing_user_by_email(email=user_data.email, db=session)
   if existing_user_by_email: 

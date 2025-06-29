@@ -8,6 +8,7 @@ import {
 	ImageBackground,
 	Dimensions,
 	StatusBar,
+	Modal,
 } from "react-native";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import ComicText from "@/components/styled-components/custom-texts/ComicText";
@@ -15,8 +16,8 @@ import InputFeild from "@/components/ui/InputFeild";
 import { Link, useRouter } from "expo-router";
 import images from "@/constants/images/images";
 import { LinearGradient } from "expo-linear-gradient";
-import { isClerkAPIResponseError, useSSO, useSignUp } from "@clerk/clerk-expo";
-import Modal from "react-native-modal";
+import { isClerkAPIResponseError, useSSO, useSignUp, useUser } from "@clerk/clerk-expo";
+// import Modal from "react-native-modal";
 import icons from "@/constants/icons/icons";
 import { OtpInput } from "react-native-otp-entry";
 import Button from "@/components/ui/Button";
@@ -70,27 +71,27 @@ export default function SignUp() {
 	};
 
 	// API CALLS
-	const create_new_database_user = async (clerk_id: string) => {
-		const payload = {
-			clerk_id,
-			full_name: fullname,
-			email: emailAddress,
-			phone_number: phoneNumber,
-			profile_pic: profilePic
-		}
-		try {
-			const apiCall = await fetch(ApiRoutes.CreateNewUser.path, {
-				method: ApiRoutes.CreateNewUser.method,
-				headers: {
-					"Content-Type" : "Application/json"
-				},
-				body: JSON.stringify(payload)
-			})
-			const response = await apiCall.json()
-		} catch (error) {
-			// console.log(error)
-		}
-	}
+	// const create_new_database_user = async ( clerk_id: string, full_name?:string, email?: string, phone_number?: string, profile_pic?: string) => {
+	// 	const payload = {
+	// 		clerk_id,
+	// 		full_name: fullname,
+	// 		email: emailAddress,
+	// 		phone_number: phoneNumber,
+	// 		profile_pic: profilePic
+	// 	}
+	// 	try {
+	// 		const apiCall = await fetch(ApiRoutes.CreateNewUser.path, {
+	// 			method: ApiRoutes.CreateNewUser.method,
+	// 			headers: {
+	// 				"Content-Type" : "Application/json"
+	// 			},
+	// 			body: JSON.stringify(payload)
+	// 		})
+	// 		const response = await apiCall.json()
+	// 	} catch (error) {
+	// 		// console.log(error)
+	// 	}
+	// }
 
 	const onSignUpPress = async () => {
 		setLoading(true);
@@ -145,7 +146,7 @@ export default function SignUp() {
 				if(clerkId === null) {
 					return
 				}
-				create_new_database_user(clerkId)
+				// create_new_database_user(clerkId)
 				await setActive({ session: signUpAttempt.createdSessionId });
 				success = true
 				// router.replace("/(screens)");
@@ -433,8 +434,9 @@ export default function SignUp() {
 						</View>
 					</ScrollView>
 				</KeyboardAvoidingView>
-				<Modal isVisible={OAuthLoading}>
-					<View className="items-center">
+
+				<Modal backdropColor={"transparent"} visible={OAuthLoading}>
+					<View className="flex-1 items-center justify-center">
 						<Animated.View className={"animate-spin"}>
 							<Image
 								source={icons.spinner}
@@ -444,108 +446,114 @@ export default function SignUp() {
 						</Animated.View>
 					</View>
 				</Modal>
-				<Modal isVisible={verification === "pending"}>
-					<View className="bg-white p-[15px] rounded-3xl items-center gap-3 ">
-						<View className="h-[160px] w-[160px] items-center justify-center bg-accentbg rounded-full shadow-xl ">
-							<Image
-								source={icons.verify_email}
-								className="w-[100px] h-[100px]"
-								tintColor={"white"}
-							/>
-						</View>
 
-						<View className="w-full items-center gap-2">
-							<Text className="font-bold text-2xl ">
-								Verify Your Email Address
-							</Text>
-							<ComicText
-								text={
-									"Your Verification Code is sent via your email"
-								}
-							/>
-						</View>
+				<Modal backdropColor={"transparent"} visible={verification === "pending"}>
+					<View className={`flex-1 items-center justify-center`}>
+						<View className="bg-white p-[15px] rounded-3xl items-center gap-3 ">
+							<View className="h-[160px] w-[160px] items-center justify-center bg-accentbg rounded-full shadow-xl ">
+								<Image
+									source={icons.verify_email}
+									className="w-[100px] h-[100px]"
+									tintColor={"white"}
+								/>
+							</View>
 
-						<View className="w-full items-center flex-row gap-1 justify-center">
-							{/* <Text className="font-bold text-2xl ">Verify Your Email Address</Text> */}
-							<ComicText text={"Didn't get the code?"} />
+							<View className="w-full items-center gap-2">
+								<Text className="font-bold text-2xl ">
+									Verify Your Email Address
+								</Text>
+								<ComicText
+									text={
+										"Your Verification Code is sent via your email"
+									}
+								/>
+							</View>
+
+							<View className="w-full items-center flex-row gap-1 justify-center">
+								{/* <Text className="font-bold text-2xl ">Verify Your Email Address</Text> */}
+								<ComicText text={"Didn't get the code?"} />
+								<TouchableOpacity
+									activeOpacity={0.7}
+									onPress={() => {}}
+								>
+									<View className=" h-[30px] px-2 items-center justify-center ">
+										<ComicText
+											text={"Resend"}
+											style={"text-accentbg"}
+										/>
+									</View>
+								</TouchableOpacity>
+							</View>
+
+							<View className=" py-3 px-4  flex-row gap-3  rounded-2xl items-center">
+								<OtpInput
+									numberOfDigits={6}
+									focusColor="#d9a31b"
+									autoFocus={false}
+									hideStick={true}
+									placeholder="******"
+									blurOnFilled={true}
+									disabled={false}
+									type="numeric"
+									secureTextEntry={false}
+									focusStickBlinkingDuration={500}
+									onFocus={() => {}}
+									onBlur={() => {}}
+									onTextChange={(text) => setCode(text)}
+									onFilled={() =>
+										// onVerifyPress()
+										// console.log("the code is", code)
+										{}
+									}
+									textInputProps={{
+										accessibilityLabel: "One-Time Password",
+									}}
+									textProps={{
+										accessibilityRole: "text",
+										accessibilityLabel: "OTP digit",
+										allowFontScaling: false,
+									}}
+								/>
+							</View>
+
 							<TouchableOpacity
 								activeOpacity={0.7}
-								onPress={() => {}}
+								onPress={() => {
+									onVerifyPress();
+								}}
 							>
-								<View className=" h-[30px] px-2 items-center justify-center ">
-									<ComicText
-										text={"Resend"}
-										style={"text-accentbg"}
+								<View>
+									<Button
+										style={"rounded-xl px-[30px]"}
+										label={"Verify"}
+										textStyle="text-xl"
 									/>
 								</View>
 							</TouchableOpacity>
 						</View>
-
-						<View className=" py-3 px-4  flex-row gap-3  rounded-2xl items-center">
-							<OtpInput
-								numberOfDigits={6}
-								focusColor="#d9a31b"
-								autoFocus={false}
-								hideStick={true}
-								placeholder="******"
-								blurOnFilled={true}
-								disabled={false}
-								type="numeric"
-								secureTextEntry={false}
-								focusStickBlinkingDuration={500}
-								onFocus={() => {}}
-								onBlur={() => {}}
-								onTextChange={(text) => setCode(text)}
-								onFilled={() =>
-									// onVerifyPress()
-									// console.log("the code is", code)
-									{}
-								}
-								textInputProps={{
-									accessibilityLabel: "One-Time Password",
-								}}
-								textProps={{
-									accessibilityRole: "text",
-									accessibilityLabel: "OTP digit",
-									allowFontScaling: false,
-								}}
-							/>
-						</View>
-
-						<TouchableOpacity
-							activeOpacity={0.7}
-							onPress={() => {
-								onVerifyPress();
-							}}
-						>
-							<View>
-								<Button
-									style={"rounded-xl px-[30px]"}
-									label={"Verify"}
-									textStyle="text-xl"
-								/>
-							</View>
-						</TouchableOpacity>
 					</View>
 				</Modal>
-				<Modal isVisible={verification === "success"}>
-					<View className="bg-white p-[15px] rounded-3xl items-center gap-3 ">
-						<View className="h-[160px] w-[160px] items-center justify-center bg-green-500 rounded-full shadow-xl ">
-							<Image
-								source={icons.verified}
-								className="w-[100px] h-[100px]"
-								tintColor={"white"}
-							/>
-						</View>
 
-						<View className="w-full items-center gap-2">
-							<Text className="font-bold text-2xl ">
-								Verified
-							</Text>
-							<Text className="text-gray-500 ">
-								Your email address has been verified
-								successfully
-							</Text>
+				<Modal backdropColor={"transparent"} visible={verification === "success"}>
+					<View className={`flex-1 items-center justify-center`}>
+						<View className="bg-white p-[15px] rounded-3xl items-center gap-3 ">
+							<View className="h-[160px] w-[160px] items-center justify-center bg-green-500 rounded-full shadow-xl ">
+								<Image
+									source={icons.verified}
+									className="w-[100px] h-[100px]"
+									tintColor={"white"}
+								/>
+							</View>
+
+							<View className="w-full items-center gap-2">
+								<Text className="font-bold text-2xl ">
+									Verified
+								</Text>
+								<Text className="text-gray-500 ">
+									Your email address has been verified
+									successfully
+								</Text>
+							</View>
 						</View>
 					</View>
 				</Modal>

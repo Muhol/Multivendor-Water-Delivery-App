@@ -68,7 +68,6 @@ export default function Home() {
 	// API CALLS
 	const fetchNearByVendors = async () => {
 		const token = await getToken();
-		console.log(ApiRoutes.NearByVendors.path)
 		try {
 			const apiCall = await fetch(ApiRoutes.NearByVendors.path, {
 				method: ApiRoutes.NearByVendors.method,
