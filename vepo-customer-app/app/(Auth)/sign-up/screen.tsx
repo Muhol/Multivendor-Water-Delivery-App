@@ -89,7 +89,6 @@ export default function SignUp() {
 	// 		})
 	// 		const response = await apiCall.json()
 	// 	} catch (error) {
-	// 		// console.log(error)
 	// 	}
 	// }
 
@@ -502,7 +501,6 @@ export default function SignUp() {
 									onTextChange={(text) => setCode(text)}
 									onFilled={() =>
 										// onVerifyPress()
-										// console.log("the code is", code)
 										{}
 									}
 									textInputProps={{

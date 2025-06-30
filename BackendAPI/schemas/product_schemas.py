@@ -10,6 +10,7 @@ class BaseProduct(BaseModel):
   capacity: float
   price: float 
   discount: float 
+  stock: int
   
   class Config:
       from_attribute = True
@@ -25,7 +26,6 @@ class ProductThin(BaseModel):
 class ProductFull(BaseProduct):
   description: str | None
   unit: str | None 
-  stock: int
   is_available: bool
   
   class Config:

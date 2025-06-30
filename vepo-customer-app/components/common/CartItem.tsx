@@ -40,7 +40,6 @@ const CartItem = ({ data, func }: Props) => {
 			quantity: NewQuantity,
 			id: data?.id,
 		};
-		console.log(payload);
 		try {
 			const apiCall = await fetch(ApiRoutes.ChangeCartItemQuantity.path, {
 				method: ApiRoutes.ChangeCartItemQuantity.method,
@@ -58,7 +57,6 @@ const CartItem = ({ data, func }: Props) => {
 				setQuantityLoading(false)
 			})
 		} catch (error: any) {
-			// console.log(error.message)
       setQuantityLoading(false)
       setChangeQuantity(false)
 		}
@@ -86,7 +84,6 @@ const CartItem = ({ data, func }: Props) => {
 				setDeleteLoading(false)
 			})
 		} catch (error: any) {
-			// console.log(error.message)
       setDeleteLoading(false)
 		}
 	};

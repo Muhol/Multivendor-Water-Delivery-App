@@ -50,22 +50,22 @@ export default function Layout() {
 			/>
 			<GestureHandlerRootView>
 				<ThemeContextProvider>
-						<ClerkProvider publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY} tokenCache={tokenCache}>
-							<View
-								className={` absolute top-0 w-full ${darkTheme?"bg-black":""}`}
-								style={{
-									height: height + statusBarHeight,
+					<ClerkProvider publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY} tokenCache={tokenCache}>
+						<View
+							className={` absolute top-0 w-full ${darkTheme?"bg-black":""}`}
+							style={{
+								height: height + statusBarHeight,
+							}}
+						>
+							<Stack
+								screenOptions={{
+									headerShown: false,
+									animation: "slide_from_right", // Options: 'fade', 'slide_from_right', 'slide_from_left', 'none'
+									statusBarAnimation: "slide"
 								}}
-							>
-								<Stack
-									screenOptions={{
-										headerShown: false,
-										animation: "slide_from_right", // Options: 'fade', 'slide_from_right', 'slide_from_left', 'none'
-										statusBarAnimation: "slide"
-									}}
-								/>
-							</View>
-						</ClerkProvider>
+							/>
+						</View>
+					</ClerkProvider>
 				</ThemeContextProvider>
 			</GestureHandlerRootView>
 		</>

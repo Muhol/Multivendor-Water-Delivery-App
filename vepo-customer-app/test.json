@@ -70,9 +70,20 @@
 			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065901/grykkgxrdfxqd5fxxs65.jpg",
 			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065914/kuedkwmcqtfuvbw3dtw9.jpg",
 			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065937/ebcfn3zlek2mqgls4wk5.jpg",
-			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065959/ldf9kkpnr23ncldxpfu4.jpg"
+			"http://res.cloudinary.com/dn5f0jksu/image/upload/v1749065959/ldf9kkpnr23ncldxpfu4.jpg",
+			"new images ",
+			"https://res.cloudinary.com/dn5f0jksu/image/upload/v1751196927/pumoscycxnpcdawqvjw6.jpg",
+			"https://res.cloudinary.com/dn5f0jksu/image/upload/v1751196965/ckrydko59jcjpwgfa281.jpg",
+			"https://res.cloudinary.com/dn5f0jksu/image/upload/v1751196993/jph6edbeygnpeybc2gda.jpg",
+			"https://res.cloudinary.com/dn5f0jksu/image/upload/v1751197089/tyy6re4fbabmrgrfr3h4.jpg",
+			"https://res.cloudinary.com/dn5f0jksu/image/upload/v1751197120/ahex7trvp8prpuhnurpc.jpg",
+			"https://res.cloudinary.com/dn5f0jksu/image/upload/v1751197145/tsy3ynpathioxw5gulyi.jpg",
+			"https://res.cloudinary.com/dn5f0jksu/image/upload/v1751197167/j7io7ev3xvnjqesnv0x7.jpg",
+			"https://res.cloudinary.com/dn5f0jksu/image/upload/v1751197189/gks6j8oon4lsaw1ozcph.jpg",
+			"https://res.cloudinary.com/dn5f0jksu/image/upload/v1751197238/bjndizyuli3mrxo030zg.jpg",
+			"https://res.cloudinary.com/dn5f0jksu/image/upload/v1751197261/eqdvvigrij2iv3rjmcpv.jpg"
 		],
-		"banner image urls":[
+		"banner image urls": [
 			"https://res.cloudinary.com/dn5f0jksu/image/upload/v1751037362/vfosinwt3jqcjbhucp3a.jpg",
 			"https://res.cloudinary.com/dn5f0jksu/image/upload/v1751037404/sceiqtshafpreiq9fbkz.png",
 			"https://res.cloudinary.com/dn5f0jksu/image/upload/v1751037549/wxcio4tsef4lxh2cnuwc.jpg",
@@ -318,6 +329,109 @@
 		"shift_start": "07:00:00",
 		"verification_status": "pending"
 	},
+
+	"vendor details product": [
+		{
+			"capacity": 2,
+			"discount": 2.93,
+			"id": "a0b5b60f-3e45-4b47-b975-44ed706b8a5b",
+			"image_url": "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749059961/f7gcwn9morh82qxrqez6.jpg",
+			"name": "Rule Water",
+			"price": 6.19,
+			"stock": 12,
+			"vendor_id": "4a0e3645-c24e-4c01-b923-8eb91233974e"
+		},
+		{
+			"capacity": 2.3,
+			"discount": 19.39,
+			"id": "601afb5c-30fa-46de-a01b-4ee0ef0ba050",
+			"image_url": "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060251/veowb8nguwwlboirlgho.jpg",
+			"name": "Water Water",
+			"price": 46.07,
+			"stock": 30,
+			"vendor_id": "4a0e3645-c24e-4c01-b923-8eb91233974e"
+		},
+		{
+			"capacity": 5.9,
+			"discount": 11.49,
+			"id": "ba6435d7-ae69-4e7f-9aa5-b23e7a7c247f",
+			"image_url": "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060169/rctalphfnadgl3dscsfa.jpg",
+			"name": "Group Water",
+			"price": 23.78,
+			"stock": 68,
+			"vendor_id": "4a0e3645-c24e-4c01-b923-8eb91233974e"
+		},
+		{
+			"capacity": 7.6,
+			"discount": 3.88,
+			"id": "350cd316-1cdf-4296-9d0b-05bb808515ff",
+			"image_url": "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749059929/rm2385bzx9z6exlagnnb.jpg",
+			"name": "Little Water",
+			"price": 11.68,
+			"stock": 66,
+			"vendor_id": "4a0e3645-c24e-4c01-b923-8eb91233974e"
+		},
+		{
+			"capacity": 6.5,
+			"discount": 0.35,
+			"id": "2b3ed742-317a-4aff-9b8b-175f1b3ab2a5",
+			"image_url": "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060134/hdpjyjykk5oqi6jd7kdw.jpg",
+			"name": "Grow Water",
+			"price": 34.45,
+			"stock": 50,
+			"vendor_id": "4a0e3645-c24e-4c01-b923-8eb91233974e"
+		},
+		{
+			"capacity": 8.3,
+			"discount": 13.82,
+			"id": "d27e02b9-e692-42dd-9b06-4a7a5fbf3073",
+			"image_url": "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749059743/zjfoz5vc9pw9dzn7jpuh.jpg",
+			"name": "Show Water",
+			"price": 40.49,
+			"stock": 90,
+			"vendor_id": "4a0e3645-c24e-4c01-b923-8eb91233974e"
+		},
+		{
+			"capacity": 9.4,
+			"discount": 7.63,
+			"id": "e335adc4-fcf2-4f40-a9c5-e339b6fa5a27",
+			"image_url": "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060308/vwbrtlmth8wtbllnlmac.jpg",
+			"name": "Force Water",
+			"price": 34.63,
+			"stock": 49,
+			"vendor_id": "4a0e3645-c24e-4c01-b923-8eb91233974e"
+		},
+		{
+			"capacity": 8.9,
+			"discount": 8.39,
+			"id": "0b20b50c-9837-4861-9b2d-8fd474dddd7e",
+			"image_url": "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060048/kwcms2i9ezc33qn3a5il.jpg",
+			"name": "Born Water",
+			"price": 34.4,
+			"stock": 39,
+			"vendor_id": "4a0e3645-c24e-4c01-b923-8eb91233974e"
+		},
+		{
+			"capacity": 0.7,
+			"discount": 7.64,
+			"id": "e2af2ced-7e53-40cd-b53d-33ffd39db319",
+			"image_url": "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749059743/zjfoz5vc9pw9dzn7jpuh.jpg",
+			"name": "Check Water",
+			"price": 14.83,
+			"stock": 63,
+			"vendor_id": "4a0e3645-c24e-4c01-b923-8eb91233974e"
+		},
+		{
+			"capacity": 9.6,
+			"discount": 9.06,
+			"id": "67bffe99-1764-48d9-9db0-6a38074beab5",
+			"image_url": "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060281/vwioru36ccaxa2vwrat9.jpg",
+			"name": "Time Water",
+			"price": 41.04,
+			"stock": 37,
+			"vendor_id": "4a0e3645-c24e-4c01-b923-8eb91233974e"
+		}
+	],
 
 	"product details data ": {
 		"capacity": 2.1,

@@ -92,9 +92,15 @@ const FullHorizontalList = ({ title, data, loaded }: Props) => {
 			</View>
 		);
 	}
+
+	if(loaded && data?.length === 0){
+		return
+	}
+	
 	return (
 		<View className=" py-1">
 			<View className="px-7">
+				<Text className={`font-semibold ${darkTheme?"":""}`}>{title}</Text>
 			</View>
 			<ScrollView
 				contentContainerStyle={{

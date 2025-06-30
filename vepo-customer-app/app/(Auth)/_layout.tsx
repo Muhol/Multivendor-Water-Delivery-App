@@ -84,7 +84,6 @@ const Layout = () => {
 			let location = await Location.getCurrentPositionAsync({});
 			setLocation(location);
 		} catch (error: any) {
-			// console.log(error.message)
 			setShowLocationPrompt(true)
 		} 
 	}
@@ -107,7 +106,6 @@ const Layout = () => {
 			})
 			const response = await apiCall.json()
 		} catch (error) {
-			// console.log(error)
 		}
 	}
 
@@ -130,7 +128,6 @@ const Layout = () => {
 
 			const response = await apiCall.json();
 		} catch (error) {
-			// console.log(error);
 		}
 	};
 

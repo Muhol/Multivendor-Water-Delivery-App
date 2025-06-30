@@ -66,7 +66,6 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 			})
 		} catch (error: any) {
 			setAddToCartLoading(false);
-			// console.log(error.message)
 		}
 	}
 
@@ -166,11 +165,16 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 												{type === "product" ? (
 													<>
 															<Animated.View
+																style={{
+																		position: "absolute",
+																		bottom: 1,
+																		right: 2,
+																	}}
 																className={`h-[30px] w-[30px] ${
 																	darkTheme
 																		? "bg-gray-100/15"
 																		: " bg-gray-200"
-																} rounded `}
+																} rounded-lg `}
 															/>
 													</>
 												) : (
@@ -185,6 +189,10 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 				</ScrollView>
 			</View>
 		);
+	}
+
+	if(loaded && data?.length === 0){
+		return
 	}
 
 	return (
@@ -223,7 +231,7 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 								activeOpacity={0.9}
 							>
 								<View
-									className={`overflow-hidden  rounded shadow justify-end ${
+									className={`overflow-hidden relative rounded shadow justify-end ${
 										darkTheme
 											? "bg-black "
 											: "bg-white border border-gray-100"
@@ -232,6 +240,15 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 										width: w * 0.36,
 									}}
 								>
+									{ type === "product" && item.discount > 0 && (
+											<View
+											className={`absolute w-[65px]  bg-red-500 z-20 top-0 right-0 items-center justify-center rotate-45 translate-x-5 translate-y-2`}
+											>
+												<Text className={`text-white font-semibold`}>
+												{Math.ceil((item.discount / item.price) * 100)}%
+												</Text>
+											</View>
+									)}
 									{/* IMAGE */}
 									<View className=" absolute w-full h-full ">
 										{
@@ -298,10 +315,20 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 											{/* <-----------------<RENDER ACCORDING TO TYPE OF LIST>-----------------> */}
 											{type === "product" ? (
 												// <---------------------<PRODUCT PRICE>--------------------->
-												<View>
-													<Text className="text-accentbg">
-														{item.price - item.discount}
+												<View className={`flex-row gap-2 items-center`}>
+													<Text className={`${darkTheme?"text-white":"text-black"}`}>
+														KSH {Math.round((item.price - item.discount)*100)/100}
 													</Text>
+													{item.discount > 0 && (
+														<Text
+															className={`${darkTheme?"text-gray-400":"text-gray-500"}`}
+															style={{
+																textDecorationLine: "line-through"
+															}}
+														>
+															{item.price}
+														</Text>
+													)}
 												</View>
 											) : (
 												// <------------------------<RATING>------------------------->

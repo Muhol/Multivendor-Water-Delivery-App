@@ -85,7 +85,6 @@ const Profile = () => {
 			result?.assets[0].fileName
 		);
 		setImage(uploadedImageData.url);
-		console.log(uploadedImageData.url)
 	};
 
 	return (

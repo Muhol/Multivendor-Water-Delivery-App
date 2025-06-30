@@ -41,6 +41,8 @@ const VendorDetails = (props: Props) => {
 
 	// <--------------------STATES----------------------->
 	const [VendorDetails, setVendorDetails] = useState<any>();
+	const [Offers, setOffers] = useState<any[]>([])
+	const [Products, setProducts] = useState<any[]>([])
 	const [VendorDetailsLoaded, setVendorDetailsLoaded] = useState(false);
 
 	// <-------------------VARIABLES--------------------->
@@ -63,10 +65,15 @@ const VendorDetails = (props: Props) => {
 			});
 
 			const response = await apiCall.json();
+			const withDiscount = response?.products.filter((product: any) => product.discount > 0);
+			setOffers(withDiscount)
+			const withoutDiscount = response?.products.filter((product: any) => product.discount === 0);
+			setProducts(withoutDiscount)
 			setVendorDetails(response);
 		} catch (error) {
 			Alert.alert("Error", `An Error Occurred ${error}`);
-		} finally {
+			setVendorDetailsLoaded(true);
+		} finally{
 			setVendorDetailsLoaded(true);
 		}
 	};
@@ -426,7 +433,13 @@ const VendorDetails = (props: Props) => {
 										<HorizontalList
 											title={"Our Products"}
 											type={"product"}
-											data={VendorDetails?.products}
+											data={Products}
+											loaded={VendorDetailsLoaded}
+										/>
+										<HorizontalList
+											title={"Deals and Offers"}
+											type={"product"}
+											data={Offers}
 											loaded={VendorDetailsLoaded}
 										/>
 									</View>

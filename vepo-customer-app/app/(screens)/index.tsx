@@ -13,6 +13,7 @@ import {
 	ImageBackground,
 	useColorScheme,
 	Alert,
+	Dimensions,
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import HorizontalList from "@/components/common/HorizontalList";
@@ -28,6 +29,10 @@ import { useAuth } from "@clerk/clerk-expo";
 import * as Location from "expo-location";
 import { UIThemeContext } from "@/context/ThemeContext";
 import CarouselComponent from "@/components/common/Carousel";
+import Animated from "react-native-reanimated";
+import VerticalList from "@/components/common/VerticalList";
+
+const width = Dimensions.get("window").width;
 
 export default function Home() {
 	// <----------------HOOKS---------------->
@@ -43,23 +48,27 @@ export default function Home() {
 		null
 	);
 	// near by vendors for quick order
-	const [NearByVendors, setNearByVendors] = useState<any>();
+	const [NearByVendors, setNearByVendors] = useState<any[]>([]);
 	const [NearbyVendorsLoaded, setNearbyVendorsLoaded] = useState(false);
 	// top rated vendors near you
-	const [TopRatedVendors, setTopRatedVendors] = useState<any>();
+	const [TopRatedVendors, setTopRatedVendors] = useState<any[]>([]);
 	const [TopRatedVendorsLoaded, setTopRatedVendorsLoaded] = useState(false);
 	// refill vendors for near you
-	const [RefillVendors, setRefillVendors] = useState<any>();
+	const [RefillVendors, setRefillVendors] = useState<any[]>([]);
 	const [RefillVendorsLoaded, setRefillVendorsLoaded] = useState(false);
 	// refill vendors for near you
-	const [WholeSellers, setWholeSellers] = useState<any>();
+	const [WholeSellers, setWholeSellers] = useState<any[]>([]);
 	const [WholeSellersLoaded, setWholeSellersLoaded] = useState(false);
 
-	const [General, setGeneral] = useState<any>();
+	const [General, setGeneral] = useState<any[]>([]);
 	const [GeneralLoaded, setGeneralLoaded] = useState(false);
 	// top brands near you
-	const [TopBrands, setTopBrands] = useState<any>()
-	const [TopBrandsloaded, setTopBrandsloaded] = useState(false)
+	const [TopBrands, setTopBrands] = useState<any[]>([]);
+	const [TopBrandsloaded, setTopBrandsloaded] = useState(false);
+
+	// offers
+	const [Offers, setOffers] = useState<any[]>([]);
+	const [OffersLoaded, setOffersLoaded] = useState(false);
 
 	// <---------------VARIABLES---------------->
 	const statusBarHieght = StatusBar.currentHeight;
@@ -80,7 +89,6 @@ export default function Home() {
 			const response = await apiCall.json();
 			setNearByVendors(response);
 		} catch (error: any) {
-			console.log(error.message)
 		} finally {
 			setNearbyVendorsLoaded(true);
 		}
@@ -88,7 +96,7 @@ export default function Home() {
 
 	const fetchTopRatedVendors = async () => {
 		const token = await getToken();
-		
+
 		try {
 			const apiCall = await fetch(ApiRoutes.TopRatedVendors.path, {
 				method: ApiRoutes.TopRatedVendors.method,
@@ -116,29 +124,28 @@ export default function Home() {
 			const apiCall = await fetch(ApiRoutes.VendorsByType.path, {
 				method: ApiRoutes.VendorsByType.method,
 				headers: {
-					"Authorization": `Bearer ${token}`,
+					Authorization: `Bearer ${token}`,
 					"Content-Type": "Application/json",
 				},
 				body: JSON.stringify(payload),
 			});
 			const response = await apiCall.json();
-			if(vendor_type == "refill"){
-				setRefillVendors(response)
-			}else if(vendor_type == "whole_seller"){
-				setWholeSellers(response)
-			}else{
-				setGeneral(response)
+			if (vendor_type == "refill") {
+				setRefillVendors(response);
+			} else if (vendor_type == "whole_seller") {
+				setWholeSellers(response);
+			} else {
+				setGeneral(response);
 			}
 		} catch (error: any) {
 			Alert.alert("Error", "Something went wrong");
-			console.log(error.message)
-		}finally{
-			if(vendor_type == "refill"){
-				setRefillVendorsLoaded(true)
-			}else if(vendor_type == "whole_seller"){
-				setWholeSellersLoaded(true)
-			}else{
-				setGeneralLoaded(true)
+		} finally {
+			if (vendor_type == "refill") {
+				setRefillVendorsLoaded(true);
+			} else if (vendor_type == "whole_seller") {
+				setWholeSellersLoaded(true);
+			} else {
+				setGeneralLoaded(true);
 			}
 		}
 	};
@@ -155,13 +162,32 @@ export default function Home() {
 			});
 
 			const response = await apiCall.json();
-			setTopBrands(response)
+			setTopBrands(response);
 		} catch (error: any) {
-			console.log(error.message)
-		}finally{
-			setTopBrandsloaded(true)
+		} finally {
+			setTopBrandsloaded(true);
 		}
 	};
+
+	const fetchProductsWithOffer = async () => {
+		setOffersLoaded(false)
+		const token = await getToken();
+		try {
+			const apiCall = await fetch(ApiRoutes.ProductsWithOffer.path, {
+				method: ApiRoutes.ProductsWithOffer.method,
+				headers: {
+					"Authorization" : `Bearer ${token}`,
+					"Content-Type" : "application/json"
+				}
+			})
+
+			const response = await apiCall.json()
+			setOffers(response)
+		} catch (error) {
+		}finally{
+			setOffersLoaded(true)
+		}
+	}
 
 	useEffect(() => {
 		async function getCurrentLocation() {
@@ -177,13 +203,14 @@ export default function Home() {
 	}, []);
 
 	useEffect(() => {
-		const readyToExecute =() => {
+		const readyToExecute = async () => {
 			fetchNearByVendors();
 			fetchTopRatedVendors();
 			fetchTopBrands();
 			fetchVendorsByType("refill");
 			fetchVendorsByType("whole_seller");
-			fetchVendorsByType("general");
+			await fetchVendorsByType("general");
+			fetchProductsWithOffer()
 		};
 
 		readyToExecute();
@@ -231,11 +258,7 @@ export default function Home() {
 										}}
 									>
 										<View
-											className={`${
-												darkTheme
-													? "bg-accentbg/15"
-													: ""
-											} rounded-full self-center  w-12 h-12 items-center justify-center`}
+											className={` rounded-full self-center  w-12 h-12 items-center justify-center`}
 										>
 											<Image
 												source={icons.search}
@@ -257,11 +280,7 @@ export default function Home() {
 										}}
 									>
 										<View
-											className={`${""
-												// darkTheme
-												// 	? "bg-accentbg/15"
-												// 	: ""
-											} rounded-full  w-12 h-12 items-center justify-center`}
+											className={`rounded-full  w-12 h-12 items-center justify-center`}
 										>
 											<View className="absolute z-10 -right-2 -top-2 bg-accentbg  items-center justify-center w-7 h-7 rounded-full">
 												<Text className="text-white font-bold">
@@ -315,7 +334,23 @@ export default function Home() {
 								{/* spacial offers */}
 								{/* quick order */}
 								{/* <FullHorizontalList title="Special Offers" /> */}
-								<CarouselComponent/>
+
+								{
+									// NearbyVendorsLoaded && TopBrandsloaded ? (
+									NearbyVendorsLoaded || TopBrandsloaded || RefillVendorsLoaded || TopRatedVendorsLoaded || WholeSellersLoaded ? (
+										<>
+										<View style={{ height: (width * 0.4) + 10 }}>
+											<CarouselComponent />
+										</View>
+										</>
+									):(
+										<View className={`w-full items-center justify-center py-2`}>
+											<Animated.View style={{ height: (width * 0.4) + 10 }} className={`items-center justify-center ${darkTheme?"bg-slate-100/10":"bg-white"} rounded w-[97%] animate-pulse`}>
+												<Image source={ images.logo} className={`w-[150] h-[50px]`} tintColor={darkTheme?"gray":"lightgray"}/>
+											</Animated.View>
+										</View>
+									)
+								}
 
 								{/* cartegories */}
 								<CartegoriesList
@@ -349,21 +384,12 @@ export default function Home() {
 									data={NearByVendors}
 									loaded={NearbyVendorsLoaded}
 								/>
-								
-
 
 								{/* Top Rated  */}
 								<HorizontalList
 									title={"Top Rated Vendors"}
 									data={TopRatedVendors}
 									loaded={TopRatedVendorsLoaded}
-								/>
-								
-								{/* refills */}
-								<HorizontalList
-									title={"Refills"}
-									data={RefillVendors}
-									loaded={RefillVendorsLoaded}
 								/>
 
 								{/* top brands */}
@@ -373,18 +399,22 @@ export default function Home() {
 									loaded={TopBrandsloaded}
 								/>
 
+								{/* offers */}
+								<VerticalList data={Offers} loaded={OffersLoaded} title="Offers and deals"/>
+
+								{/* refills */}
+								<HorizontalList
+									title={"Refills"}
+									data={RefillVendors}
+									loaded={RefillVendorsLoaded}
+								/>
+
 								{/* wholesale */}
 								<HorizontalList
 									title={"Whole Sale Vendors "}
 									data={WholeSellers}
 									loaded={WholeSellersLoaded}
 								/>
-
-								{/* Refills  */}
-								{/* <HorizontalList title={"Refills"} loaded={TopRatedVendorsLoaded}/> */}
-								{/* Offers */}
-								{/* <HorizontalList title={"Offers"} type="product" loaded={TopRatedVendorsLoaded} /> */}
-								{/* <HorizontalList title={"Whole Sale Suppliers"} loaded={TopRatedVendorsLoaded}/> */}
 							</View>
 						</TouchableWithoutFeedback>
 					</ScrollView>

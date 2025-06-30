@@ -37,6 +37,10 @@ const ApiRoutes = {
     path: `${BASE_URL}/get_product`,
     method : "POST"
   },
+  ProductsWithOffer : {
+    path: `${BASE_URL}/products_with_discount`,
+    method : "GET"
+  },
   AddToCart : {
     path: `${BASE_URL}/add_to_cart`,
     method : "POST"

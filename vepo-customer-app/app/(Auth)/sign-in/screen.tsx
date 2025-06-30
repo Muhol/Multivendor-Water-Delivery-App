@@ -79,7 +79,6 @@ export default function SignIn() {
 		setShowLocationPrompt(false);
 		try {
 			let { status } = await Location.requestForegroundPermissionsAsync();
-			// console.log("status", status);
 			if (status !== "granted") {
 				// setErrorMsg("Permission to access Location was denied");
 				setShowLocationPrompt(true);
@@ -88,7 +87,6 @@ export default function SignIn() {
 			let location = await Location.getCurrentPositionAsync({});
 			setLocation(location);
 		} catch (error: any) {
-			// console.log(error.message)
 			setShowLocationPrompt(true)
 		} 
 	}
@@ -113,7 +111,6 @@ export default function SignIn() {
 			const response = await apiCall.json();
 			// setLocationUpdated(true);
 		} catch (error) {
-			// console.log(error);
 		}
 	};
 

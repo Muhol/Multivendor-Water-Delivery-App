@@ -103,7 +103,7 @@ export default function Index() {
 		};
 
 		if (isSignedIn){
-			setIsReady(true) // for it to work on the simulator
+			// setIsReady(true) // for it to work on the simulator
 			StartUpLogic()
 		}
 		if(isSignedIn === false){

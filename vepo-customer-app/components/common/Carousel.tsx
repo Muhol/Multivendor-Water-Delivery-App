@@ -33,31 +33,31 @@ const CarouselComponent = (props: Props) => {
 	};
 
 	const images = [
-    {
-      image: "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751037362/vfosinwt3jqcjbhucp3a.jpg",
-    },
-    {
-      image: "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751037404/sceiqtshafpreiq9fbkz.png",
-    },
-    {
-      image: "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751037549/wxcio4tsef4lxh2cnuwc.jpg",
-    },
-    {
-      image: "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751037581/wjkgfge7pknggi0iq6ji.jpg",
-    },
-    {
-      image: "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751037600/nc74rdkk2r9ge6lld8qa.png",
-    },
-    {
-      image: "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751037632/j9ixiboe0hzzccsd02g6.png",
-    },
-    {
-      image: "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751037680/rxc1o5h8iykypy4el8eh.png",
-    }
+		// {
+		// 	image: "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751037362/vfosinwt3jqcjbhucp3a.jpg",
+		// },
+		{
+			image: "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751037404/sceiqtshafpreiq9fbkz.png",
+		},
+		// {
+		// 	image: "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751037549/wxcio4tsef4lxh2cnuwc.jpg",
+		// },
+		// {
+		// 	image: "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751037581/wjkgfge7pknggi0iq6ji.jpg",
+		// },
+		{
+			image: "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751037600/nc74rdkk2r9ge6lld8qa.png",
+		},
+		{
+			image: "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751037632/j9ixiboe0hzzccsd02g6.png",
+		},
+		{
+			image: "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751037680/rxc1o5h8iykypy4el8eh.png",
+		},
 	];
 
 	return (
-		<View className={`w-full `}>
+		<View className={`w-full `} style={{}}>
 			{/* <Text>Carousel</Text> */}
 			<Carousel
 				ref={ref}
@@ -65,7 +65,7 @@ const CarouselComponent = (props: Props) => {
 				height={width * 0.4}
 				data={images}
 				autoPlay
-				autoPlayInterval={3000}
+				autoPlayInterval={6000}
 				// mode="parallax"
 				// modeConfig={{
 				// 	parallaxScrollingScale: 0.99,
@@ -74,14 +74,15 @@ const CarouselComponent = (props: Props) => {
 				// }}
 				onProgressChange={progress}
 				renderItem={({ index, item }) => (
-					<View
-						style={{
-							flex: 1,
-							// borderWidth: 1,
-							justifyContent: "center",
-						}}
-					>
-						<Image source={{uri: item.image}} className="w-full h-full"/>
+					<View style={{ flex: 1 }}>
+						<Image
+							source={{ uri: item.image }}
+							style={{
+								width: "100%",
+								height: "100%",
+								resizeMode: "cover",
+							}}
+						/>
 					</View>
 				)}
 			/>
@@ -90,7 +91,9 @@ const CarouselComponent = (props: Props) => {
 				data={images}
 				dotStyle={{
 					// backgroundColor: "rgba(0,0,0,0.2)",
-					backgroundColor: darkTheme? "rgba(255,255,255,0.4)":"rgba(0,0,0,0.2)",
+					backgroundColor: darkTheme
+						? "rgba(255,255,255,0.4)"
+						: "rgba(0,0,0,0.2)",
 					borderRadius: 50,
 				}}
 				// containerStyle={{ gap: 5, marginTop: 10 }}
@@ -101,7 +104,7 @@ const CarouselComponent = (props: Props) => {
 					width: 20,
 					height: 5,
 					overflow: "hidden",
-					backgroundColor: darkTheme? "#fff":"#000000",
+					backgroundColor: darkTheme ? "#fff" : "#000000",
 				}}
 				containerStyle={{
 					gap: 5,

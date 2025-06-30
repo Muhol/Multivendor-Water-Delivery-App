@@ -79,7 +79,6 @@ const ProductDetails = () => {
 			id: id,
 			quantity: Quantity,
 		};
-		console.log(payload);
 		try {
 			const apiCall = await fetch(ApiRoutes.AddToCart.path, {
 				method: ApiRoutes.AddToCart.method,
@@ -94,7 +93,6 @@ const ProductDetails = () => {
 				setLoading(false);
 			})
 		} catch (error: any) {
-			console.log(error.message);
 			setLoading(false);
 		}
 	};
@@ -430,7 +428,6 @@ const ProductDetails = () => {
 											return
 										}
 										setQuantity(Quantity - 1);
-										console.log(Quantity);
 									}}
 									disabled={Quantity === 1}
 								>
@@ -457,7 +454,6 @@ const ProductDetails = () => {
 									activeOpacity={0.7}
 									onPress={() => {
 										setQuantity(Quantity + 1);
-										console.log(Quantity);
 									}}
 								>
 									<View className="h-[40px] w-[40px] rounded-2xl items-center justify-center ">
