@@ -85,6 +85,7 @@ const Layout = () => {
 			setLocation(location);
 		} catch (error: any) {
 			setShowLocationPrompt(true)
+			console.log(error.message)
 		} 
 	}
 

@@ -5,6 +5,14 @@ const ApiRoutes = {
     path: `${BASE_URL}/create_user`,
     method : "POST"
   },
+  GetUserDetails : {
+    path: `${BASE_URL}/get_user_details`,
+    method : "GET"
+  },
+  UpdateProfilePic : {
+    path: `${BASE_URL}/update_profile_pic`,
+    method : "POST"
+  },
   UpdateUserLocation : {
     path: `${BASE_URL}/update_user_location`,
     method : "POST"

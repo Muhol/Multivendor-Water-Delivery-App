@@ -100,7 +100,7 @@ const FullHorizontalList = ({ title, data, loaded }: Props) => {
 	return (
 		<View className=" py-1">
 			<View className="px-7">
-				<Text className={`font-semibold ${darkTheme?"":""}`}>{title}</Text>
+				<Text className={`font-semibold text-xl ${darkTheme?"text-white":"text-black"}`}>{title}</Text>
 			</View>
 			<ScrollView
 				contentContainerStyle={{

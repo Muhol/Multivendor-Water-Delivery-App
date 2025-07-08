@@ -1,4 +1,8 @@
-from fastapi import APIRouter, Depends
+from dotenv import load_dotenv
+
+load_dotenv()
+
+from fastapi import APIRouter, Depends, Request
 from dependencies.dependencies import get_db
 from utils.verify_user_token import get_current_user
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -7,6 +11,12 @@ from services.cart_services import add_to_cart_service, fetch_cart, fetch_detail
 from schemas.common_schemas import RequestBodyIdAndQuantity, RequestBodyIdAndType, RequestBodyId
 from models.cart_model import Cart
 from schemas.cart_schemas import CartDetailed
+from services.payment_service import initiate_stk_push
+
+# payment imports
+from fastapi.responses import JSONResponse
+import logging
+from pydantic import BaseModel
 
 
 router = APIRouter()
@@ -69,3 +79,43 @@ async def delete_cart_item(request_body: RequestBodyId, db: AsyncSession = Depen
   return {
     "message": "item deleted successfully"
   }
+
+# payment test
+class STKRequest(BaseModel):
+    phone: str  # Format: 2547XXXXXXXX
+    amount: int
+    
+@router.post("/mpesa_payment")
+async def payment_request(request: STKRequest):
+    # response = await initiate_stk_push(request.phone, request.amount)
+    response = await initiate_stk_push()
+    return response
+
+@router.post("/mpesa/callback")
+async def mpesa_callback(request: Request):
+    data = await request.json()
+    try:
+        callback = data["Body"]["stkCallback"]
+        result_code = callback["ResultCode"]
+        result_desc = callback["ResultDesc"]
+        checkout_request_id = callback["CheckoutRequestID"]
+
+        if result_code == 0:
+            metadata = callback["CallbackMetadata"]["Item"]
+            transaction = {
+                "amount": next(item["Value"] for item in metadata if item["Name"] == "Amount"),
+                "receipt": next(item["Value"] for item in metadata if item["Name"] == "MpesaReceiptNumber"),
+                "phone": next(item["Value"] for item in metadata if item["Name"] == "PhoneNumber"),
+                "timestamp": next(item["Value"] for item in metadata if item["Name"] == "TransactionDate"),
+            }
+
+            # 🧠 Save to DB or update order status
+            print("✅ M-PESA Payment Successful:", transaction)
+        else:
+            print(f"❌ M-PESA Payment Failed: {result_desc} (Code: {result_code})")
+
+    except Exception as e:
+        logging.error(f"Error processing M-PESA callback: {e}")
+        return JSONResponse(status_code=400, content={"message" : "Invalid payload"})
+
+    return {"message": "Callback received"}

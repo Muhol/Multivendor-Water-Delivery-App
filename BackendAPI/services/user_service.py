@@ -50,3 +50,12 @@ async def get_user(session: AsyncSession, clerk_id : str) -> BasicUser:
   
   return user
 
+async def update_user_profile_pic(session: AsyncSession, profile_pic: str, clerk_id: str):
+  query = select(User).where(User.clerk_id == clerk_id)
+  result = await session.execute(query)
+  user = result.unique().scalar_one_or_none()
+  if not user:
+    raise HTTPException(status_code=404, detail="User Not Found")
+  user.profile_pic = profile_pic
+  await session.commit()
+  

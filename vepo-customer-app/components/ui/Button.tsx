@@ -18,7 +18,7 @@ const Button = ({ style, label, type, textStyle, iconleft, iconright, iconcolor 
 
   return (
       <View
-        className={`p-[10px] flex-row items-center justify-center shadow-xl gap-3 ${type==="outline" ? "border border-gray-400 bg-white" : "bg-accentbg"}  ${style}`}
+        className={`p-[10px] flex-row items-center justify-center shadow-xl gap-3 ${type==="outline" ? "border border-gray-400 " : "bg-accentbg"}  ${style}`}
       >
         {
           iconleft && (

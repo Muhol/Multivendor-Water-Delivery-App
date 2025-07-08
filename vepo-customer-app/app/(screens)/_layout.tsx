@@ -31,10 +31,10 @@ const Layout = () => {
   const router = useRouter();
   const path = usePathname();
   const { isSignedIn, getToken } = useAuth()
-  // const {getToken} = useAuth()
   
-	// <--------------------HOOKES------------------->
+	// <--------------------STATES------------------->
   const [Cart, setCart] = useState<any>()
+  const [User, setUser] = useState<any>()
   
 	// <------------------FUNCTIONS------------------>
   const active = (pathname: string) => {
@@ -58,6 +58,23 @@ const Layout = () => {
     } catch (error: any) {
     }
   }
+  const fetchUserDetails = async ()=>{
+    const token = await getToken()
+    try {
+      const apiCall = await fetch(ApiRoutes.GetUserDetails.path, {
+        method: ApiRoutes.GetUserDetails.method,
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "Application/json"
+        }
+      })
+
+      const response = await apiCall.json()
+      setUser(response)
+      // console.log(response)
+    } catch (error: any) {
+    }
+  }
   
   // <------------------VARIABLES------------------>
   const statusbarHieght = StatusBar.currentHeight || 50;
@@ -65,6 +82,7 @@ const Layout = () => {
   
   useEffect(() =>{
     fetchCart()
+    fetchUserDetails()
   },[])
   
   if (isSignedIn === false) {
@@ -87,7 +105,7 @@ const Layout = () => {
           paddingBottom: 55
         }}
       >
-				<Context.Provider value={{ fetchCart }}>
+				<Context.Provider value={{ fetchCart, fetchUserDetails, User }}>
           <Stack
             screenOptions={{
               headerShown: false,
@@ -122,16 +140,6 @@ const Layout = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              router.push("/(screens)/Orders");
-            }}
-            className="flex-1"
-          >
-            <View className="h-full flex-1 items-center justify-around ">
-              <TabIcon name={"order"} active={active("/Orders")} />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
               router.push("/(screens)/Cart");
             }}
             className="flex-1"
@@ -143,6 +151,16 @@ const Layout = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
+              router.push("/(screens)/Orders");
+            }}
+            className="flex-1"
+          >
+            <View className="h-full flex-1 items-center justify-around ">
+              <TabIcon name={"order"} active={active("/Orders")} />
+            </View>
+          </TouchableOpacity>
+          {/* <TouchableOpacity
+            onPress={() => {
               router.push("/(screens)/Profile");
             }}
             className="flex-1"
@@ -150,7 +168,7 @@ const Layout = () => {
             <View className="h-full flex-1 items-center justify-around ">
               <TabIcon name={"profile"} active={active("/Profile")} />
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </SafeAreaView>
     </>

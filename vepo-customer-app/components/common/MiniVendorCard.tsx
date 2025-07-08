@@ -1,10 +1,12 @@
-import { View, Text, Dimensions, TouchableOpacity } from "react-native";
-import React from "react";
+import { View, Text, Dimensions, TouchableOpacity, Image } from "react-native";
+import React, { useContext } from "react";
 import ComicText from "../styled-components/custom-texts/ComicText";
 import PercentageBar from "../ui/PercentageBar";
 import Button from "../ui/Button";
 import { useRouter } from "expo-router";
 import Animated from "react-native-reanimated";
+import { UIThemeContext } from "@/context/ThemeContext";
+import icons from "@/constants/icons/icons";
 
 type Vendor = {
 	id: string;
@@ -29,13 +31,15 @@ const { width } = Dimensions.get("window");
 type Props = {
 	data: any;
 	FullMap: boolean;
+	// partialMap: () => void
 };
 
 const MiniVendorCard = ({ data, FullMap }: Props) => {
 	// <--------------------HOOKS-------------------->
 	const router = useRouter();
-	// DUMMY DATA
-	const rating = 5;
+	const { currentTheme } = useContext(UIThemeContext);
+	const darkTheme = currentTheme === "dark";
+	// console.log(data)
 
 
   if(data === undefined){
@@ -43,156 +47,61 @@ const MiniVendorCard = ({ data, FullMap }: Props) => {
   }
 	return (
 		<View
-			className={`bg-white gap-2 p-4 mx-3 rounded-3xl  ${
-				!FullMap
-					? "shadow-xl border border-gray-50 shadow-black/40"
-					: ""
-			}`}
+			className={`${darkTheme?"bg-black":"bg-white"} w-full gap-2 p-4 items-center rounded-3xl shadow-xl border-gray-50 shadow-black/40`}
+			// className={`${darkTheme?"bg-black":"bg-white"} gap-2 p-4 w-full rounded-3xl shadow-xl border-gray-50 shadow-black/40`}
 		>
-			{/* <------------------NAME-------------------> */}
-			<View className="gap-1 flex-row items-end">
-				<Text className="font-bold">Vendor Name: </Text>
-				<ComicText text={` ${data?.owners_name}`} style="" />
-			</View>
+			<View className={`flex-row gap-4 items-start`}>
+        {/* profilpic */}
+        <View className={`w-[60px] h-[60px] rounded-full overflow-hidden relative`}>
+          <Image source={icons.profile2} className="w-full h-full" tintColor={darkTheme?"gray":"dimgray"}/>
+          <Image source={{uri: data.image}} className="w-full h-full rounded-full absolute" />
+        </View>
+        {/* details */}
+        <View className={`gap-1 flex-1 `}>
+          <Text className={`font-bold text-lg ${darkTheme?"text-white":"text-black"}`}>{data.title}</Text>
 
-			{/* <-----------------RATING------------------> */}
-			<View className="flex-row items-center gap-3">
-				<Text className="font-bold">Rating:</Text>
-				<View className="flex-row gap-1">
-					{data != undefined &&
-						[...Array(Math.round(data?.rating))].map((i, index) => {
-							return <Text key={index}>⭐</Text>;
-						})}
-				</View>
-				<View className="pl-3 flex-row gap-3 text-gray-500 items-end">
-					<Text>/</Text>
-					<ComicText text={`${data?.rating}`} style="text-gray-500" />
-				</View>
-			</View>
+          {/* <------------------NAME-------------------> */}
+          <View className="gap-1 flex-row items-end">
+            <Text className={`font-bold ${darkTheme? "text-white":"text-black"}`}>Vendor Name: </Text>
+            <ComicText text={` ${data?.owners_name}`} style={`${darkTheme?"text-white":"text-black"}`} />
+          </View>
 
-			{/* <------------FULL RATING STATS------------> */}
-			{!FullMap && (
-				<View>
-					{/* one star */}
-					<View
-						className="flex-row gap-3 items-center "
-						style={{
-							maxWidth: width * 0.8,
-						}}
-					>
-						<View className=" py-1">
-							<Text className=" text-lg font-bold">
-								1 star :{"  "}
-							</Text>
-						</View>
-						<View className="flex-1 h-3 justify-end ">
-							<PercentageBar
-								percentage={3}
-								width={width * 0.65}
-							/>
-						</View>
-					</View>
-					{/* two star */}
+          {/* <-----------------RATING------------------> */}
+          <View className="flex-row items-center gap-3">
+            <Text className={`font-bold ${darkTheme? "text-white":"text-black"}`}>Rating:</Text>
+            <View className="flex-row gap-1">
+              {data != undefined &&
+                [...Array(Math.round(data?.rating))].map((i, index) => {
+                  return <Text key={index}>⭐</Text>;
+                })}
+            </View>
+            <View className="pl-3 flex-row gap-3 text-gray-500 items-end">
+              <Text>/</Text>
+              <ComicText text={`${data?.rating}`} style={`${darkTheme?"text-gray-400":"text-gray-500"}`} />
+            </View>
+          </View>
 
-					<View
-						className="flex-row gap-3 items-center "
-						style={{
-							maxWidth: width * 0.8,
-						}}
-					>
-						<View className=" py-1">
-							<Text className=" text-lg font-bold">
-								2 stars :
-							</Text>
-						</View>
-						<View className="flex-1 h-3 justify-end ">
-							<PercentageBar
-								percentage={20}
-								width={width * 0.65}
-							/>
-						</View>
-					</View>
-					{/* three star */}
-
-					<View
-						className="flex-row gap-3 items-center "
-						style={{
-							maxWidth: width * 0.8,
-						}}
-					>
-						<View className=" py-1">
-							<Text className=" text-lg font-bold">
-								3 stars :
-							</Text>
-						</View>
-						<View className="flex-1 h-3 justify-end ">
-							<PercentageBar
-								percentage={14}
-								width={width * 0.65}
-							/>
-						</View>
-					</View>
-					{/* four star */}
-
-					<View
-						className="flex-row gap-3 items-center "
-						style={{
-							maxWidth: width * 0.8,
-						}}
-					>
-						<View className=" py-1">
-							<Text className=" text-lg font-bold">
-								4 stars :
-							</Text>
-						</View>
-						<View className="flex-1 h-3 justify-end ">
-							<PercentageBar
-								percentage={31}
-								width={width * 0.65}
-							/>
-						</View>
-					</View>
-					{/* five star */}
-
-					<View
-						className="flex-row gap-3 items-center "
-						style={{
-							maxWidth: width * 0.8,
-						}}
-					>
-						<View className=" py-1">
-							<Text className=" text-lg font-bold">
-								5 stars :
-							</Text>
-						</View>
-						<View className="flex-1 h-3 justify-end ">
-							<PercentageBar
-								percentage={48}
-								width={width * 0.65}
-							/>
-						</View>
-					</View>
-				</View>
-			)}
-			{/* <--------------EST DISTANCE---------------> */}
-			<View className=" flex-row gap-2 items-end">
-				<Text className="font-bold">Delivery Time:</Text>
-				<ComicText text={`${"45min"}`} />
-			</View>
-
-			{/* <--------------EST DELIVERY---------------> */}
+          {/* <------------FULL RATING STATS------------> */}
+          
+          {/* <--------------EST DISTANCE---------------> */}
+          {/* <View className=" flex-row gap-2 items-end">
+            <Text className={`font-bold ${darkTheme? "text-white":"text-black"}`}>Delivery Time:</Text>
+            <ComicText text={`${"45min"}`} style={`${darkTheme?"text-white":"text-black"}`}  />
+          </View> */}
+        </View>
+      </View>
 
 			{/* <-----------VIEW VENDOR BUTTON------------> */}
 			<TouchableOpacity
 				activeOpacity={0.7}
 				onPress={() => {
-					router.push(`/(screens)/vendor/[id:1]`);
+					router.push(`/(screens)/vendor/${data.id}`);
 				}}
 			>
 				<Button
-					style={"w-[200px] self-end rounded"}
-					label={"View Vendor Shop"}
-					textStyle={""}
+					style={"w-[200px] self-end rounded-full"}
+					label={"View Products"}
+					textStyle={`${darkTheme?"text-black":"text-white"}`}
 				/>
 			</TouchableOpacity>
 		</View>
@@ -203,7 +112,109 @@ export default MiniVendorCard;
 
 
 
+// {!FullMap && (
+// 	<View>
+// 		{/* one star */}
+// 		<View
+// 			className="flex-row gap-3 items-center "
+// 			style={{
+// 				maxWidth: width * 0.8,
+// 			}}
+// 		>
+// 			<View className=" py-1">
+// 				<Text className={`font-bold text-lg ${darkTheme? "text-white":"text-black"}`}>
+// 					1 star :{"  "}
+// 				</Text>
+// 			</View>
+// 			<View className="flex-1 h-3 justify-end ">
+// 				<PercentageBar
+// 					percentage={3}
+// 					width={width * 0.65}
+// 				/>
+// 			</View>
+// 		</View>
+// 		{/* two star */}
 
+// 		<View
+// 			className="flex-row gap-3 items-center "
+// 			style={{
+// 				maxWidth: width * 0.8,
+// 			}}
+// 		>
+// 			<View className=" py-1">
+// 				<Text className={`font-bold text-lg ${darkTheme? "text-white":"text-black"}`}>
+// 					2 stars :
+// 				</Text>
+// 			</View>
+// 			<View className="flex-1 h-3 justify-end ">
+// 				<PercentageBar
+// 					percentage={20}
+// 					width={width * 0.65}
+// 				/>
+// 			</View>
+// 		</View>
+// 		{/* three star */}
+
+// 		<View
+// 			className="flex-row gap-3 items-center "
+// 			style={{
+// 				maxWidth: width * 0.8,
+// 			}}
+// 		>
+// 			<View className=" py-1">
+// 				<Text className={`font-bold text-lg ${darkTheme? "text-white":"text-black"}`}>
+// 					3 stars :
+// 				</Text>
+// 			</View>
+// 			<View className="flex-1 h-3 justify-end ">
+// 				<PercentageBar
+// 					percentage={14}
+// 					width={width * 0.65}
+// 				/>
+// 			</View>
+// 		</View>
+// 		{/* four star */}
+
+// 		<View
+// 			className="flex-row gap-3 items-center "
+// 			style={{
+// 				maxWidth: width * 0.8,
+// 			}}
+// 		>
+// 			<View className=" py-1">
+// 				<Text className={`font-bold text-lg ${darkTheme? "text-white":"text-black"}`}>
+// 					4 stars :
+// 				</Text>
+// 			</View>
+// 			<View className="flex-1 h-3 justify-end ">
+// 				<PercentageBar
+// 					percentage={31}
+// 					width={width * 0.65}
+// 				/>
+// 			</View>
+// 		</View>
+// 		{/* five star */}
+
+// 		<View
+// 			className="flex-row gap-3 items-center "
+// 			style={{
+// 				maxWidth: width * 0.8,
+// 			}}
+// 		>
+// 			<View className=" py-1">
+// 				<Text className={`font-bold text-lg ${darkTheme? "text-white":"text-black"}`}>
+// 					5 stars :
+// 				</Text>
+// 			</View>
+// 			<View className="flex-1 h-3 justify-end ">
+// 				<PercentageBar
+// 					percentage={48}
+// 					width={width * 0.65}
+// 				/>
+// 			</View>
+// 		</View>
+// 	</View>
+// )}
 
 
 

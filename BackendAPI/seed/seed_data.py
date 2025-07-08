@@ -36,34 +36,34 @@ productImages = [
     "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060380/tci21dklgnygb1uaocju.jpg"
 ]
 
+vendorProfilePics = [
     # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060591/to8zdm6xzme2kuopyk0n.jpg",
     # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060655/sxyi3eziuw2t8ad14fe8.jpg",
-    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060790/xqkh4vybgal1vvvjw0fm.jpg",
-    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060863/n2e5r93g9gu5bkdqsfvu.jpg",
-    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749063268/bfgtxoob6jttgrgjg9rm.jpg",
-    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749063325/iki24xxin5pbkn45u5on.jpg",
+    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060790/xqkh4vybgal1vvvjw0fm.jpg",
+    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060863/n2e5r93g9gu5bkdqsfvu.jpg",
+    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749063268/bfgtxoob6jttgrgjg9rm.jpg",
+    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749063325/iki24xxin5pbkn45u5on.jpg",
     # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065871/l11hxxozoda2hsqxvwhv.jpg",
     # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065886/ausfsrvkomemfvty36pv.jpg",
     # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065914/kuedkwmcqtfuvbw3dtw9.jpg",
     # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065937/ebcfn3zlek2mqgls4wk5.jpg",
     # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065959/ldf9kkpnr23ncldxpfu4.jpg",
-vendorProfilePics = [
-    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060801/kzhsjnh5e4ka30jr0qtv.jpg",
-    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065804/inei0y4cgkfjum6qy0hk.jpg",
-    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065832/dhocfdjhnxrrsukbqw0k.jpg",
-    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065850/htookfvdhxsgmm8zp5d0.jpg",
+    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060801/kzhsjnh5e4ka30jr0qtv.jpg",
+    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065804/inei0y4cgkfjum6qy0hk.jpg",
+    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065832/dhocfdjhnxrrsukbqw0k.jpg",
+    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065850/htookfvdhxsgmm8zp5d0.jpg",
     "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065901/grykkgxrdfxqd5fxxs65.jpg",
-    # "new",
+
     "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751196927/pumoscycxnpcdawqvjw6.jpg",
     "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751196965/ckrydko59jcjpwgfa281.jpg",
     "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751196993/jph6edbeygnpeybc2gda.jpg",
     "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751197089/tyy6re4fbabmrgrfr3h4.jpg",
     "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751197120/ahex7trvp8prpuhnurpc.jpg",
-    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751197145/tsy3ynpathioxw5gulyi.jpg",
-    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751197167/j7io7ev3xvnjqesnv0x7.jpg",
-    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751197189/gks6j8oon4lsaw1ozcph.jpg",
-    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751197238/bjndizyuli3mrxo030zg.jpg",
-    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751197261/eqdvvigrij2iv3rjmcpv.jpg"
+    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751197145/tsy3ynpathioxw5gulyi.jpg",
+    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751197167/j7io7ev3xvnjqesnv0x7.jpg",
+    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751197189/gks6j8oon4lsaw1ozcph.jpg",
+    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751197238/bjndizyuli3mrxo030zg.jpg",
+    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1751197261/eqdvvigrij2iv3rjmcpv.jpg"
 ]
 
 async def seed_deliverers():
@@ -97,21 +97,22 @@ async def seed_deliverers():
         await session.commit()
         print("✅ Deliverers seeded.")
 
+
+vendor_types = ["refill", "retail", "whole_seller", "general"]
+
 async def seed_vendors_and_products():
     async with AsyncSessionLocal() as session:
         for _ in range(15):
             lat = random.uniform(-1.99, 1.30)
             lng = random.uniform(33.65, 40.00)
+
             vendor = Vendor(
                 owners_name=faker.name(),
-                vendor_type="whole_seller",
-                # vendor_type="refill",
-                # vendor_type="retail",
-                # vendor_type="general",
+                vendor_type=random.choice(vendor_types),  # ✅ Random vendor type
                 business_name=faker.company(),
                 email=faker.unique.email(),
                 phone_number=faker.phone_number(),
-                profile_pic=random.choice(vendorProfilePics),  # ✅ Use random profile image
+                profile_pic=random.choice(vendorProfilePics),
                 business_license=faker.file_path(),
                 location_address=faker.address(),
                 lat=lat,
@@ -127,12 +128,12 @@ async def seed_vendors_and_products():
                 preferred_payment_method=["cash", "mpesa"]
             )
             session.add(vendor)
-            await session.flush()  # ensures vendor.id is available
+            await session.flush()
 
-            for _ in range(10):
+            # ✅ Add at least 8 products without discount
+            for i in range(14):
                 price = round(random.uniform(1.0, 50.0), 2)
-                max_discount = price * 0.6
-                discount = round(random.uniform(0.0, max_discount), 2)
+                discount = 0.0 if i < 8 else round(random.uniform(0.01, price * 0.6), 2)
 
                 product = Product(
                     vendor_id=vendor.id,

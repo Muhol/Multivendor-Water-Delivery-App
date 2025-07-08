@@ -235,9 +235,11 @@ const VendorDetails = (props: Props) => {
 												<TouchableOpacity
 													activeOpacity={0.7}
 													onPress={() => {
-														router.push(
-															"/(screens)/Maps"
-														);
+														const id = `lat=${VendorDetails?.lat}%lng=${VendorDetails?.lng}%id=${VendorDetails.id}`
+														router.push({
+															pathname: "/(screens)/Map/[id]",
+															params: {id}
+														});
 													}}
 												>
 													<View className=" flex-row items-start gap-1 w-full">

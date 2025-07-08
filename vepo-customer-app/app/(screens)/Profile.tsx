@@ -7,6 +7,7 @@ import {
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	Dimensions,
+	Modal,
 } from "react-native";
 import React, { useContext, useRef, useState } from "react";
 import ComicText from "@/components/styled-components/custom-texts/ComicText";
@@ -19,12 +20,15 @@ import BottomSheet, {
 	BottomSheetScrollView,
 	BottomSheetView,
 } from "@gorhom/bottom-sheet";
-import { useClerk, useUser } from "@clerk/clerk-expo";
+import { useAuth, useClerk, useUser } from "@clerk/clerk-expo";
 import * as Linking from "expo-linking";
 import { UIThemeContext } from "@/context/ThemeContext";
 import BackButtonMinimal from "@/components/ui/BackButtonMinimal";
 import * as ImagePicker from "expo-image-picker";
 import CloudinaryUpload from "@/Helpers/imageUpload";
+import ApiRoutes from "@/API/routes/ApiRoutes";
+import Animated from "react-native-reanimated";
+import Context from "@/context/context";
 
 const { width, height } = Dimensions.get("window");
 
@@ -34,13 +38,16 @@ const Profile = () => {
 	const { signOut } = useClerk();
 	const user = useUser();
 	const { setTheme } = useContext(UIThemeContext);
+	const { User, fetchUserDetails } = useContext(Context);
+	const { getToken } = useAuth()
+	const { currentTheme } = useContext(UIThemeContext);
+	const darkTheme = currentTheme === "dark";
 
 	// <------------------------------STATES------------------------------>
 	const [bottomSheetData, setBottomSheetData] = useState(""); //[ favourites , privacy , settings, help ]
 	const [displayTopBar, setDisplayTopBar] = useState(true); //[ favourites , privacy , settings, help ]
 	const [image, setImage] = useState<string | undefined>();
-	const { currentTheme } = useContext(UIThemeContext);
-	const darkTheme = currentTheme === "dark";
+	const [ChangeProfileLoading, setChangeProfileLoading] = useState(false)
 
 	// <------------------------------VARIABLES------------------------------>
 
@@ -69,12 +76,37 @@ const Profile = () => {
 		}
 	};
 
+	const ChangeProfileImage = async (profile_pic : string) => {
+		setChangeProfileLoading(true)
+		const token = await getToken()
+		const payload = {
+			profile_pic: profile_pic
+		}
+		try {
+			const apiCall = await fetch(ApiRoutes.UpdateProfilePic.path, {
+				method: ApiRoutes.UpdateProfilePic.method,
+				headers: {
+					"Authorization" : `Bearer ${token}`,
+					"Content-Type" : "application/json"
+				},
+				body: JSON.stringify(payload)
+			})
+			const response = await apiCall.json()
+			console.log(response)
+			fetchUserDetails().then(() => {
+				setChangeProfileLoading(false)
+			})
+		} catch (error: any) {
+			console.log(error.message)
+			setChangeProfileLoading(false)
+		}
+	}
+
 	// picking file from device storage
 	const pickFile = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ["images", "videos"],
 			allowsEditing: true,
-			// aspect: [4, 3],
 			quality: 1,
 		});
 		if (result.canceled) {
@@ -84,6 +116,7 @@ const Profile = () => {
 			result?.assets[0].uri,
 			result?.assets[0].fileName
 		);
+		ChangeProfileImage(uploadedImageData.url)
 		setImage(uploadedImageData.url);
 	};
 
@@ -162,10 +195,14 @@ const Profile = () => {
 						<View className="w-full items-center pt-3 pb-5 gap-2">
 							{/* PROFILE_PIC */}
 							<View className="h-[150px] w-[150px]">
-								<Image
-									source={image || images.profile_placeholder}
+								{/* <Image
+									source={images.profile_placeholder}
 									className={`w-full h-full rounded-full `}
 									tintColor={darkTheme ? "dimgray" : "gray"}
+								/> */}
+								<Image
+									source={{uri :  User?.profile_pic || image}}
+									className={`w-full h-full rounded-full `}
 								/>
 							</View>
 							{/* USERNAME , EMAIL */}
@@ -522,7 +559,7 @@ const Profile = () => {
 									{/* PROFILE_PIC */}
 									<View className="h-[170px] w-[170px] ">
 										<Image
-											source={{uri: user.user?.hasImage? user.user.imageUrl : image }} 
+											source={{uri: User?.profile_pic || image }} 
 											className="w-full h-full z-0 rounded-full"
 										/>
 										{/* <------EDIT BUTTON------> */}
@@ -836,7 +873,24 @@ const Profile = () => {
 					</BottomSheetView>
 				</BottomSheet>
 			</GestureHandlerRootView>
-			{/* </ImageBackground> */}
+			{/* loading modals */}
+			<Modal visible={ChangeProfileLoading} backdropColor={"transparent"}>
+				<View className={`items-center justify-end w-full h-full`}>
+					<View
+						className={`w-full h-[100px] ${darkTheme?"bg-black":"bg-white"} rounded items-center justify-center `}
+					>
+							<View className={`flex-row items-center gap-3`}>
+								<Animated.View className={`animate-spin`}>
+									<Image
+										source={icons.spinner}
+										className={`w-10 h-10`}
+									/>
+								</Animated.View>
+								<Text className={`${darkTheme?"text-white":"text-black"}`}>Loading</Text>
+							</View>
+					</View>
+				</View>
+			</Modal>
 		</>
 	);
 };

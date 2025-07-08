@@ -30,9 +30,10 @@ const { width } = Dimensions.get("window");
 const ProductDetails = () => {
 	// <---------------HOOKES--------------->
 	const router = useRouter();
-	const { currentTheme } = useContext(UIThemeContext);
 	const { fetchCart } = useContext(Context);
 	const { getToken } = useAuth();
+	const { currentTheme } = useContext(UIThemeContext);
+	const darkTheme = currentTheme === "dark";
 
 	// <---------------STATES--------------->
 	const [Product, setProduct] = useState<any>();
@@ -43,7 +44,6 @@ const ProductDetails = () => {
 	const [CartSuccess, setCartSuccess] = useState<boolean>(false);
 
 	// <---------------VARAIBLES--------------->
-	const darkTheme = currentTheme === "dark";
 	const statusBarHieght = StatusBar.currentHeight || 60;
 
 	const path = usePathname();
@@ -330,19 +330,14 @@ const ProductDetails = () => {
 
 						{/* Description */}
 						<ComicText
-									text={Product?.description}
-									style={
-										darkTheme
-											? "text-lg text-white"
-											: "text-lg text-black"
-									}
-								/>
-						{/* <Text className={`${
+							text={Product?.description}
+							style={
 								darkTheme
 									? "text-lg text-white"
 									: "text-lg text-black"
-							}`}>{Product?.description}</Text> */}
-
+							}
+						/>
+						
 						<View className="">
 							{/* Price */}
 							<View className="flex-row items-center gap-2">
@@ -355,7 +350,7 @@ const ProductDetails = () => {
 								</Text>
 								<ComicText
 									text={`ksh ${
-										Product?.price - Product?.discount
+										Math.round((Product?.price - Product?.discount) * 100) / 100
 									}`}
 									style={
 										darkTheme ? "text-white" : "text-black"
@@ -479,8 +474,7 @@ const ProductDetails = () => {
 								</Text>
 								<ComicText
 									text={`ksh ${
-										(Product?.price - Product?.discount) *
-										Quantity
+										Math.round(((Product?.price - Product?.discount) * Quantity) * 100) / 100
 									}`}
 									style={
 										darkTheme ? "text-white" : "text-black"
@@ -630,20 +624,6 @@ const ProductDetails = () => {
 					<View
 						className={`w-full h-[100px] ${darkTheme?"bg-black":"bg-white"} rounded items-center justify-center `}
 					>
-						{CartSuccess ? (
-							<View className={`flex-row items-center gap-3`}>
-								<Animated.View className={`bg-green-400 rounded-full p-1`}>
-									<Image
-										source={icons.verified}
-										className={`w-10 h-10`}
-										tintColor={
-											darkTheme ? "black" : "white"
-										}
-									/>
-								</Animated.View>
-								<Text className={`${darkTheme?"text-white":"text-black"}`}>Item Added To Cart</Text>
-							</View>
-						) : (
 							<View className={`flex-row items-center gap-3`}>
 								<Animated.View className={`animate-spin`}>
 									<Image
@@ -653,7 +633,6 @@ const ProductDetails = () => {
 								</Animated.View>
 								<Text className={`${darkTheme?"text-white":"text-black"}`}>Adding Item To Cart</Text>
 							</View>
-						)}
 					</View>
 				</View>
 			</Modal>

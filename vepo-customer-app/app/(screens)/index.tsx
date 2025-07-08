@@ -25,12 +25,13 @@ import images from "@/constants/images/images";
 import FullHorizontalList from "@/components/common/FullHorizontalList";
 import CartegoriesList from "@/components/common/CartegoriesList";
 import ApiRoutes from "@/API/routes/ApiRoutes";
-import { useAuth } from "@clerk/clerk-expo";
+import { useAuth, useUser } from "@clerk/clerk-expo";
 import * as Location from "expo-location";
 import { UIThemeContext } from "@/context/ThemeContext";
 import CarouselComponent from "@/components/common/Carousel";
 import Animated from "react-native-reanimated";
 import VerticalList from "@/components/common/VerticalList";
+import Context from "@/context/context";
 
 const width = Dimensions.get("window").width;
 
@@ -38,7 +39,9 @@ export default function Home() {
 	// <----------------HOOKS---------------->
 	const router = useRouter();
 	const { getToken } = useAuth();
+	const { user } = useUser()
 	const { currentTheme } = useContext(UIThemeContext);
+	const { User, fetchUserDetails } = useContext(Context);
 	const darkTheme = currentTheme === "dark";
 
 	// <----------------STATES--------------->
@@ -203,13 +206,14 @@ export default function Home() {
 	}, []);
 
 	useEffect(() => {
+		// fetchUserDetails()
 		const readyToExecute = async () => {
 			fetchNearByVendors();
 			fetchTopRatedVendors();
 			fetchTopBrands();
 			fetchVendorsByType("refill");
 			fetchVendorsByType("whole_seller");
-			await fetchVendorsByType("general");
+			fetchVendorsByType("general");
 			fetchProductsWithOffer()
 		};
 
@@ -240,37 +244,57 @@ export default function Home() {
 						} shadow-2xl py-3 z-20 gap-3 rounded-b[20px] `}
 					>
 						{/* SEARCH AND NOTIFICATION */}
-						<View className="pr-[15px]">
+						<View className="px-5">
 							<View className=" flex-row items-center w-full h-[40px] gap-4 justify-between ">
-								<View className="w-[100px] h-[45px] mx-4">
+								{/* <View className="w-[100px] h-[45px] mx-4">
 									<Image
 										source={images.logo}
 										className="w-full h-full"
 										tintColor={""}
 									/>
-								</View>
-								<View className=" flex-row items-center flex-1 h-full gap-2  justify-end ">
-									<TouchableOpacity
-										className=" flex-row h-full"
+								</View> */}
+								<View className={`flex-row gap-2 items-center`}>
+									<TouchableOpacity 
 										activeOpacity={0.6}
-										onPress={() => {
-											router.push("/(screens)/Search");
+										onPress={()=>{
+											router.push("/(screens)/Profile")
 										}}
 									>
-										<View
-											className={` rounded-full self-center  w-12 h-12 items-center justify-center`}
-										>
-											<Image
-												source={icons.search}
-												className="w-6 h-6"
-												tintColor={
-													darkTheme
-														? "white"
-														: "black"
-												}
-											/>
+										<View className={`w-[50px] h-[50px] rounded-full overflow-hidden relative items-center justify-center`}>
+											<Image source={icons.profile2} className="w-[45px] h-[45px]" tintColor={darkTheme ? "gray" : "dimgray"}/>
+											<Image source={{uri: User?.profile_pic}} className="w-full h-full rounded-full absolute"/>
 										</View>
 									</TouchableOpacity>
+									{/* <Text className={` font-semibold text-lg ${darkTheme?"text-white":"text-black"}`}>{String(user?.emailAddresses)}</Text> */}
+									<ComicText text={String(user?.emailAddresses).length > 25 ? String(user?.emailAddresses).substring(0,24).trim()+ "...": String(user?.emailAddresses)} style={` font-semibold text-lg ${darkTheme?"text-white":"text-black"}`}/>
+								</View>
+								<View className=" flex-row items-center flex-1 h-full gap-2 justify-end ">
+									{User != null && User != undefined && (
+										<TouchableOpacity
+											activeOpacity={0.7}
+											onPress={() => {
+												const id = `lat=${User.lat}%lng=${User.lng}`
+												router.push({
+													pathname: "/(screens)/Map/[id]",
+													params: {id}
+												});
+											}}
+										>
+											<View
+												className={`rounded-full  w-12 h-12 items-center justify-center bg-accentbg/20`}
+											>
+												<Image
+													source={icons.location}
+													className="w-7 h-7"
+													tintColor={
+														darkTheme
+															? "white"
+															: "black"
+													}
+												/>
+											</View>
+										</TouchableOpacity>
+									)}
 									<TouchableOpacity
 										activeOpacity={0.6}
 										onPress={() => {
@@ -280,16 +304,16 @@ export default function Home() {
 										}}
 									>
 										<View
-											className={`rounded-full  w-12 h-12 items-center justify-center`}
+											className={`rounded-full   w-12 h-12 items-center justify-center bg-accentbg/20`}
 										>
-											<View className="absolute z-10 -right-2 -top-2 bg-accentbg  items-center justify-center w-7 h-7 rounded-full">
+											<View className="absolute z-10 -right-2 -top-2 bg-red-500  items-center justify-center w-7 h-7 rounded-full">
 												<Text className="text-white font-bold">
 													12
 												</Text>
 											</View>
 											<Image
 												source={icons.notifications}
-												className="w-6 h-6"
+												className="w-7 h-7"
 												tintColor={
 													darkTheme
 														? "white"
@@ -298,26 +322,7 @@ export default function Home() {
 											/>
 										</View>
 									</TouchableOpacity>
-									<TouchableOpacity
-										activeOpacity={0.7}
-										onPress={() => {
-											router.push("/(screens)/Maps");
-										}}
-									>
-										<View
-											className={`${
-												darkTheme
-													? "bg-accentbg/70"
-													: "bg-accentbg"
-											} rounded-full w-12 h-12 items-center justify-center`}
-										>
-											<Image
-												source={icons.myLocation}
-												className="w-8 h-8"
-												tintColor={"white"}
-											/>
-										</View>
-									</TouchableOpacity>
+									
 								</View>
 							</View>
 						</View>
@@ -392,15 +397,15 @@ export default function Home() {
 									loaded={TopRatedVendorsLoaded}
 								/>
 
+								{/* offers */}
+								<VerticalList data={Offers} loaded={OffersLoaded} title="Offers and deals"/>
+
 								{/* top brands */}
 								<HorizontalList
 									title={"Popular Brands"}
 									data={TopBrands}
 									loaded={TopBrandsloaded}
 								/>
-
-								{/* offers */}
-								<VerticalList data={Offers} loaded={OffersLoaded} title="Offers and deals"/>
 
 								{/* refills */}
 								<HorizontalList

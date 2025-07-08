@@ -103,7 +103,7 @@ export default function Index() {
 		};
 
 		if (isSignedIn){
-			// setIsReady(true) // for it to work on the simulator
+			setIsReady(true) // for it to work on the simulator
 			StartUpLogic()
 		}
 		if(isSignedIn === false){
@@ -131,9 +131,7 @@ export default function Index() {
 						darkTheme ? "bg-black" : "bg-[#f0f0f0]"
 					} w-full items-center justify-center gap-[10px]`}
 				>
-					<Animated.View 
-						// className={"animate-spin"}
-					>
+					<Animated.View>
 						<Animated.View
 							className={
 								"animate-spin transition-all duration-700"
@@ -190,9 +188,7 @@ export default function Index() {
 									<View
 										className={`bg-blue-500 p-3 px-6 rounded-xl items-center `}
 									>
-										<Text
-											className={`text-white font-bold`}
-										>
+										<Text className={`text-white font-bold`} >
 											Allow Location Access
 										</Text>
 									</View>

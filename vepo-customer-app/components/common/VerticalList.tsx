@@ -116,7 +116,7 @@ const VerticalList = ({ data, loaded , title}: Props) => {
           // marginTop: width * 0.05
         }}>
         {title ? (
-          <Text className={`${darkTheme?"text-white":"text-black"} text-lg font-semibold`}>{title}</Text>
+          <Text className={`${darkTheme?"text-white":"text-black"} text-xl font-semibold`}>{title}</Text>
         ):(
           <Text>{""}</Text>
         )}
@@ -173,7 +173,7 @@ const VerticalList = ({ data, loaded , title}: Props) => {
                   >
                     <Image
                       source={{ uri: item.image_url }}
-                      className="w-full h-full"
+                      className="w-full h-full rounded"
                     />
                   </View>
                   {/* Name, pricing and delivery time  */}

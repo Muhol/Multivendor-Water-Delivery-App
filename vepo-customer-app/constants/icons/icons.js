@@ -8,6 +8,7 @@ import filter from '../../assets/icons/filter-black.png'
 import downArrow from '../../assets/icons/down-arrow.png'
 import upArrow from '../../assets/icons/up-arrow.png'
 import myLocation from '../../assets/icons/myLocation.png'
+import location from '../../assets/icons/location.png'
 import gps from '../../assets/icons/gps.png'
 import gift from '../../assets/icons/gift.png'
 import discount from '../../assets/icons/discount.png'
@@ -21,10 +22,13 @@ import help from '../../assets/icons/help.png'
 import sun from '../../assets/icons/sun.png'
 import moon from '../../assets/icons/moon.png'
 import edit from '../../assets/icons/edit.png'
+import more from '../../assets/icons/more.png'
+import message from '../../assets/icons/message.png'
 import close from '../../assets/icons/close.png'
 import eyeslash from '../../assets/icons/eyeslash.png'
 import eye from '../../assets/icons/eye.png'
 import profile from '../../assets/icons/profile-black.png'
+import profile2 from '../../assets/icons/profile.png'
 import leftArrow from '../../assets/icons/leftArrow.png'
 import bike from '../../assets/icons/bike-black.png'
 // import leftArrow from '../../assets/icons/leftArrow.png'
@@ -33,7 +37,11 @@ import otp from '../../assets/icons/otp.png'
 import verified from '../../assets/icons/verified.png'
 import hint from '../../assets/icons/hint.png'
 import verify_email from '../../assets/icons/verify-email.png'
-import vendor_marker from '../../assets/icons/water-map-icon-marker.png'
+import water_marker from '../../assets/icons/water_marker.png'
+import bike_marker from '../../assets/icons/bike_marker.png'
+import truck_marker from '../../assets/icons/truck_marker.png'
+import package1 from '../../assets/icons/package.png'
+import package_delivered from '../../assets/icons/package_delivered.png'
 
 
 const icons = {
@@ -48,6 +56,7 @@ const icons = {
     downArrow: downArrow,
     upArrow: upArrow,
     myLocation: myLocation,
+    location: location,
     gps: gps,
     discount: discount,
     gift: gift,
@@ -62,6 +71,7 @@ const icons = {
     moon: moon,
     edit: edit,
     profile: profile,
+    profile2: profile2,
     verify_email: verify_email,
     spinner: spinner,
     otp: otp,
@@ -72,8 +82,13 @@ const icons = {
     eyeslash: eyeslash,
     eye: eye,
     close: close,
-    vendor_marker: vendor_marker,
-
+    more: more,
+    message: message,
+    water_marker: water_marker,
+    bike_marker: bike_marker,
+    truck_marker: truck_marker,
+    package1,
+    package_delivered
 }
 
 export default icons

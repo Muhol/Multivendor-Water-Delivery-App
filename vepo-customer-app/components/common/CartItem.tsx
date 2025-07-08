@@ -11,7 +11,6 @@ import icons from "@/constants/icons/icons";
 
 type Props = {
 	data?: any;
-	// loaded : boolean
 	func: () =>  void;
 };
 
@@ -202,7 +201,7 @@ const CartItem = ({ data, func }: Props) => {
 				<View className=" gap-6 items-end ">
 					{/* subtotal */}
 					<ComicText
-						text={`Ksh ${data?.price * data?.quantity}`}
+						text={`Ksh ${Math.round((data?.price * data?.quantity) * 100) / 100}`}
 						style={
 							darkTheme
 								? "text-lg text-white"

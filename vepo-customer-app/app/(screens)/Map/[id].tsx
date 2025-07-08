@@ -1,3 +1,6 @@
+// url : /(screens)/Maps/lat=lat%lng=lng%id=id
+
+
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import MapView, { Callout, Marker } from "react-native-maps";
 import {
@@ -17,7 +20,7 @@ import {
 } from "react-native";
 // import { SafeAreaView } from "react-native-safe-area-context";
 import BackButton from "@/components/ui/BackButton";
-import { Redirect, useRouter } from "expo-router";
+import { Redirect, usePathname, useRouter } from "expo-router";
 import {
 	Directions,
 	Gesture,
@@ -483,6 +486,14 @@ export default function Maps() {
 	const { User, fetchUserDetails } = useContext(Context);
 	const { currentTheme } = useContext(UIThemeContext);
 	const darkTheme = currentTheme === "dark";
+	const path = usePathname()
+	
+	const pathVariables = path.split("/")[2].split("%")
+	// console.log(pathVariables[2].split("=")[1])
+
+	const pathLat = Number(pathVariables[0].split("=")[1])
+	const pathlng = Number(pathVariables[1].split("=")[1])
+	const pathid = pathVariables[2]?.split("=")[1]
 
 	// <------------------------STATES------------------------->
 	const [dataShown, setDataShown] = useState("orders"); // either ['setLocation', 'vendorDetails', 'orders', 'all'] : View for a vendor picked on the map, View for ongoing orders/in transit or View for edit and set location
@@ -503,11 +514,14 @@ export default function Maps() {
 	}
 
 	const initialRegion = {
-		latitude: User?.lat || 1, 
-		longitude: User?.lng || 36,
+		// latitude: pathLat || User?.lat || 1, 
+		// longitude: pathlng || User?.lng || 36,
+		latitude: pathLat || 1, 
+		longitude: pathlng || 36,
 		latitudeDelta: 0.5922,
 		longitudeDelta: 0.5421,
 	};
+
 	const [region, setRegion] = useState(initialRegion);
 
 	// <-----------------------VARIABLES----------------------->
@@ -554,7 +568,6 @@ export default function Maps() {
 
 	const vendorMapView = () => {
 		setShowFloatingVendor(true)
-
 		mapHeight.value = withTiming(finalHeight, { duration: 200 });
 		viewOpacity.value = withTiming(0, { duration: 200 });
 		viewScale.value = withTiming(0, { duration: 200 });
@@ -614,6 +627,8 @@ export default function Maps() {
 		});
 	const flingGesture = Gesture.Simultaneous(flingUp, flingDown); // or .Simultaneous
 
+	console.log(Vendor)
+
 	// >---->> FETCHING DATA FROM BACKEND
 	const fetchVendor = async () => {
 		setLoading(true);
@@ -626,6 +641,21 @@ export default function Maps() {
 			});
 			const response = await callApi.json();
 			// setVendors(response);
+			if(pathid != null || pathid != undefined){
+				for(const vendor of response){
+					if (vendor.id === pathid){
+						const vendorData = {
+							id: vendor.id,
+							title: vendor.business_name,
+							owners_name: vendor.owners_name,
+							rating: vendor.rating,
+							image: vendor.profile_pic
+						}
+						setVendor(vendorData)
+						vendorMapView()
+					}
+				}
+			}
 			const convertToClusterPoints = (vendors: Vendor[]) => {
 				return vendors.map((vendor: Vendor) => ({
 					type: "Feature",
@@ -679,19 +709,18 @@ export default function Maps() {
 					latitude: item.geometry.coordinates[1],
 					longitude: item.geometry.coordinates[0],
 				}}
-				// title={item.properties.title}
-				// pinColor={darkTheme?"#d9a31b":"#808080"}
+				
 				onPress={() => {
 					setShowFloatingOrder(false)
 					setVendor(item.properties);
 					vendorMapView();
 				}}
 			>
-				<View className="items-center w-[50px] h-[50px]  justify-center">
+				<Animated.View className={`items-center w-[50px] h-[50px]  justify-center`}>
 					<Image source={icons.water_marker} className="w-full h-full" tintColor={darkTheme?"#d9a31b":"#d9a31b"} resizeMode="cover"/>
 					{/* <Image source={icons.water_marker} className="w-full h-full" tintColor={darkTheme?"#d9a31b":"#2391f3"} resizeMode="cover"/> */}
 					<View className={`p-1 ${darkTheme?"bg-black":"bg-white"} absolute top-2 min-w-[25px] min-h-[25px] rounded-full -z-10`}></View>
-				</View>
+				</Animated.View>
 			</Marker>
 		);
 	}, []);
@@ -965,50 +994,6 @@ export default function Maps() {
 										darkTheme ? "bg-black" : "bg-white"
 									} w-full `}
 								>
-									{/* <--------------------------SET lOCATION BUTTON-------------------------> */}
-									{/* {dataShown != "setLocation" && (
-										<TouchableOpacity
-											activeOpacity={0.7}
-											onPress={() => {
-												setDataShown("setLocation");
-											}}
-										>
-											<Button
-												style={` px-[30px] py-[9px] rounded-full ${
-													darkTheme
-														? "bg-black"
-														: "bg-white"
-												}`}
-												label={"Edit My Location"}
-												textStyle={
-													darkTheme
-														? "text-white"
-														: "text-black"
-												}
-												type={"outline"}
-											/>
-										</TouchableOpacity>
-									)} */}
-
-									{/* <-------------------------TRACK ORDERS BUTTON--------------------------> */}
-									{/* {dataShown != "orders" && (
-										<TouchableOpacity
-											activeOpacity={0.7}
-											onPress={() => {
-												setDataShown("orders");
-											}}
-										>
-											<Button
-												style={" px-[30px] rounded-full"}
-												label={"Track Ongoing Orders"}
-												textStyle={
-													darkTheme
-														? "text-black"
-														: "text-white"
-												}
-											/>
-										</TouchableOpacity>
-									)} */}
 								</Animated.View>
 							</Animated.View>
 						</GestureDetector>
@@ -1020,430 +1005,3 @@ export default function Maps() {
 }
 
 
-
-
-
-
-
-
-
-
-// {dataShown == "setLocation" && (
-// 	<View className="flex-1 p-3">
-// 		<View className="gap-2 w-full self-center ">
-// 			{/* label: "ENTER LOCATION" */}
-// 			<Text
-// 				className={`text-xl ${
-// 					darkTheme
-// 						? "text-white"
-// 						: "text-black"
-// 				}`}
-// 			>
-// 				Enter your Location:
-// 			</Text>
-// 			{/* TEXT INPUT */}
-// 			<View
-// 				className={`${
-// 					darkTheme
-// 						? "bg-gray-200/20"
-// 						: "bg-gray-100"
-// 				} p-2 rounded-full flex-row items-center gap-3 px-4`}
-// 			>
-// 				{/* ICON */}
-// 				<View className="w-7 h-7">
-// 					<Image
-// 						source={
-// 							icons.myLocation
-// 						}
-// 						className="w-full h-full"
-// 						tintColor={"gray"}
-// 					/>
-// 				</View>
-// 				{/* INPUT */}
-// 				<TextInput
-// 					placeholder="Type Location Here"
-// 					className=" p-3 text-lg"
-// 				/>
-// 			</View>
-
-// 			{/* <-----------------BITTONS: [SET AS DELIVERY ADDRESS & SAVE]----------------> */}
-// 			<View className="flex-row items-center gap-3 justify-center py-1">
-// 				<TouchableOpacity
-// 					activeOpacity={0.7}
-// 					onPress={() => {}}
-// 				>
-// 					<Button
-// 						style={` px-5 py-[9px] rounded-full `}
-// 						label={
-// 							"Set As Default Delivery Address"
-// 						}
-// 						type={"outline"}
-// 						textStyle={`${
-// 							darkTheme
-// 								? "text-white"
-// 								: "text-gray-600"
-// 						}`}
-// 					/>
-// 				</TouchableOpacity>
-// 				<TouchableOpacity
-// 					activeOpacity={0.7}
-// 					onPress={() => {}}
-// 				>
-// 					<Button
-// 						style={
-// 							" px-4 rounded-full"
-// 						}
-// 						label={
-// 							"Save In Address Book"
-// 						}
-// 						type={""}
-// 						textStyle={`${
-// 							darkTheme
-// 								? "text-black"
-// 								: "text-white"
-// 						}`}
-// 					/>
-// 				</TouchableOpacity>
-// 			</View>
-
-// 			<View className=" items-center">
-// 				<Text>Or</Text>
-// 			</View>
-// 			{/* <--------------OPTION TO USE DEVICE LOCATION: BUTTON--------------> */}
-// 			<View className="items-center ">
-// 				<TouchableOpacity
-// 					activeOpacity={0.7}
-// 					onPress={() => {}}
-// 				>
-// 					<Button
-// 						style={
-// 							"px-[60px] rounded-full"
-// 						}
-// 						textStyle={`${
-// 							darkTheme
-// 								? "text-white"
-// 								: "text-gray-600"
-// 						}`}
-// 						label={
-// 							"Use Current Device Location"
-// 						}
-// 						type="outline"
-// 					/>
-// 				</TouchableOpacity>
-// 			</View>
-// 		</View>
-
-// 		{/* <-----------------------------LOCATION HISTORY----------------------------> */}
-// 		<View className="flex-1 py-6 w-[90%]">
-// 			<ComicText
-// 				text={"Location History"}
-// 				style={`text-xl ${
-// 					darkTheme
-// 						? "text-white"
-// 						: "text-gray-600"
-// 				}`}
-// 			/>
-// 			{[...Array(5)].map((i, index) => {
-// 				return (
-// 					<TouchableOpacity
-// 						key={index}
-// 						activeOpacity={0.7}
-// 						onPress={() => {}}
-// 					>
-// 						<View className=" p-2 gap-2">
-// 							{/* <-----LOCATION ITEM-----> */}
-// 							<View className="flex-row gap-3 items-center py-2">
-// 								<View className="w-6 h-6 items-center justify-center">
-// 									<Image
-// 										source={
-// 											icons.location
-// 										}
-// 										className="w-full h-full"
-// 										tintColor={
-// 											darkTheme
-// 												? "white"
-// 												: "gray"
-// 										}
-// 									/>
-// 								</View>
-// 								<Text
-// 									className={`text-nowrap ${
-// 										darkTheme
-// 											? "text-white"
-// 											: "text-gray-500"
-// 									}`}
-// 								>
-// 									{locationtext.length >
-// 									70
-// 										? locationtext
-// 												.substring(
-// 													0,
-// 													70
-// 												)
-// 												.trim() +
-// 											"..."
-// 										: locationtext}
-// 								</Text>
-// 							</View>
-// 						</View>
-// 					</TouchableOpacity>
-// 				);
-// 			})}
-// 		</View>
-// 	</View>
-// )}
-
-
-
-
-
-
-
-
-
-
-
-
-// <KeyboardAvoidingView
-// 	behavior="position"
-// 	className="absolute bottom-0 flex-1 justify-end"
-// >
-// 	<GestureDetector gesture={flingGesture}>
-// 		<Animated.View
-// 			className={`${
-// 				darkTheme ? "bg-black" : "bg-white"
-// 			}  ${""} rounded-t-[15px] shadow-black shadow-2xl items-center p-2  relative bottom-0 w-full`}
-// 			style={{
-// 				shadowColor: "black",
-// 				shadowOpacity: 1,
-// 				height: viewHeight,
-// 				width,
-// 			}}
-// 		>
-// 			{/* <-------------------------GESTURE CONTROLLER---------------------------> */}
-// 			<TouchableOpacity
-// 				activeOpacity={0.7}
-// 				style={{
-// 					width: width,
-// 				}}
-// 			>
-// 				<View className="pb-4 px-3 w-full items-center justify-center ">
-// 					<View
-// 						className={`w-14 h-2 rounded-full bg-accentbg/40`}
-// 					></View>
-// 				</View>
-// 			</TouchableOpacity>
-
-// 			{/* <---------------------CENTER USER LOCATION TOGGLE-----------------------> */}
-// 			<TouchableOpacity
-// 				className="absolute -top-14 right-4"
-// 				// className="absolute -top-28 right-4"
-// 				onPress={() => {
-// 					router.push("/(screens)/illustration");
-// 				}}
-// 				activeOpacity={0.7}
-// 			>
-// 				<Animated.View
-// 					className={`  w-12 h-12 ${
-// 						darkTheme ? "bg-black" : "bg-white"
-// 					} rounded-full items-center justify-center shadow-xl shadow-black `}
-// 					style={{}}
-// 				>
-// 					<Image
-// 						source={icons.gps}
-// 						className="w-9 h-9"
-// 						tintColor={darkTheme ? "white" : "black"}
-// 					/>
-// 				</Animated.View>
-// 			</TouchableOpacity>
-
-// 			<Animated.ScrollView
-// 				className="flex-1 w-full "
-// 				contentContainerStyle={{
-// 					gap: 20,
-// 					paddingTop: 10,
-// 				}}
-// 				showsVerticalScrollIndicator={false}
-// 				overScrollMode={"never"}
-// 			>
-// 				{/* <-----SETTING LOCATION MANUALLY: SEARCH INPUT WITH AUTOFILL CURRENT LOCATION BY DEFAULT, ABILITY TO SET THE SELECTED LOCATION AS YOUR DELIVERY ADDRESS----> */}
-// 				{dataShown == "setLocation" && (
-// 					<View className="flex-1 p-3">
-// 						<View className="gap-2 w-full self-center ">
-// 							{/* label: "ENTER LOCATION" */}
-// 							<ComicText
-// 								text={"Enter your Location:"}
-// 								style={" text-xl"}
-// 							/>
-// 							{/* TEXT INPUT */}
-// 							<View className="bg-gray-100 p-2 rounded-2xl flex-row items-center gap-3 px-4">
-// 								{/* ICON */}
-// 								<View className="w-7 h-7">
-// 									<Image
-// 										source={icons.myLocation}
-// 										className="w-full h-full"
-// 										tintColor={"gray"}
-// 									/>
-// 								</View>
-// 								{/* INPUT */}
-// 								<TextInput
-// 									placeholder="Type Location Here"
-// 									className=" p-3 text-lg"
-// 								/>
-// 							</View>
-
-// 							{/* <-----------------BITTONS: [SET AS DELIVERY ADDRESS & SAVE]----------------> */}
-// 							<View className="flex-row items-center gap-3 justify-center py-1">
-// 								<TouchableOpacity
-// 									activeOpacity={0.7}
-// 									onPress={() => {}}
-// 								>
-// 									<Button
-// 										style={" px-5 py-[9px] rounded "}
-// 										label={
-// 											"Set As Default Delivery Address"
-// 										}
-// 										type={"outline"}
-// 										textStyle="text-gray-500"
-// 									/>
-// 								</TouchableOpacity>
-// 								<TouchableOpacity
-// 									activeOpacity={0.7}
-// 									onPress={() => {}}
-// 								>
-// 									<Button
-// 										style={" px-4 rounded"}
-// 										label={"Save In Address Book"}
-// 										type={""}
-// 									/>
-// 								</TouchableOpacity>
-// 							</View>
-
-// 							<View className=" items-center">
-// 								<Text>Or</Text>
-// 							</View>
-// 							{/* <--------------OPTION TO USE DEVICE LOCATION: BUTTON--------------> */}
-// 							<View className="items-center ">
-// 								<TouchableOpacity
-// 									activeOpacity={0.7}
-// 									onPress={() => {}}
-// 								>
-// 									<Button
-// 										style={"px-[60px] rounded"}
-// 										textStyle={"text-gray-500"}
-// 										label={"Use Current Device Location"}
-// 										type="outline"
-// 									/>
-// 								</TouchableOpacity>
-// 							</View>
-// 						</View>
-
-// 						{/* <-----------------------------LOCATION HISTORY----------------------------> */}
-// 						<View className="flex-1 py-6 w-[90%]">
-// 							<ComicText
-// 								text={"Location History"}
-// 								style={"text-xl text-gray-600"}
-// 							/>
-// 							{[...Array(5)].map((i, index) => {
-// 								return (
-// 									<TouchableOpacity
-// 										key={index}
-// 										activeOpacity={0.7}
-// 										onPress={() => {}}
-// 									>
-// 										<View className=" p-2 gap-2">
-// 											{/* <-----LOCATION ITEM-----> */}
-// 											<View className="flex-row gap-3 items-center py-2">
-// 												<View className="w-6 h-6 items-center justify-center">
-// 													<Image
-// 														source={icons.location}
-// 														className="w-full h-full"
-// 														tintColor={"gray"}
-// 													/>
-// 												</View>
-// 												{/* <Text className="text-nowrap text-gray-500">
-// 													{location.length >
-// 													70
-// 														? location
-// 																.substring(
-// 																	0,
-// 																	70
-// 																)
-// 																.trim() +
-// 																"..."
-// 														: location}
-// 												</Text> */}
-// 											</View>
-// 										</View>
-// 									</TouchableOpacity>
-// 								);
-// 							})}
-// 						</View>
-// 					</View>
-// 				)}
-
-// 				{dataShown === "vendorDetails" && (
-// 					<MiniVendorCard FullMap={false} data={Vendor} />
-// 				)}
-
-// 				{dataShown === "orders" && (
-// 					<View className="gap-2 p-3">
-// 						<View className="">
-// 							<ComicText
-// 								text={"Track Ongoing Orders"}
-// 								style={"text-xl"}
-// 							/>
-// 						</View>
-
-// 						<View>
-// 							<TrackOrderCard data={""} />
-// 						</View>
-// 					</View>
-// 				)}
-
-// 				{/* <----------------DATA FOR TRACKING ONGOING ORDERS LIVE-----------------> */}
-// 				{/* <----DATA: RIDER PROFILE[ NAME, PROFILE_PIC, PHONE_NUMBER WITH OPTION TO CALL;CALL_BUTTON,EST TIME REMAINING ]----> */}
-// 			</Animated.ScrollView>
-
-// 			{/* <-------------------TRACK ORDER & SET LOCATION BUTTONS-------------------> */}
-// 			<Animated.View
-// 				className={` min-h-[40px] py-1 justify-center gap-4 items-center flex-row ${
-// 					darkTheme ? "bg-black" : "bg-white"
-// 				} w-full `}
-// 			>
-// 				{/* <--------------------------SET lOCATION BUTTON-------------------------> */}
-// 				{dataShown != "setLocation" && (
-// 					<TouchableOpacity
-// 						activeOpacity={0.7}
-// 						onPress={() => {
-// 							setDataShown("setLocation");
-// 						}}
-// 					>
-// 						<Button
-// 							style={" px-[30px] py-[9px] rounded-lg bg-black"}
-// 							label={"Edit My Location"}
-// 							textStyle={darkTheme ? "text-white" : "text-black"}
-// 							type={"outline"}
-// 						/>
-// 					</TouchableOpacity>
-// 				)}
-
-// 				{/* <-------------------------TRACK ORDERS BUTTON--------------------------> */}
-// 				{dataShown != "orders" && (
-// 					<TouchableOpacity
-// 						activeOpacity={0.7}
-// 						onPress={() => {
-// 							setDataShown("orders");
-// 						}}
-// 					>
-// 						<Button
-// 							style={" px-[30px] rounded-lg"}
-// 							label={"Track Ongoing Orders"}
-// 							textStyle={darkTheme ? "text-black" : "text-white"}
-// 						/>
-// 					</TouchableOpacity>
-// 				)}
-// 			</Animated.View>
-// 		</Animated.View>
-// 	</GestureDetector>
-// </KeyboardAvoidingView>;

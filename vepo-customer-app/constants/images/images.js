@@ -12,7 +12,9 @@ import google_logo from '../../assets/images/google.png'
 // import logoLight from '../../assets/images/logo-white.png'
 import logo from '../../assets/images/vepo-logo.png'
 import logo_white from '../../assets/images/vepo-white.jpg'
+import ongoing_delivery from '../../assets/images/ongoing_delivery.png'
 import logo_black from '../../assets/images/vepo_black.jpeg'
+import empty_cart from '../../assets/images/empty-cart.png'
 import water_bottles from '../../assets/prop-images/skynews-water-bottle-generic_6415949.jpg'
 
 
@@ -23,7 +25,9 @@ const images = {
     authBgLight,
     google_logo,
     logo_white,
+    ongoing_delivery,
     logo_black,
+    empty_cart,
     logo,
     water_bottles,
 }

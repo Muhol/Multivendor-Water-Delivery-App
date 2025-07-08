@@ -14,6 +14,8 @@ class BaseUser(BaseModel):
         from_attributes = True  # ✅ required in Pydantic v2
 
 class BasicUser(BaseUser):
+    lat: float
+    lng: float
     id: UUID
     
     class Config:

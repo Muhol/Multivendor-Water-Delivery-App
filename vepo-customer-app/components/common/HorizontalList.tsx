@@ -198,13 +198,7 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 	return (
 		<View className={`  ${darkTheme ? "" : ""} shadow-2x`}>
 			<View className="px-5  justify-between flex-row items-center">
-				{/* <ComicText
-					text={title}
-					style={
-						darkTheme ? "text-lg text-white" : "text-lg text-black"
-					}
-				/> */}
-				<Text className={`${darkTheme ? "text-lg text-white" : "text-lg text-black"}`}>{title}</Text>
+				<Text className={` text-xl font-semibold ${darkTheme ? "text-white" : "text-black"}`}>{title}</Text>
 			</View>
 			<ScrollView
 				horizontal={true}
@@ -225,7 +219,7 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 									if (type === "product") {
 										router.push(`/product-details/${item.id}`);
 									} else {
-										router.push(`/vendor/${item.id}`);
+										router.push(`/vendor/${item.id}`); 
 									}
 								}}
 								activeOpacity={0.9}
@@ -379,12 +373,12 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 															AddToCart(item.id)
 														}}
 													>
-														<View className="bg-accentbg p-2 rounded-xl">
+														<View className={`${darkTheme?'bg-black':'bg-white'} p-2 w-[35px] h-[35px] items-center justify-center rounded-xl`}>
 															<Image
 																source={require("../../assets/icons/addtocart-black.png")}
 																className="w-5 h-5"
 																tintColor={
-																	"white"
+																	"#d9a31b"
 																}
 															/>
 														</View>
