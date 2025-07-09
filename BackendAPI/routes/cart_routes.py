@@ -87,8 +87,8 @@ class STKRequest(BaseModel):
     
 @router.post("/mpesa_payment")
 async def payment_request(request: STKRequest):
-    # response = await initiate_stk_push(request.phone, request.amount)
-    response = await initiate_stk_push()
+    response = await initiate_stk_push(request.phone, request.amount)
+    # response = await initiate_stk_push()
     return response
 
 @router.post("/mpesa/callback")
