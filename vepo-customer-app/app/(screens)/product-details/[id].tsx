@@ -34,6 +34,7 @@ const ProductDetails = () => {
 	const { getToken } = useAuth();
 	const { currentTheme } = useContext(UIThemeContext);
 	const darkTheme = currentTheme === "dark";
+	const { User } = useContext(Context)
 
 	// <---------------STATES--------------->
 	const [Product, setProduct] = useState<any>();
@@ -66,7 +67,7 @@ const ProductDetails = () => {
 			setProduct(response);
 			setProductLoaded(true);
 		} catch (error) {
-			Alert.alert("Error");
+			// Alert.alert("Error");
 		} finally {
 		}
 	};
@@ -78,7 +79,9 @@ const ProductDetails = () => {
 		const payload = {
 			id: id,
 			quantity: Quantity,
+			user_id: User.id || ""
 		};
+		console.log(payload)
 		try {
 			const apiCall = await fetch(ApiRoutes.AddToCart.path, {
 				method: ApiRoutes.AddToCart.method,
@@ -89,9 +92,8 @@ const ProductDetails = () => {
 				body: JSON.stringify(payload),
 			});
 			const response = await apiCall.json();
-			fetchCart().then(() => {
-				setLoading(false);
-			})
+			fetchCart()
+			setLoading(false);
 		} catch (error: any) {
 			setLoading(false);
 		}

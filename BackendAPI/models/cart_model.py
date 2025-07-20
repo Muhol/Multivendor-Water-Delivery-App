@@ -20,7 +20,7 @@ class Cart(Base):
   # relationships
   user = relationship("User", back_populates="cart")
   # vendor = relationship("Vendor", back_populates="cart")
-  cart_item = relationship("CartItem" , back_populates="cart")
+  cart_item = relationship("CartItem" , back_populates="cart", cascade="all, delete-orphan")
 
 
 class CartItem(Base):

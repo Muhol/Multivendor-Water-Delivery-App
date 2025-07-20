@@ -30,3 +30,10 @@ async def fetch_products_with_offer(session: AsyncSession) -> list[BaseProduct]:
   if not products :
     return
   return products 
+
+async def fetch_paginated_products(session: AsyncSession, page: int) ->  list[BaseProduct]:
+  offset = (page - 1 ) * 16
+  query = select(Product).order_by(func.random()).offset(offset).limit(16)
+  result = await session.execute(query)
+  products = result.scalars().all()
+  return products

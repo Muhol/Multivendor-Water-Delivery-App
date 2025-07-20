@@ -49,6 +49,10 @@ const ApiRoutes = {
     path: `${BASE_URL}/products_with_discount`,
     method : "GET"
   },
+  RandomPaginatedProducts : {
+    path: `${BASE_URL}/random_paginated_products`,
+    method : "POST"
+  },
   AddToCart : {
     path: `${BASE_URL}/add_to_cart`,
     method : "POST"
@@ -68,6 +72,18 @@ const ApiRoutes = {
   DeleteCartItem : {
     path: `${BASE_URL}/delete_cart_item`,
     method : "POST"
+  },
+  Checkout : {
+    path: `${BASE_URL}/mpesa_payment`,
+    method : "POST"
+  },
+  ConfirmPayment : {
+    path: `${BASE_URL}/confirm_payment`,
+    method : "POST"
+  },
+  GetOrders : {
+    path: `${BASE_URL}/get_orders`,
+    method : "GET"
   },
 }
 

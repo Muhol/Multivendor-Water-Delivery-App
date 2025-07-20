@@ -7,7 +7,7 @@ import {
 	Image,
 	TouchableWithoutFeedback,
 } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ComicText from "@/components/styled-components/custom-texts/ComicText";
 import BackButton from "@/components/ui/BackButton";
@@ -16,6 +16,8 @@ import icons from "@/constants/icons/icons";
 import OrderCard from "@/components/common/OrderCard";
 import { UIThemeContext } from "@/context/ThemeContext";
 import BackButtonMinimal from "@/components/ui/BackButtonMinimal";
+import { useAuth, useUser } from "@clerk/clerk-expo";
+import ApiRoutes from "@/API/routes/ApiRoutes";
 
 const filterOptions = ["All", "In Transit", "Pending", "Delivered"];
 
@@ -25,6 +27,10 @@ const Orders = () => {
 	const [selectedFilter, setSelectedFilter] = useState("All");
 	const { currentTheme } = useContext(UIThemeContext);
 	const darkTheme = currentTheme === "dark";
+	const { getToken } = useAuth()
+
+	const [OrdersLoaded, setOrdersLoaded] = useState(false)
+	const [Orders, setOrders] = useState<any>()
 
 	const orders = [
 		"pending",
@@ -39,6 +45,30 @@ const Orders = () => {
 		"out for delivery",
 	];
 
+	// <-------------FUNCTIONS------------->
+	// API CALLS
+	const fetchOrders = async () => {
+		const token = await getToken()
+		// console.log(token)
+		try {
+			const apiCall = await fetch(ApiRoutes.GetOrders.path, {
+				method : ApiRoutes.GetOrders.method,
+				headers: {
+					"Authorization": `Bearer ${token}`,
+					"Content-Type" : "application/json"
+				}
+			})
+			const response = await apiCall.json()
+			// console.log(response[0])
+			setOrders(response)
+		} catch (error) {
+			// console.log(error)
+		}
+	}
+
+	useEffect(() => {
+		fetchOrders()
+	}, [])
 	return (
 		<>
 			<StatusBar
@@ -64,7 +94,6 @@ const Orders = () => {
 						>
 							<BackButtonMinimal />
 						</TouchableOpacity>
-						{/* <ComicText text={"Orders"} style={"text-accentbg text-3xl "} /> */}
 						<View className=" absolute right-0 left-0 h-full justify-center items-center">
 							<Text
 								className={`${
@@ -134,15 +163,19 @@ const Orders = () => {
 						overScrollMode="never"
 					>
 						{/* TODO: Render filtered orders */}
-						<TouchableWithoutFeedback>
-							<View className="gap-4">
-								{orders.map((order, index) => {
-									return (
-										<OrderCard key={index} order={order} />
-									);
-								})}
-							</View>
-						</TouchableWithoutFeedback>
+						{
+							Orders != null && (
+								<TouchableWithoutFeedback>
+									<View className="gap-4">
+										{Orders.map((order: any, index: any) => {
+											return (
+												<OrderCard key={index} order={order} />
+											);
+										})}
+									</View>
+								</TouchableWithoutFeedback>
+							)
+						}
 					</ScrollView>
 				</View>
 			</TouchableWithoutFeedback>

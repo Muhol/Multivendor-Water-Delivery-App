@@ -112,6 +112,7 @@ export default function Index() {
 	}, [ isSignedIn ]);
 
 	useEffect(() => {
+		setIsReady(true)  // no internet
 		if(LocationFinal != null){
 			updateUserLocation().then(() => {
 				setIsReady(true)
@@ -204,6 +205,7 @@ export default function Index() {
 	if(isSignedIn){
 		return <Redirect href={"/(screens)"} />;
 	}else{
+		return <Redirect href={"/(screens)"} />; // no internet
 		return <Redirect href={"/(Auth)"}/>
 	}
 }

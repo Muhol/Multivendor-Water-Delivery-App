@@ -47,7 +47,7 @@ const VendorDetails = (props: Props) => {
 
 	// <-------------------VARIABLES--------------------->
 	const token = auth.getToken();
-	const vendorId = path.split("/")[2];
+	const vendorId = path?.split("/")[2];
 
 	// <-------------------FUNCTIONS--------------------->
 	// API CALLS
@@ -174,7 +174,6 @@ const VendorDetails = (props: Props) => {
 												darkTheme
 													? "rgba(0,0,0,0.3)"
 													: "rgba(255,255,255,0.3)",
-												// darkTheme ? "rgba(0,0,0,0.2)" : "rgba(255,255,255,0.2)",
 												darkTheme
 													? "rgba(0,0,0,0.4)"
 													: "rgba(255,255,255,0.4)",

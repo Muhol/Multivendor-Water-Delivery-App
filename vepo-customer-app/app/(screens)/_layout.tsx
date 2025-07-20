@@ -44,6 +44,8 @@ const Layout = () => {
   // API CALLS
   const fetchCart = async ()=>{
     const token = await getToken()
+    
+    // console.log(payload)
     try {
       const apiCall = await fetch(ApiRoutes.GetCart.path, {
         method: ApiRoutes.GetCart.method,
@@ -52,7 +54,6 @@ const Layout = () => {
           "Content-Type": "Application/json"
         }
       })
-
       const response = await apiCall.json()
       setCart(response)
     } catch (error: any) {

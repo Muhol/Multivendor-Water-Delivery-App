@@ -95,6 +95,7 @@ const MiniVendorCard = ({ data, FullMap }: Props) => {
 			<TouchableOpacity
 				activeOpacity={0.7}
 				onPress={() => {
+          // console.log(`/(screens)/vendor/${data.id}`)
 					router.push(`/(screens)/vendor/${data.id}`);
 				}}
 			>

@@ -7,6 +7,8 @@
 import base64, os, datetime
 import httpx
 from dotenv import load_dotenv
+from services.order_service import update_orders_payment_status_by_checkout_id
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 load_dotenv()
@@ -50,9 +52,12 @@ async def initiate_stk_push(phone: str, amount: int):
         "Password": password,
         "Timestamp": timestamp,
         "TransactionType": "CustomerPayBillOnline",
-        "Amount": amount,
+        "Amount": 1,
+        # "Amount": amount,
+        # "PartyA": "254110861797",
         "PartyA": phone,
         "PartyB": os.getenv("MPESA_SHORTCODE"),
+        # "PhoneNumber": "254110861797",
         "PhoneNumber": phone,
         "CallBackURL": os.getenv("MPESA_CALLBACK_URL"),
         "AccountReference": "Vepo",
@@ -76,76 +81,66 @@ async def initiate_stk_push(phone: str, amount: int):
         return {"error": str(e)}
 
 
+async def check_payment(checkout_request_id: str, session : AsyncSession): 
+    access_token = await get_access_token()
+    password, timestamp = generate_password()
+    business_short_code = os.getenv("MPESA_SHORTCODE")
+    
+    query_headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + access_token
+        }
+
+    query_payload = {
+        'BusinessShortCode': business_short_code,
+        'Password': password,
+        'Timestamp': timestamp,
+        'CheckoutRequestID': checkout_request_id
+    }
+    
+    try:
+        async with httpx.AsyncClient(timeout=20.0) as client:
+            response = await client.post(
+                "https://sandbox.safaricom.co.ke/mpesa/stkpushquery/v1/query",
+                headers=query_headers,
+                json=query_payload
+            )
+            print("✅ M-PESA QUERY Response:", response.text)
+            response_data = response.json()
+            
+            if 'ResultCode' in response_data:
+                result_code = response_data['ResultCode']
+                if result_code == '1037':
+                    message = {
+                        "message":"Timeout in completing transaction",
+                        "code": "1032"
+                    }
+
+                elif result_code == '1032':
+                    message = {
+                        "message": "Transaction has been canceled by the user",
+                        "code": "1032"
+                    }
+
+                elif result_code == '1':
+                    message = {
+                        "message": "The balance is insufficient for the transaction",
+                        "code": "1"
+                    }
+
+                elif result_code == '0':
+                    message = await update_orders_payment_status_by_checkout_id(session=session, checkout_request_id=checkout_request_id, new_status="paid")
+                else:
+                    message = {
+                        "message": "Unknown result code: " + result_code,
+                        "code": ""
+                    }
+
+            else:
+                message = {"message": "Error in response"}
 
 
-# import os
-# import base64
-# from datetime import datetime
-# from fastapi import FastAPI
-# import httpx
-# from dotenv import load_dotenv
-
-# load_dotenv()
-
-# app = FastAPI()
-
-# # Environment variables (set these in your .env)
-# MPESA_CONSUMER_KEY = os.getenv("MPESA_CONSUMER_KEY")
-# MPESA_CONSUMER_SECRET = os.getenv("MPESA_CONSUMER_SECRET")
-# MPESA_SHORTCODE = "174379"
-# MPESA_PASSKEY = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c91"
-# CALLBACK_URL = "https://your-ngrok-url.ngrok-free.app/api/mpesa/callback"  # Replace with your actual ngrok URL
-
-# # ✅ Step 1: Get Access Token
-# async def get_access_token():
-#     credentials = f"{MPESA_CONSUMER_KEY}:{MPESA_CONSUMER_SECRET}"
-#     encoded_credentials = base64.b64encode(credentials.encode()).decode()
-#     headers = {"Authorization": f"Basic {encoded_credentials}"}
-
-#     async with httpx.AsyncClient() as client:
-#         response = await client.get(
-#             "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials",
-#             headers=headers
-#         )
-#         data = response.json()
-#         print("🔑 Access Token:", data.get("access_token"))
-#         return data.get("access_token")
-
-
-# # ✅ Step 2: Initiate STK Push
-# @app.post("/api/mpesa_payment")
-# async def initiate_stk_push():
-#     timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-#     password_str = MPESA_SHORTCODE + MPESA_PASSKEY + timestamp
-#     password = base64.b64encode(password_str.encode()).decode()
-
-#     access_token = await get_access_token()
-#     headers = {
-#         "Authorization": f"Bearer {access_token}",
-#         "Content-Type": "application/json"
-#     }
-
-#     payload = {
-#         "BusinessShortCode": MPESA_SHORTCODE,
-#         "Password": password,
-#         "Timestamp": timestamp,
-#         "TransactionType": "CustomerPayBillOnline",
-#         "Amount": 1,
-#         "PartyA": "254708374149",  # Use test phone number only
-#         "PartyB": MPESA_SHORTCODE,
-#         "PhoneNumber": "254708374149",  # Use test phone number only
-#         "CallBackURL": CALLBACK_URL,
-#         "AccountReference": "VEPO",
-#         "TransactionDesc": "Test Payment"
-#     }
-
-#     print("📦 Sending Payload:", payload)
-
-#     async with httpx.AsyncClient() as client:
-#         response = await client.post(
-#             "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest",
-#             headers=headers,
-#             json=payload
-#         )
-#         print("✅ STK Push Response:", response.text)
-#         return response.json()
+            return message
+    except httpx.HTTPError as e:
+        print("❌ HTTP Error:", str(e))
+        return {"error": str(e)}

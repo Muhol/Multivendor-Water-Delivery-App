@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 from uuid import UUID
-from sqlalchemy import select, and_
+from sqlalchemy import select, and_, delete
 from sqlalchemy.orm import joinedload, selectinload, with_loader_criteria
 from models.cart_model import Cart, CartItem
 from schemas.cart_schemas import CartDetailed
@@ -25,7 +25,7 @@ async def fetch_detailed_cart(user_id: UUID, session: AsyncSession) -> CartDetai
   result = await session.execute(query)
   cart =  result.unique().scalar_one_or_none()
   if not cart:
-    raise HTTPException(status_code=200, detail="There are no items in the cart yet")
+    raise HTTPException(status_code=404)
   cart.cart_item.sort(key=lambda item: item.id)  # or item.product.name.lower()
   return cart
 
@@ -118,3 +118,20 @@ async def delete_cart_item_service(cart_item_id: UUID, session: AsyncSession):
 
     await session.delete(cart_item)
     await session.commit()
+
+async def delete_cart_service(cart_id: str, db: AsyncSession):
+    # Get the cart
+    result = await db.execute(select(Cart).where(Cart.id == cart_id))
+    cart = result.scalar_one_or_none()
+
+    if not cart:
+        raise HTTPException(status_code=404, detail="Cart not found")
+
+    # Delete all related cart items first
+    await db.execute(delete(CartItem).where(CartItem.cart_id == cart_id))
+
+    # Then delete the cart
+    await db.delete(cart)
+    await db.commit()
+
+    return {"message": "Cart and its items deleted successfully"}

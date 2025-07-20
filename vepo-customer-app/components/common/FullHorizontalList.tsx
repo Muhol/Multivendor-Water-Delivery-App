@@ -17,6 +17,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import images from "@/constants/images/images";
 import { UIThemeContext } from "@/context/ThemeContext";
 import Animated from "react-native-reanimated";
+import Context from "@/context/context";
 
 type Props = {
 	data?: any[];
@@ -31,6 +32,7 @@ const wid = Math.ceil(width);
 const FullHorizontalList = ({ title, data, loaded }: Props) => {
 	// <--------------------<HOOKS>-------------------->
 	const router = useRouter();
+	const {fetchCart} = useContext(Context)
 	const { currentTheme } = useContext(UIThemeContext);
 	const darkTheme = currentTheme === "dark";
 
@@ -181,9 +183,10 @@ const FullHorizontalList = ({ title, data, loaded }: Props) => {
 										<TouchableOpacity
 											activeOpacity={0.6}
 											onPress={() => {
-												router.push(
-													`/(screens)/vendor/[id:1]`
-												);
+												// router.push(
+												// 	`/(screens)/vendor/[id:1]`
+												// );
+												// fetchCart()
 											}}
 										>
 											<View className="px-5 py-2 flex-row gap-1 items-center rounded-2xl bg-accentbg">

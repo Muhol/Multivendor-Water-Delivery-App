@@ -97,6 +97,7 @@ const Layout = () => {
 			phone_number,
 			profile_pic
 		}
+		// console.log(payload)
 		try {
 			const apiCall = await fetch(ApiRoutes.CreateNewUser.path, {
 				method: ApiRoutes.CreateNewUser.method,

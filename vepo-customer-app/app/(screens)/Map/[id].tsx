@@ -488,18 +488,20 @@ export default function Maps() {
 	const darkTheme = currentTheme === "dark";
 	const path = usePathname()
 	
-	const pathVariables = path.split("/")[2].split("%")
-	// console.log(pathVariables[2].split("=")[1])
+	const pathParts = path?.split("/") ?? [];
+	const rawParams = pathParts[2] ?? ""; // fallback to empty string if not present
+	const pathVariables = rawParams.split("%");
 
-	const pathLat = Number(pathVariables[0].split("=")[1])
-	const pathlng = Number(pathVariables[1].split("=")[1])
-	const pathid = pathVariables[2]?.split("=")[1]
+	const pathLat = Number(pathVariables?.[0]?.split("=")[1]) || null;
+	const pathlng = Number(pathVariables?.[1]?.split("=")[1]) || null;
+	const pathid = pathVariables?.[2]?.split("=")[1] || null;
 
 	// <------------------------STATES------------------------->
 	const [dataShown, setDataShown] = useState("orders"); // either ['setLocation', 'vendorDetails', 'orders', 'all'] : View for a vendor picked on the map, View for ongoing orders/in transit or View for edit and set location
 	const [Loading, setLoading] = useState(false);
 	const [Vendors, setVendors] = useState<any[]>([]);
 	const [Vendor, setVendor] = useState<any>();
+	// console.log(Vendor)
 	const [location, setLocation] = useState<Location.LocationObject | null>(
 		null
 	);
@@ -508,10 +510,10 @@ export default function Maps() {
 	const [errorMsg, setErrorMsg] = useState<string | null>(null);
 	const [markers, setMarkers] = useState<any[]>([]);
 
-	if(User === undefined || User === null){
-		fetchUserDetails()
-		router.push("/(screens)")
-	}
+	// if(User === undefined || User === null){
+	// 	fetchUserDetails()
+	// 	router.push("/(screens)")
+	// }
 
 	const initialRegion = {
 		// latitude: pathLat || User?.lat || 1, 
@@ -537,9 +539,6 @@ export default function Maps() {
 	const floatScale = useSharedValue(1);
 	const floatOrderOpacity = useSharedValue(1);
 	const floatOrderScale = useSharedValue(1);
-
-	const locationtext =
-		"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Totam quia molestiae porro deserunt harum optio accusantium inventore nobis tempora necessitatibus incidunt a quisquam, soluta veritatis unde omnis. Provident, eligendi asperiores?";
 
 	// <----------------------FUNCTIONS------------------------>
 	// >---->> ANIMATIONS
@@ -627,7 +626,6 @@ export default function Maps() {
 		});
 	const flingGesture = Gesture.Simultaneous(flingUp, flingDown); // or .Simultaneous
 
-	console.log(Vendor)
 
 	// >---->> FETCHING DATA FROM BACKEND
 	const fetchVendor = async () => {
@@ -641,7 +639,8 @@ export default function Maps() {
 			});
 			const response = await callApi.json();
 			// setVendors(response);
-			if(pathid != null || pathid != undefined){
+			if(pathid != null && pathid != undefined){
+				console.log("executing")
 				for(const vendor of response){
 					if (vendor.id === pathid){
 						const vendorData = {
@@ -740,12 +739,8 @@ export default function Maps() {
 		fetchVendor();
 	}, []);
 
-	if(User == null || undefined){
-		fetchUserDetails()
-		return(
-			<Redirect href={"/(screens)"}/>
-		)
-	}
+	if (!User) return null;
+
 	return (
 		<>
 			<StatusBar

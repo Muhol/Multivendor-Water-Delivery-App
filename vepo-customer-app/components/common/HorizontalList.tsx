@@ -35,7 +35,8 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 	// <-----------------<HOOKS>----------------->
 	const router = useRouter();
 	const { currentTheme } = useContext(UIThemeContext);
-	const { fetchCart } = useContext(Context)
+	const { fetchCart, User } = useContext(Context)
+	// console.log(User)
 	const darkTheme = currentTheme === "dark";
 	const { getToken } = useAuth()
 
@@ -48,8 +49,10 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 		const token = await getToken()
 		const payload = {
 			id: id,
-			quantity: 1
+			quantity: 1,
+			user_id: User.id || ""
 		}
+		// console.log(payload)
 		try {
 			const apiCall = await fetch(ApiRoutes.AddToCart.path, {
 				method : ApiRoutes.AddToCart.method,
@@ -61,9 +64,8 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 			})
 
 			const response = await apiCall.json()
-			fetchCart().then(() => {
-				setAddToCartLoading(false);
-			})
+			fetchCart()
+			setAddToCartLoading(false);
 		} catch (error: any) {
 			setAddToCartLoading(false);
 		}

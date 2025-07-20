@@ -8,6 +8,8 @@ import bg1light from '../../assets/images/4.png'
 // import bg1dark from '../../assets/images/1.png'
 // import bg2dark from '../../assets/images/3.png'
 import authBgLight from '../../assets/images/authbglight.jpg'
+import mpesa_logo from '../../assets/images/mpesa_logo.png'
+import card_payment from '../../assets/images/card_payment.png'
 import google_logo from '../../assets/images/google.png'
 // import logoLight from '../../assets/images/logo-white.png'
 import logo from '../../assets/images/vepo-logo.png'
@@ -19,7 +21,6 @@ import water_bottles from '../../assets/prop-images/skynews-water-bottle-generic
 
 
 const images = {
-    // plain_logo,
     profile_placeholder,
     bg1light,
     authBgLight,
@@ -30,6 +31,8 @@ const images = {
     empty_cart,
     logo,
     water_bottles,
+    mpesa_logo,
+    card_payment
 }
 
 

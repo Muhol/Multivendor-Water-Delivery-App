@@ -1037,6 +1037,7 @@
 			"total_amount": 636.21
 		}
 	],
+
 	"product for cart ": {
 		"capacity": 2.3,
 		"description": "Agency notice up picture support no agreement. System across side be.",
@@ -1049,5 +1050,55 @@
 		"stock": 67,
 		"unit": "L",
 		"vendor_id": "dc03bd12-e6e9-42fa-8d3a-c88d7765b609"
+	},
+
+	"create order payload": {
+		"amount": 145.01,
+		"id": "0cf4f8a5-9828-40d8-b46e-bf239a2afad4",
+		"lat": -1.3823299,
+		"lng": 36.6817147,
+		"phone": "254110861797",
+		"user_id": "3960e9e8-56db-4669-9d15-543a53dbc2f9"
+	},
+
+	"order": {
+		"checkout_request_ID": "ws_CO_18072025195424761110861797",
+		"created_at": "2025-07-18T16:45:35.691270Z",
+		"customer_id": "3960e9e8-56db-4669-9d15-543a53dbc2f9",
+		"deliverer_id": "296979e8-b7d3-4251-83de-d0830ac374ef",
+		"delivery_address": null,
+		"delivery_fee": null,
+		"delivery_time": null,
+		"id": "7f4731d4-c931-4ad9-965f-1abdb56c0416",
+		"lat": -1.3823299,
+		"lat_from": -1.1579153581697081,
+		"lng": 36.6817147,
+		"lng_from": 36.742494170346305,
+		"order_item": [
+			{
+				"Subtotal": 30.99,
+				"id": "e1afa0d9-5a43-47e5-81f1-1f2b454c563c",
+				"order_id": "7f4731d4-c931-4ad9-965f-1abdb56c0416",
+				"price": 30.99,
+				"product": ["Object"],
+				"product_id": "a5a8f22f-e9fd-4810-9c2e-b349729f3dc1",
+				"quantity": 1
+			},
+			{
+				"Subtotal": 21.96,
+				"id": "0073e25b-041d-4e74-afda-be909ded3fed",
+				"order_id": "7f4731d4-c931-4ad9-965f-1abdb56c0416",
+				"price": 21.96,
+				"product": ["Object"],
+				"product_id": "80b35120-ac04-4345-8215-6bcd8f2ddc61",
+				"quantity": 1
+			}
+		],
+		"order_status": "pending",
+		"payment_method": null,
+		"payment_status": "paid",
+		"phone": "254110861797",
+		"total_amount": 52.95,
+		"vendor_id": "b8ac03fd-7caf-4933-99ca-e20345eef475"
 	}
 }
