@@ -95,7 +95,6 @@ export default function Cart() {
 		const payload = {
 			phone : PhoneNumber,
 			amount : Math.ceil(Cart?.total_amount),
-			// amount : 1,
 			id : Cart?.id,
 			user_id: User?.id,
 			lat: User?.lat,
@@ -115,9 +114,8 @@ export default function Cart() {
 			// console.log(response)
 			setCheckoutRequestID(response.CheckoutRequestID)
 			fetch_cart()
-			fetchCart().then(()=>{
-				setPaymentLoading(false)
-			})
+			fetchCart()
+			setPaymentLoading(false)
 			nextPage()
 			setModalPage(3)
 		} catch (error: any) {

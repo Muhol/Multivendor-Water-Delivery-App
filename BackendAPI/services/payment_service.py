@@ -118,7 +118,7 @@ async def check_payment(checkout_request_id: str, session : AsyncSession):
 
                 elif result_code == '1032':
                     message = {
-                        "message": "Transaction has been canceled by the user",
+                        "message": "Transaction was canceled by the user",
                         "code": "1032"
                     }
 
