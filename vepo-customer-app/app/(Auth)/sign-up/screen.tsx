@@ -281,6 +281,7 @@ export default function SignUp() {
 									label={"Email"}
 									type={"email"}
 									placeholder={"Enter your Email Address"}
+									iconleft={icons.mail}
 									set={(text: string) => {
 										setEmail(text);
 									}}
@@ -289,6 +290,7 @@ export default function SignUp() {
 									label={"Password"}
 									type={"password"}
 									placeholder={"Enter your Password"}
+									iconleft={icons.password}
 									set={(text: string) => {
 										setPassword(text);
 									}}
@@ -297,6 +299,7 @@ export default function SignUp() {
 									label={"Confirm Password"}
 									type={"password"}
 									placeholder={"Confirm your Password"}
+									iconleft={icons.password}
 									set={(text: string) => {
 										setConfirmPassword(text);
 									}}
@@ -320,7 +323,7 @@ export default function SignUp() {
 										))}
 									</View>
 								)}
-								<View className="flex-row items-center justify-end w-[90%]">
+								{/* <View className="flex-row items-center justify-end w-[90%]">
 									<Link
 										href={"/(Auth)/forgot-password/screen"}
 										className="group"
@@ -329,9 +332,9 @@ export default function SignUp() {
 											Forgot Password?
 										</Text>
 									</Link>
-								</View>
+								</View> */}
 								<TouchableOpacity
-									className="w-full items-center"
+									className="w-full items-center mt-4"
 									activeOpacity={0.7}
 									disabled={loading}
 									onPress={() => {
@@ -339,11 +342,11 @@ export default function SignUp() {
 									}}
 								>
 									<Animated.View
-										className={`w-[90%] h-[50px] flex-row items-center justify-center gap-2 ${
+										className={`w-[90%] max-w-[320px] h-[45px] flex-row items-center justify-center gap-2 ${
 											loading
 												? "bg-accentbg/60"
 												: "bg-accentbg"
-										} rounded-[10px]`}
+										} rounded-full`}
 									>
 										{/* <ComicText text={"Log In"} style="text-white text-2xl" /> */}
 										{loading ? (
@@ -393,7 +396,7 @@ export default function SignUp() {
 									</View> */}
 									<View
 										className={`flex-row gap-4 w-[260px] h-[40px] rounded-[30px]  ${
-											darkTheme ? "bg-slate-50/15" : "bg-slate-100"
+											darkTheme ? "bg-slate-50/15" : "bg-white"
 										} shadow-2xl bg-slate-50/15 items-center justify-center`}
 										
 									>

@@ -42,13 +42,15 @@ import bike_marker from '../../assets/icons/bike_marker.png'
 import truck_marker from '../../assets/icons/truck_marker.png'
 import package1 from '../../assets/icons/package.png'
 import package_delivered from '../../assets/icons/package_delivered.png'
+import password from '../../assets/icons/password.png'
+import mail from '../../assets/icons/mail.png'
 
 
 const icons = {
     search : Search,
     bike : bike,
     cart : Cart,
-    location: Location,
+    // location: Location,
     notifications: Notifications,
     add: add,
     minus: minus,
@@ -79,7 +81,6 @@ const icons = {
     verified: verified,
     leftArrow: leftArrow,
     eyeslash: eyeslash,
-    eyeslash: eyeslash,
     eye: eye,
     close: close,
     more: more,
@@ -88,7 +89,8 @@ const icons = {
     bike_marker: bike_marker,
     truck_marker: truck_marker,
     package1,
-    package_delivered
+    password,
+    mail,
 }
 
 export default icons

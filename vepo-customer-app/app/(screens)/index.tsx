@@ -283,12 +283,14 @@ export default function Home() {
 										<Text className={`font-semibold ${darkTheme ? "text-white" : "text-black"}`}>
 											KSH {Math.round((item?.price - item?.discount) * 100) / 100}
 										</Text>
-										<Text
-											style={{ textDecorationLine: "line-through" }}
-											className={darkTheme ? "text-gray-500" : "text-gray-400"}
-										>
-											{item?.price}
-										</Text>
+										{item?.discount > 0 && (
+											<Text
+												style={{ textDecorationLine: "line-through" }}
+												className={darkTheme ? "text-gray-500" : "text-gray-400"}
+											>
+												{item?.price}
+											</Text>
+										)}
 									</View>
 									{/* est delivery time */}
 									{/* <View className="flex-row gap-1 items-center">
@@ -330,14 +332,12 @@ export default function Home() {
 	}, []);
 
 	useEffect(() => {
-		// fetchUserDetails()
 		const readyToExecute = async () => {
-			// await fetchCart()
 			fetchNearByVendors();
-			fetchProductsWithOffer();
 			fetchTopRatedVendors();
 			fetchTopBrands();
 			fetchRandomProducts();
+			fetchProductsWithOffer();
 			fetchVendorsByType("refill");
 			fetchVendorsByType("whole_seller");
 			fetchVendorsByType("general");
@@ -419,19 +419,20 @@ export default function Home() {
 									<TouchableOpacity
 										activeOpacity={0.6}
 										onPress={() => {
-											router.push(
-												"/(screens)/Notifications"
-											);
+											// router.push(
+											// 	"/(screens)/Notifications"
+											// );
 										}}
 									>
 										<View
 											className={`rounded-full   w-12 h-12 items-center justify-center bg-accentbg/20`}
 										>
-											<View className="absolute z-10 -right-2 -top-2 bg-red-500  items-center justify-center w-7 h-7 rounded-full">
+											{/* UNREAD BADGE */}
+											{/* <View className="absolute z-10 -right-2 -top-2 bg-red-500  items-center justify-center w-7 h-7 rounded-full">
 												<Text className="text-white font-bold">
 													12
 												</Text>
-											</View>
+											</View> */}
 											<Image
 												source={icons.notifications}
 												className="w-7 h-7"
@@ -455,7 +456,7 @@ export default function Home() {
 						keyExtractor={(item) => item.id.toString()}
 						numColumns={2}
 						onEndReached={fetchRandomProducts}
-						onEndReachedThreshold={0.5}
+						onEndReachedThreshold={1}
 						extraData={darkTheme}
 						ListHeaderComponent={
 							<TouchableWithoutFeedback>
@@ -550,7 +551,7 @@ export default function Home() {
 						ListFooterComponent={
 							<View className={`gap-3`}>
 								<View className={`w-full flex-row flex-wrap`}>
-									{[...Array(3)]?.map((item: any, index: any) => {
+									{[...Array(2)]?.map((item: any, index: any) => {
 										return (
 											<View
 												key={index}

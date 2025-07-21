@@ -103,7 +103,7 @@ export default function Index() {
 		};
 
 		if (isSignedIn){
-			setIsReady(true) // for it to work on the simulator
+			// setIsReady(true) // for it to work on the simulator
 			StartUpLogic()
 		}
 		if(isSignedIn === false){
@@ -112,7 +112,7 @@ export default function Index() {
 	}, [ isSignedIn ]);
 
 	useEffect(() => {
-		setIsReady(true)  // no internet
+		// setIsReady(true)  // no internet
 		if(LocationFinal != null){
 			updateUserLocation().then(() => {
 				setIsReady(true)

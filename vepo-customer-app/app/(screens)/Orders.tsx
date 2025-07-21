@@ -18,6 +18,7 @@ import { UIThemeContext } from "@/context/ThemeContext";
 import BackButtonMinimal from "@/components/ui/BackButtonMinimal";
 import { useAuth, useUser } from "@clerk/clerk-expo";
 import ApiRoutes from "@/API/routes/ApiRoutes";
+import Animated from "react-native-reanimated";
 
 const filterOptions = ["All", "In Transit", "Pending", "Delivered"];
 
@@ -30,20 +31,7 @@ const Orders = () => {
 	const { getToken } = useAuth()
 
 	const [OrdersLoaded, setOrdersLoaded] = useState(false)
-	const [Orders, setOrders] = useState<any>()
-
-	const orders = [
-		"pending",
-		"completed",
-		"out for delivery",
-		"cancelled",
-		"completed",
-		"out for delivery",
-		"cancelled",
-		"pending",
-		"completed",
-		"out for delivery",
-	];
+	const [Orders, setOrders] = useState<any>(null)
 
 	// <-------------FUNCTIONS------------->
 	// API CALLS
@@ -59,11 +47,13 @@ const Orders = () => {
 				}
 			})
 			const response = await apiCall.json()
-			// console.log(response[0])
 			setOrders(response)
 		} catch (error) {
 			// console.log(error)
+		}finally{
+			setOrdersLoaded(true)
 		}
+
 	}
 
 	useEffect(() => {
@@ -163,8 +153,8 @@ const Orders = () => {
 						overScrollMode="never"
 					>
 						{/* TODO: Render filtered orders */}
-						{
-							Orders != null && (
+						{OrdersLoaded ?
+							Orders != null ? (
 								<TouchableWithoutFeedback>
 									<View className="gap-4">
 										{Orders.map((order: any, index: any) => {
@@ -174,6 +164,45 @@ const Orders = () => {
 										})}
 									</View>
 								</TouchableWithoutFeedback>
+							):(
+								<>
+								<View className="py-52 w-full items-center justify-center px-4">
+									<Text className={`text-lg font-semibold ${darkTheme?"text-white":""}`}>
+										No Orders yet 
+									</Text>
+									<TouchableOpacity
+										onPress={()=>{
+											router.push("/(screens)")
+										}}
+									>
+										<View>
+											<Text className={`text-lg font text-accentbg underline`}>
+												Continue Shopping to add Orders
+											</Text>
+										</View>
+									</TouchableOpacity>
+								</View>
+								</>
+							):
+							(
+								<View className="gap-3">
+								{[...Array(4)].map((i, index)=> {
+									return(
+										<Animated.View 
+											className={`w-full min-h-[150px] py-4 px-3 gap-5 rounded-2xl ${darkTheme?"bg-gray-200/10":"bg-white"} animate-pulse`}
+											key={index}
+										>
+											<View className="flex-row justify-between w-full">
+												<Animated.View className={`h-3 w-[100px] rounded-full ${darkTheme?"bg-gray-100/20":"bg-gray-200"}`}/>
+												<Animated.View className={`h-3 w-[150px] rounded-full ${darkTheme?"bg-gray-100/20":"bg-gray-200"}`}/>
+											</View>
+											<Animated.View className={`h-3 w-[150px] rounded-full ${darkTheme?"bg-gray-100/20":"bg-gray-200"}`}/>
+											<Animated.View className={`h-8 w-[70%] rounded-full ${darkTheme?"bg-gray-100/20":"bg-gray-200"}`}/>
+											<Animated.View className={`h-3 w-[100px] rounded-full ${darkTheme?"bg-gray-100/20":"bg-gray-200"}`}/>
+										</Animated.View>
+									)
+								})}
+								</View>
 							)
 						}
 					</ScrollView>

@@ -14,6 +14,7 @@
     "ios": {
       "supportsTablet": true,
       "config": {
+        "googleMapsApiKey": "AIzaSyAO4bp76xu5ZfOXB-qmvcUwDImpG5rgnYc"
       },
       "bundleIdentifier": "com.mohol.VEPO",
       "infoPlist": {
@@ -27,6 +28,7 @@
       "package": "com.mohol.VEPO",
       "config": {
         "googleMaps": {
+          "apiKey": "AIzaSyAO4bp76xu5ZfOXB-qmvcUwDImpG5rgnYc"
         }
       },
       "permissions": [

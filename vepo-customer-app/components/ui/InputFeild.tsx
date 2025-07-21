@@ -16,27 +16,33 @@ type Props = {
   style?: string;
   placeholder: string;
   set: (text: string) => void;
+  iconleft?: any
 };
 
-const InputFeild = ({ label, style, type, placeholder, set }: Props) => {
+const InputFeild = ({ label, style, type, placeholder, set, iconleft }: Props) => {
   // <---------------HOOKS---------------->
   const {currentTheme} = useContext(UIThemeContext)
   const darkTheme = currentTheme === "dark";
 
   //   STATES
-  // const [text, setText] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
 
-  // set(text);
 
   return (
     <View
-      className={`relative w-[90%] border ${darkTheme?"border-gray-400":""} rounded-xl h-[50px] px-[10px] flex-row items-center` + style
+      className={`relative max-w-[350px] w-[90%] border ${darkTheme?"border-gray-100/20 bg-gray-200/20":"border-gray-500 bg-gray-100"} rounded-full h-[50px] px-5 flex-row items-center` + style
       }
     >
-      <View className={`px-2 ${darkTheme?"bg-black":"bg-primarybg"} absolute -top-3 left-2`}>
+      {/* <View className={`px-2 py-[2px] ${darkTheme?"":"bg-gray-100"} absolute -top-3 left-5 rounded-full`}>
         <Text className={`${darkTheme?"text-white":""}`}>{label}</Text>
-      </View>
+      </View> */}
+      {iconleft != undefined && (
+        <View className="h-full items-center justify-center">
+          <View className="w-9 h-9 items-center justify-center  ">
+              <Image source={iconleft} className="w-6 h-6" tintColor={"dimgrey"} />
+          </View>
+        </View>
+        )}
       <TextInput
         placeholder={placeholder}
         onChangeText={(text) => set(text)}

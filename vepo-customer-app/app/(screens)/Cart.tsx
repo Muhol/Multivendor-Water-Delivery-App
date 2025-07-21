@@ -461,9 +461,7 @@ export default function Cart() {
 																<View className={` px-5 flex-row h-[50px] min-w-[250px] gap-2 items-center rounded-full ${darkTheme?"bg-gray-200/20":"bg-gray-200"}`}>
 																	<Image source={icons.call} className={`w-5 h-5`} tintColor={darkTheme?"lightgray":"dimgray"}/>
 																	<Text className={`text-lg font-semibold ${darkTheme?"text-white":""}`}>+254</Text>
-																	<TextInput placeholder="* * * * * * * * *" keyboardType='numeric' onChangeText={(text)=>{
-																			setPhoneNumber(`254${text}`)
-																	}}/>
+																	<TextInput placeholder="* * * * * * * * *" keyboardType='numeric' onChangeText={(text) => setPhoneNumber(`254${text}`)}/>
 																</View>
 																<View 
 																	className="px-5 items-center"

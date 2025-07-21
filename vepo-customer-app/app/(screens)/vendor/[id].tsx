@@ -142,7 +142,6 @@ const VendorDetails = (props: Props) => {
 					</TouchableOpacity>
 				</View>
 
-				{/* <--------------------------<EXTENDABLE SRCOLLVIEW>--------------------------> */}
 				<View
 					style={{
 						height: screenHeight,
@@ -274,15 +273,20 @@ const VendorDetails = (props: Props) => {
 												</TouchableOpacity>
 											</View>
 											{/* <---------------------------------<OPENING HOURS>-----------------------------------> */}
-											<View className="px-2 flex-row items-center">
-												<ComicText
+											<View className="px-2 flex-row items-end">
+												{/* <ComicText
 													text={`Operating hours: `}
 													style={`${
 														darkTheme
 															? "text-gray-400"
 															: "text-gray-600"
 													}`}
-												/>
+												/> */}
+												<Text className={`${
+														darkTheme
+															? "text-gray-400"
+															: "text-gray-600"
+													}`}>Operating hours:  </Text>
 												<ComicText
 													text={`Open from ${VendorDetails?.shift_start} to ${VendorDetails?.shift_end}`}
 													style={`${
@@ -293,15 +297,22 @@ const VendorDetails = (props: Props) => {
 												/>
 											</View>
 											{/* <-------------------------------<EST DELIVERY TIME>---------------------------------> */}
-											<View className="px-2 flex-row items-center">
+											<View className="px-2 flex-row items-end">
+												<Text className={`${
+													darkTheme
+														? "text-gray-400"
+														: "text-gray-600"
+												}`}>Estimated delivery time: 
+												</Text>
 												<ComicText
-													text={`Estimated delivery time: 30-45 mins `}
+													text={` 30-45 mins `}
 													style={`${
 														darkTheme
-															? "text-gray-400"
-															: "text-gray-600"
+															? "text-gray-300"
+															: "text-gray-400"
 													}`}
 												/>
+											
 											</View>
 											{/* <-------------------------------------<RATINGS>-------------------------------------> */}
 											<View

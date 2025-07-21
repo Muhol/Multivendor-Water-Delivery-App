@@ -259,6 +259,7 @@ export default function SignIn() {
 									label={"Email"}
 									type={""}
 									placeholder={"Enter Your Email"}
+									iconleft={icons.mail}
 									set={(text: string) => {
 										setEmailAddress(text);
 									}}
@@ -267,6 +268,7 @@ export default function SignIn() {
 									label={"Password"}
 									type={"password"}
 									placeholder={"Enter Your Password"}
+									iconleft={icons.password}
 									set={(text: string) => {
 										setPassword(text);
 									}}
@@ -290,7 +292,7 @@ export default function SignIn() {
 										))}
 									</View>
 								)}
-								<View className="flex-row items-center justify-end w-[90%]">
+								<View className="flex-row items-center justify-end w-[90%] max-w-[320px]">
 									<Link
 										href={"/(Auth)/forgot-password/screen"}
 										className="group"
@@ -309,13 +311,12 @@ export default function SignIn() {
 									}}
 								>
 									<Animated.View
-										className={`w-[90%] h-[50px] flex-row items-center justify-center gap-2  ${
+										className={`w-[90%] max-w-[320px] h-[45px] flex-row items-center justify-center gap-2  ${
 											loading
 												? "bg-accentbg/60"
 												: "bg-accentbg"
-										} rounded-[10px]`}
+										} rounded-full`}
 									>
-										{/* <ComicText text={"Log In"} style="text-white text-2xl" /> */}
 										{loading ? (
 											<Animated.View
 												className={"animate-spin"}
@@ -354,7 +355,7 @@ export default function SignIn() {
 								>
 									<View
 										className={`flex-row gap-4 w-[260px] h-[40px] rounded-[30px]  ${
-											darkTheme ? "bg-slate-50/15" : "bg-slate-100"
+											darkTheme ? "bg-slate-50/15" : "bg-white"
 										} shadow-2xl bg-slate-50/15 items-center justify-center`}
 										style={{
 											width: width * 0.6,

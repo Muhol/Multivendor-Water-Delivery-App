@@ -92,12 +92,12 @@ const Profile = () => {
 				body: JSON.stringify(payload)
 			})
 			const response = await apiCall.json()
-			console.log(response)
+			// console.log(response)
 			fetchUserDetails().then(() => {
 				setChangeProfileLoading(false)
 			})
 		} catch (error: any) {
-			console.log(error.message)
+			// console.log(error.message)
 			setChangeProfileLoading(false)
 		}
 	}
@@ -116,8 +116,9 @@ const Profile = () => {
 			result?.assets[0].uri,
 			result?.assets[0].fileName
 		);
-		ChangeProfileImage(uploadedImageData.url)
-		setImage(uploadedImageData.url);
+		ChangeProfileImage(uploadedImageData.secure_url)
+		setImage(uploadedImageData.secure_url);
+		console.log(uploadedImageData.secure_url)
 	};
 
 	return (
@@ -195,11 +196,6 @@ const Profile = () => {
 						<View className="w-full items-center pt-3 pb-5 gap-2">
 							{/* PROFILE_PIC */}
 							<View className="h-[150px] w-[150px]">
-								{/* <Image
-									source={images.profile_placeholder}
-									className={`w-full h-full rounded-full `}
-									tintColor={darkTheme ? "dimgray" : "gray"}
-								/> */}
 								<Image
 									source={{uri :  User?.profile_pic || image}}
 									className={`w-full h-full rounded-full `}
