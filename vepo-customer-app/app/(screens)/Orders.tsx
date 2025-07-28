@@ -31,7 +31,8 @@ const Orders = () => {
 	const { getToken } = useAuth()
 
 	const [OrdersLoaded, setOrdersLoaded] = useState(false)
-	const [Orders, setOrders] = useState<any>(null)
+	const [Orders, setOrders] = useState<any>([])
+	// console.log(Orders)
 
 	// <-------------FUNCTIONS------------->
 	// API CALLS
@@ -47,6 +48,7 @@ const Orders = () => {
 				}
 			})
 			const response = await apiCall.json()
+			// console.log(response)
 			setOrders(response)
 		} catch (error) {
 			// console.log(error)
@@ -141,71 +143,73 @@ const Orders = () => {
 							</View>
 						)}
 					</View>
+					{
+						Orders.length == 0 && OrdersLoaded ?(
+							<View className=" h-[80%] w-full items-center justify-center px-4">
+								<Text className={`text-xl font-semibold ${darkTheme?"text-white":""}`}>
+									You currently do not have any order 
+								</Text>
+								<TouchableOpacity
+									onPress={()=>{
+										router.push("/(screens)")
+									}}
+								>
+									<View>
+										<Text className={`text-lg font text-accentbg underline`}>
+											Continue Shopping to buy products 
+										</Text>
+									</View>
+								</TouchableOpacity>
+							</View>
+						):(
+							<ScrollView
+								className="flex-1 rounded-xl  mx-4"
+								contentContainerStyle={{
+									paddingVertical: 10,
+									borderRadius: 20,
+								}}
+								showsVerticalScrollIndicator={false}
+								overScrollMode="never"
+							>
+								{/* TODO: Render filtered orders */}
+								{OrdersLoaded ?
+									Orders.length != 0 && (
+										<TouchableWithoutFeedback>
+											<View className="gap-4">
+												{Orders.map((order: any, index: any) => {
+													return (
+														<OrderCard key={index} order={order} />
+													);
+												})}
+											</View>
+										</TouchableWithoutFeedback>
+									):
+									(
+										<View className="gap-3">
+										{[...Array(4)].map((i, index)=> {
+											return(
+												<Animated.View 
+													className={`w-full min-h-[150px] py-4 px-3 gap-5 rounded-2xl ${darkTheme?"bg-gray-200/10":"bg-white"} animate-pulse`}
+													key={index}
+												>
+													<View className="flex-row justify-between w-full">
+														<Animated.View className={`h-3 w-[100px] rounded-full ${darkTheme?"bg-gray-100/20":"bg-gray-200"}`}/>
+														<Animated.View className={`h-3 w-[150px] rounded-full ${darkTheme?"bg-gray-100/20":"bg-gray-200"}`}/>
+													</View>
+													<Animated.View className={`h-3 w-[150px] rounded-full ${darkTheme?"bg-gray-100/20":"bg-gray-200"}`}/>
+													<Animated.View className={`h-8 w-[70%] rounded-full ${darkTheme?"bg-gray-100/20":"bg-gray-200"}`}/>
+													<Animated.View className={`h-3 w-[100px] rounded-full ${darkTheme?"bg-gray-100/20":"bg-gray-200"}`}/>
+												</Animated.View>
+											)
+										})}
+										</View>
+									)
+								}
+							</ScrollView>
+						)
+					}
 
 					{/* ORDERS LIST */}
-					<ScrollView
-						className="flex-1 rounded-xl  mx-4"
-						contentContainerStyle={{
-							paddingVertical: 10,
-							borderRadius: 20,
-						}}
-						showsVerticalScrollIndicator={false}
-						overScrollMode="never"
-					>
-						{/* TODO: Render filtered orders */}
-						{OrdersLoaded ?
-							Orders != null ? (
-								<TouchableWithoutFeedback>
-									<View className="gap-4">
-										{Orders.map((order: any, index: any) => {
-											return (
-												<OrderCard key={index} order={order} />
-											);
-										})}
-									</View>
-								</TouchableWithoutFeedback>
-							):(
-								<>
-								<View className="py-52 w-full items-center justify-center px-4">
-									<Text className={`text-lg font-semibold ${darkTheme?"text-white":""}`}>
-										No Orders yet 
-									</Text>
-									<TouchableOpacity
-										onPress={()=>{
-											router.push("/(screens)")
-										}}
-									>
-										<View>
-											<Text className={`text-lg font text-accentbg underline`}>
-												Continue Shopping to add Orders
-											</Text>
-										</View>
-									</TouchableOpacity>
-								</View>
-								</>
-							):
-							(
-								<View className="gap-3">
-								{[...Array(4)].map((i, index)=> {
-									return(
-										<Animated.View 
-											className={`w-full min-h-[150px] py-4 px-3 gap-5 rounded-2xl ${darkTheme?"bg-gray-200/10":"bg-white"} animate-pulse`}
-											key={index}
-										>
-											<View className="flex-row justify-between w-full">
-												<Animated.View className={`h-3 w-[100px] rounded-full ${darkTheme?"bg-gray-100/20":"bg-gray-200"}`}/>
-												<Animated.View className={`h-3 w-[150px] rounded-full ${darkTheme?"bg-gray-100/20":"bg-gray-200"}`}/>
-											</View>
-											<Animated.View className={`h-3 w-[150px] rounded-full ${darkTheme?"bg-gray-100/20":"bg-gray-200"}`}/>
-											<Animated.View className={`h-8 w-[70%] rounded-full ${darkTheme?"bg-gray-100/20":"bg-gray-200"}`}/>
-											<Animated.View className={`h-3 w-[100px] rounded-full ${darkTheme?"bg-gray-100/20":"bg-gray-200"}`}/>
-										</Animated.View>
-									)
-								})}
-								</View>
-							)
-						}
-					</ScrollView>
 				</View>
 			</TouchableWithoutFeedback>
 		</>

@@ -5,6 +5,7 @@ import {
 	TouchableOpacity,
 	Image,
 	ScrollView,
+	StyleSheet,
 } from "react-native";
 import React, { useContext, useLayoutEffect, useState } from "react";
 import BackButton from "@/components/ui/BackButton";
@@ -14,6 +15,8 @@ import icons from "@/constants/icons/icons";
 import ComicText from "@/components/styled-components/custom-texts/ComicText";
 import { UIThemeContext } from "@/context/ThemeContext";
 import BackButtonMinimal from "@/components/ui/BackButtonMinimal";
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+
 
 const Search = () => {
 	// <--------------------<HOOKS>-------------------->
@@ -23,7 +26,6 @@ const Search = () => {
 
 	// <--------------------<STATES>-------------------->
 	const [search, setSearch] = useState("");
-
 	// DUMMY DATA
 	const vendors = [1, 2, 3, 4, 5, 6, 7];
 	const location =
@@ -56,14 +58,25 @@ const Search = () => {
 					>
 						<BackButtonMinimal />
 					</TouchableOpacity>
-					<SearchBar
+					{/* <SearchBar
 						width={"w-[70%]"}
 						height={"h-[40px]"}
 						buttonStyle={""}
 						setFunc={(value: string) => {
 							setSearch(value);
 						}}
-					/>
+					/> */}
+					<GooglePlacesAutocomplete
+								placeholder='Search'
+								onPress={(data, details = null) => {
+									// 'details' is provided when fetchDetails = true
+									console.log(data, details);
+								}}
+								query={{
+									key: 'YOUR API KEY',
+									language: 'en',
+								}}
+							/>
 					<TouchableOpacity onPress={handleSearch}>
 						<View
 							className={`w-[40px] h-[40px] items-center justify-center ${
@@ -203,3 +216,15 @@ const Search = () => {
 };
 
 export default Search;
+
+
+const styles = StyleSheet.create({
+  autocompleteContainer: {
+    flex: 1,
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: 1
+  }
+});

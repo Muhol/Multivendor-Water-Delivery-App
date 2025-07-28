@@ -177,7 +177,7 @@ const VerticalList = ({ data, loaded , title}: Props) => {
                     />
                   </View>
                   {/* Name, pricing and delivery time  */}
-                  <View className={`w-full flex-1 px-1 py-2`}>
+                  <View className={`w-full h-[50px] px-1 py-2`}>
                     <Text
                       className={`${
                         darkTheme ? "text-white" : " text-black"

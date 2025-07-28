@@ -2,7 +2,7 @@ from db.session import Base
 from datetime import datetime, timezone
 import uuid
 from sqlalchemy import Column, String, Text, Boolean,Enum, TIMESTAMP, Float, Double, DateTime,Integer, ARRAY , ForeignKey
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import UUID, TSVECTOR
 from enum import Enum as PyEnum
 from sqlalchemy.orm import relationship
 
@@ -20,6 +20,7 @@ class Product(Base):
   unit = Column(String, nullable=False, index=True)
   stock = Column(Integer, nullable=False, index=True)
   is_available = Column(Boolean, default=True, index=True)
+  search_vector = Column(TSVECTOR)
   created_at= Column(TIMESTAMP(timezone=True), default=datetime.now(timezone.utc))
   updated_at= Column(TIMESTAMP(timezone=True), default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
   

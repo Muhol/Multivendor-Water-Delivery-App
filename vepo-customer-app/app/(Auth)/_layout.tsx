@@ -77,7 +77,6 @@ const Layout = () => {
 		try {
 			let { status } = await Location.requestForegroundPermissionsAsync();
 			if (status !== "granted") {
-				// setErrorMsg("Permission to access Location was denied");
 				setShowLocationPrompt(true);
 				return;
 			}
@@ -129,33 +128,57 @@ const Layout = () => {
 			});
 
 			const response = await apiCall.json();
+			// console.log(response)
 		} catch (error) {
 		}
 	};
 
   useEffect(()=>{
     getCurrentLocation()
+
   },[])
 
-  if (isSignedIn) {
-			if (user) {
-				create_new_database_user(
-					user.id,
-					user.fullName || "",
-					user.emailAddresses[0]?.emailAddress || "",
-					user.phoneNumbers[0]?.phoneNumber || "",
-					user.imageUrl || ""
-				)
-				.then(()=>{
-					if(location != null) {
-						updateUserLocation()
-						.then(()=>{
-							router.replace("/(screens)")
-						})
-					}
-				})
+  useEffect(()=>{
+		const authenticate = async() => {
+			if (isSignedIn && LocationFinal != null) {
+				if (user) {
+					await create_new_database_user(
+							user.id,
+							user.fullName || "",
+							user.emailAddresses[0]?.emailAddress || "",
+							user.phoneNumbers[0]?.phoneNumber || "",
+							user.imageUrl || ""
+					)
+
+					await updateUserLocation()
+					router.replace("/(screens)")
+				}
 			}
-  }
+		}
+
+		authenticate()
+  },[isSignedIn, LocationFinal])
+
+
+  // if (isSignedIn) {
+	// 		if (user) {
+	// 			create_new_database_user(
+	// 				user.id,
+	// 				user.fullName || "",
+	// 				user.emailAddresses[0]?.emailAddress || "",
+	// 				user.phoneNumbers[0]?.phoneNumber || "",
+	// 				user.imageUrl || ""
+	// 			)
+	// 			.then(()=>{
+	// 				if(location != null) {
+	// 					updateUserLocation()
+	// 					.then(()=>{
+	// 						router.replace("/(screens)")
+	// 					})
+	// 				}
+	// 			})
+	// 		}
+  // }
 
   return (
     <>

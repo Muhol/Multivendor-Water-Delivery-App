@@ -82,8 +82,10 @@ const Layout = () => {
   
   
   useEffect(() =>{
-    fetchCart()
-    fetchUserDetails()
+    if(isSignedIn){
+      fetchCart()
+      fetchUserDetails()
+    }
   },[])
   
   if (isSignedIn === false) {

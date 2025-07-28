@@ -456,7 +456,7 @@ export default function Home() {
 						keyExtractor={(item) => item.id.toString()}
 						numColumns={2}
 						onEndReached={fetchRandomProducts}
-						onEndReachedThreshold={1}
+						onEndReachedThreshold={0.7}
 						extraData={darkTheme}
 						ListHeaderComponent={
 							<TouchableWithoutFeedback>

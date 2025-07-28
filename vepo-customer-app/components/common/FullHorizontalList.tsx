@@ -20,7 +20,7 @@ import Animated from "react-native-reanimated";
 import Context from "@/context/context";
 
 type Props = {
-	data?: any[];
+	data: any[];
 	title?: string;
 	loaded: boolean;
 };
@@ -114,7 +114,7 @@ const FullHorizontalList = ({ title, data, loaded }: Props) => {
 				horizontal
 				showsHorizontalScrollIndicator={false}
 			>
-				{data?.map((item, index) => {
+				{data.map((item, index) => {
 					return (
 						<TouchableWithoutFeedback key={index}>
 							<View

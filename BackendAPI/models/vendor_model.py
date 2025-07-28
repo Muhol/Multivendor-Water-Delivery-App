@@ -3,7 +3,7 @@ from datetime import time, datetime, timezone
 import uuid
 from geoalchemy2 import Geography
 from sqlalchemy import Column, String, Text, Boolean, Numeric, TIMESTAMP, Float, Time,Integer, ARRAY
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import UUID, TSVECTOR
 from enum import Enum as PyEnum
 from sqlalchemy.orm import relationship
 
@@ -31,6 +31,7 @@ class Vendor(Base):
   rating = Column(Float, nullable=True, index=True, default=0)
   total_sales = Column(Integer, nullable=True, index=True)
   sales_amount = Column(Numeric(10, 2), nullable=True, index=True)
+  search_vector = Column(TSVECTOR)  # Optional if created directly in DB
   preferred_payment_method = Column(ARRAY(String), nullable=True, index=True)
   created_at= Column(TIMESTAMP(timezone=True), default=datetime.now(timezone.utc))
   updated_at= Column(TIMESTAMP(timezone=True), default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))

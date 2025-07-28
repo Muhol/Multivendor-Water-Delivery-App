@@ -27,7 +27,7 @@ const h = Math.ceil(height);
 type Props = {
 	title: string;
 	type?: string;
-	data?: any[];
+	data: any[];
 	loaded?: boolean;
 };
 
@@ -197,6 +197,11 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 		return
 	}
 
+	if(loaded && data == undefined){
+		return
+	}
+
+
 	return (
 		<View className={`  ${darkTheme ? "" : ""} shadow-2x`}>
 			<View className="px-5  justify-between flex-row items-center">
@@ -213,7 +218,7 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 				className="pb-1 "
 			>
 				<View className="flex-row gap-2 px-3">
-					{data?.map((item, index) => {
+					{data.map((item, index) => {
 						return (
 							<TouchableOpacity
 								key={index}
@@ -279,15 +284,10 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 															? "text-white text-wrap"
 															: "text-black text-wrap"
 													}
+													numberOfLines={1}
+
 												>
-													{item.name.length > 20
-														? item.name
-																.substring(
-																	0,
-																	21
-																)
-																.trim() + "..."
-														: item.name}
+														{item.name}
 												</Text>
 											) : (
 												<Text
@@ -296,15 +296,9 @@ const HorizontalList = ({ title, type, data, loaded }: Props) => {
 															? "text-white text-wrap"
 															: "text-black text-wrap"
 													}
+													numberOfLines={1}
 												>
-													{item.business_name.length > 23
-														? item.business_name
-																.substring(
-																	0,
-																	23
-																)
-																.trim() + "..."
-														: item.business_name}
+														{item.business_name}
 												</Text>
 											)}
 

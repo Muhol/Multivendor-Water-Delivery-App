@@ -37,17 +37,17 @@ productImages = [
 ]
 
 vendorProfilePics = [
-    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060591/to8zdm6xzme2kuopyk0n.jpg",
-    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060655/sxyi3eziuw2t8ad14fe8.jpg",
-    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060790/xqkh4vybgal1vvvjw0fm.jpg",
-    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060863/n2e5r93g9gu5bkdqsfvu.jpg",
-    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749063268/bfgtxoob6jttgrgjg9rm.jpg",
-    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749063325/iki24xxin5pbkn45u5on.jpg",
-    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065871/l11hxxozoda2hsqxvwhv.jpg",
-    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065886/ausfsrvkomemfvty36pv.jpg",
-    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065914/kuedkwmcqtfuvbw3dtw9.jpg",
-    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065937/ebcfn3zlek2mqgls4wk5.jpg",
-    "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065959/ldf9kkpnr23ncldxpfu4.jpg",
+    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060591/to8zdm6xzme2kuopyk0n.jpg",
+    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060655/sxyi3eziuw2t8ad14fe8.jpg",
+    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060790/xqkh4vybgal1vvvjw0fm.jpg",
+    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060863/n2e5r93g9gu5bkdqsfvu.jpg",
+    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749063268/bfgtxoob6jttgrgjg9rm.jpg",
+    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749063325/iki24xxin5pbkn45u5on.jpg",
+    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065871/l11hxxozoda2hsqxvwhv.jpg",
+    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065886/ausfsrvkomemfvty36pv.jpg",
+    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065914/kuedkwmcqtfuvbw3dtw9.jpg",
+    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065937/ebcfn3zlek2mqgls4wk5.jpg",
+    # "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065959/ldf9kkpnr23ncldxpfu4.jpg",
     "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749060801/kzhsjnh5e4ka30jr0qtv.jpg",
     "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065804/inei0y4cgkfjum6qy0hk.jpg",
     "https://res.cloudinary.com/dn5f0jksu/image/upload/v1749065832/dhocfdjhnxrrsukbqw0k.jpg",
@@ -70,6 +70,8 @@ async def seed_deliverers():
         for _ in range(30):
             lat = random.uniform(-1.45, -1.10)
             lng = random.uniform(36.65, 37.00)
+            # lat = random.uniform(51.39, 55.43)
+            # lng = random.uniform(-10.56, -5.34)
 
             deliverer = Deliverer(
                 id=uuid.uuid4(),
@@ -104,6 +106,8 @@ async def seed_vendors_and_products():
         for _ in range(15):
             lat = random.uniform(-1.99, 1.30)
             lng = random.uniform(33.65, 40.00)
+            # lat = random.uniform(51.39, 55.43)
+            # lng = random.uniform(-10.56, -5.34)
 
             vendor = Vendor(
                 owners_name=faker.name(),

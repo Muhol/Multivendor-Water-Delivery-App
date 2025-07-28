@@ -103,10 +103,12 @@ export default function Index() {
 		};
 
 		if (isSignedIn){
-			// setIsReady(true) // for it to work on the simulator
+			// console.log(isSignedIn)
+			setIsReady(true) // for it to work on the simulator
 			StartUpLogic()
 		}
 		if(isSignedIn === false){
+			// console.log(isSignedIn)
 			setIsReady(true)
 		}
 	}, [ isSignedIn ]);
@@ -205,7 +207,7 @@ export default function Index() {
 	if(isSignedIn){
 		return <Redirect href={"/(screens)"} />;
 	}else{
-		return <Redirect href={"/(screens)"} />; // no internet
 		return <Redirect href={"/(Auth)"}/>
+		// return <Redirect href={"/(screens)"} />; // no internet
 	}
 }
