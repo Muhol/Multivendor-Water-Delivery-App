@@ -24,12 +24,12 @@ const SearchBar = ({ width, buttonStyle, height, setFunc }: Props) => {
 
 	return (
 		<View
-			className={`px-4 flex-1 ${darkTheme ? "bg-gray-200/20" : "bg-gray-200"} rounded-2xl ${width} ${height}`}
+			className={`px-4 flex-1 ${darkTheme ? "bg-gray-200/20" : "bg-gray-200"} rounded-full ${width} ${height}`}
 		>
 			<TextInput
 				ref={inputRef}
 				placeholder="Search for Vendor/Shop or location"
-				placeholderTextColor={true && "lightgray"}
+				// placeholderTextColor={true && "lightgray"}
 				className="flex-1"
 				style={{
 					color: darkTheme ? "white" : "black"

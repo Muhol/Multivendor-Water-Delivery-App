@@ -31,7 +31,7 @@
           "apiKey": "AIzaSyAO4bp76xu5ZfOXB-qmvcUwDImpG5rgnYc"
         }
       },
-      "googleServicesFile": "./path/to/google-services.json",
+      "googleServicesFile": "./google-services.json",
       "permissions": [
         "android.permission.RECORD_AUDIO",
         "android.permission.ACCESS_COARSE_LOCATION",
@@ -71,7 +71,9 @@
           "isAndroidBackgroundLocationEnabled": true,
           "isAndroidForegroundServiceEnabled": true
         }
-      ]
+      ],
+      "expo-secure-store",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true

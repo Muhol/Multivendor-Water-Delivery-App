@@ -1,4 +1,4 @@
-import { Dimensions, Platform, StatusBar, View, useColorScheme } from "react-native";
+import { Dimensions, Platform, StatusBar, View } from "react-native";
 import "../global.css";
 import { Stack } from "expo-router";
 import { ClerkProvider} from '@clerk/clerk-expo'
@@ -12,6 +12,10 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import 'react-native-reanimated';
+
+import { useColorScheme } from '@/hooks/use-color-scheme';
 
 
 SplashScreen.preventAutoHideAsync();
@@ -97,7 +101,7 @@ export default function Layout() {
 
 	// <------------------HOOKES------------------>
 	const darkTheme = useColorScheme() === "dark"
-
+  const colorScheme = useColorScheme();
 
 	// <------------------STATES------------------>
 	// const [IsReady, setIsReady] = useState(false);
@@ -146,31 +150,41 @@ export default function Layout() {
   }, []);
 
 	return (
-		<>
-			<StatusBar
-				backgroundColor={"transparent"}
-				barStyle={"dark-content"}
-			/>
-			<GestureHandlerRootView>
-				<ThemeContextProvider>
-					<ClerkProvider publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY} tokenCache={tokenCache}>
-						<View
-							className={` absolute top-0 w-full ${darkTheme?"bg-black":""}`}
-							style={{
-								height: height + statusBarHeight,
-							}}
-						>
-							<Stack
-								screenOptions={{
-									headerShown: false,
-									animation: "slide_from_right", // Options: 'fade', 'slide_from_right', 'slide_from_left', 'none'
-									statusBarAnimation: "slide"
-								}}
-							/>
-						</View>
-					</ClerkProvider>
-				</ThemeContextProvider>
-			</GestureHandlerRootView>
-		</>
+		// <>
+		// 	<StatusBar
+		// 		backgroundColor={"transparent"}
+		// 		barStyle={"dark-content"}
+		// 	/>
+		// 	<GestureHandlerRootView>
+		// 		<ThemeContextProvider>
+		// 			<ClerkProvider publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY} tokenCache={tokenCache}>
+		// 				<View
+		// 					className={` absolute top-0 w-full ${darkTheme?"bg-black":""}`}
+		// 					style={{
+		// 						height: height + statusBarHeight,
+		// 					}}
+		// 				>
+		// 					<Stack
+		// 						screenOptions={{
+		// 							headerShown: false,
+		// 							animation: "slide_from_right", // Options: 'fade', 'slide_from_right', 'slide_from_left', 'none'
+		// 							statusBarAnimation: "slide"
+		// 						}}
+		// 					/>
+		// 				</View>
+		// 			</ClerkProvider>
+		// 		</ThemeContextProvider>
+		// 	</GestureHandlerRootView>
+		// </>
+    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <ThemeContextProvider>
+        <ClerkProvider publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY} tokenCache={tokenCache}>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(screens)" options={{ headerShown: false }} />
+            <Stack.Screen name="(Auth)" options={{ headerShown: false }} />
+          </Stack>
+        </ClerkProvider>
+      </ThemeContextProvider>
+    </ThemeProvider>
 	);
 }

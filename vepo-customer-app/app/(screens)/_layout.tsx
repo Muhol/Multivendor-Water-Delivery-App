@@ -7,7 +7,6 @@ import { Redirect, Stack, usePathname, useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import {
   Dimensions,
-  SafeAreaView,
   StatusBar,
   TouchableOpacity,
   View,
@@ -16,6 +15,13 @@ import {
   ReanimatedLogLevel,
   configureReanimatedLogger,
 } from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Tabs } from "expo-router";
+import icons from "@/constants/icons/icons";
+import { BlurView } from "expo-blur";
+import type { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
+
+
 
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
@@ -78,7 +84,7 @@ const Layout = () => {
   }
   
   // <------------------VARIABLES------------------>
-  const statusbarHieght = StatusBar.currentHeight || 50;
+  const statusbarHieght = StatusBar.currentHeight || 0;
   
   
   useEffect(() =>{
@@ -92,22 +98,14 @@ const Layout = () => {
     return <Redirect href={'/(Auth)'} />
   }
   return (
-    <>
-      <StatusBar
-        translucent={true}
-        backgroundColor="transparent"
-        barStyle="dark-content" // or "dark-content" depending on your UI
-        animated={true}
-      />
-
       <View
-        className={`absolute ${darkTheme? "bg-black":""}`} 
-        style={{
-          minHeight: height+statusbarHieght,
+        className={`flex-1 ${darkTheme? "bg-black":""}`} 
+        style={[{
           minWidth: width,
-          paddingBottom: 55
-        }}
+        }
+      ]}
       >
+
 				<Context.Provider value={{ fetchCart, fetchUserDetails, User }}>
           <Stack
             screenOptions={{
@@ -116,65 +114,147 @@ const Layout = () => {
               statusBarAnimation: "slide"
             }}
           />
+        
         </Context.Provider>
+
+        <View className={`bg-transparent items-center px-5 pb-2 w-full absolute bottom-0`}>
+          <View className={`z-50 rounded-full px-3 ${ darkTheme? "bg-black/90 border-2 border-black" : "bg-white/95 border-2 border-white"}  shadow-2xl shadow-black w-full max-w-[350px] h-[60px] flex-row justify-between items-center `}>
+            <TouchableOpacity
+              onPress={() => {
+                router.push("/(screens)");
+              }}
+              // className="flex-1"
+            >
+              <View className="h-full flex-1 items-center justify-center ">
+                <TabIcon name={"home"} active={active("/")} />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                router.push("/(screens)/Search");
+              }}
+            >
+              <View className="h-full flex-1 items-center justify-around ">
+                <TabIcon name={"search"} active={active("/Search")} />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                router.push("/(screens)/Cart");
+              }}
+            >
+              <View className="h-full flex-1 items-center justify-around ">
+                
+                <TabIcon name={"cart"} active={active("/Cart")} count={Cart?.items_count} />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                router.push("/(screens)/Orders");
+              }}
+            >
+              <View className="h-full flex-1 items-center justify-around ">
+                <TabIcon name={"order"} active={active("/Orders")} />
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
 
-      <SafeAreaView className=" w-full absolute bottom-0" style={{}}>
-        <View className={`z-50 ${ darkTheme? "bg-black border-t border-black" : "bg-white border-t border-gray-100"}  shadow-2xl shadow-black w-full h-[55px] flex-row items-center `}>
-          <TouchableOpacity
-            onPress={() => {
-              router.push("/(screens)");
-            }}
-            className="flex-1"
-          >
-            <View className="h-full flex-1 items-center justify-center ">
-              <TabIcon name={"home"} active={active("/")} />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              router.push("/(screens)/Search");
-            }}
-            className="flex-1"
-          >
-            <View className="h-full flex-1 items-center justify-around ">
-              <TabIcon name={"search"} active={active("/Search")} />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              router.push("/(screens)/Cart");
-            }}
-            className="flex-1"
-          >
-            <View className="h-full flex-1 items-center justify-around ">
-              
-              <TabIcon name={"cart"} active={active("/Cart")} count={Cart?.items_count} />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              router.push("/(screens)/Orders");
-            }}
-            className="flex-1"
-          >
-            <View className="h-full flex-1 items-center justify-around ">
-              <TabIcon name={"order"} active={active("/Orders")} />
-            </View>
-          </TouchableOpacity>
-          {/* <TouchableOpacity
-            onPress={() => {
-              router.push("/(screens)/Profile");
-            }}
-            className="flex-1"
-          >
-            <View className="h-full flex-1 items-center justify-around ">
-              <TabIcon name={"profile"} active={active("/Profile")} />
-            </View>
-          </TouchableOpacity> */}
-        </View>
-      </SafeAreaView>
-    </>
+    //   <Context.Provider value={{ fetchCart, fetchUserDetails, User }}>
+    //     <Tabs screenOptions={{
+    //       headerShown: false,
+    //       tabBarShowLabel: false,
+    //       tabBarStyle :{
+    //         position: "absolute",
+    //         // bottom: 10,
+    //         // marginHorizontal: 15,
+    //         paddingTop: 5,
+    //         // elevation: 10,
+    //         height: 50,
+    //         borderColor: darkTheme? "#000000" : "#FFFFFFFF",
+    //         // borderRadius: 55,
+    //         alignSelf: "center",
+    //         display: "flex",
+    //         flexDirection: "row",
+    //         alignItems: "flex-start",
+    //         justifyContent:"space-around",
+    //         backgroundColor: darkTheme? "#000000d0" : "#ffffffd0",
+            
+    //         shadowColor: "transparent",
+    //         // shadowOffset: {
+    //         //   width: 10,
+    //         //   height: 15,
+    //         // },
+    //         // shadowOpacity: 0.15,
+    //         // shadowRadius: 3.5
+    //       }
+    //     }}>
+    //       <Tabs.Screen name="index" options={{
+    //         title : "home",
+    //         // tabBarActiveTintColor: "#deb020",
+    //         tabBarIcon: ({focused}) => (
+    //           <TabIcon name="home" active={focused}/>
+    //         )
+    //       }}  />
+    //       <Tabs.Screen name="Search" options={{
+    //         // title : "home",
+    //         // href:  null,
+    //         unmountOnBlur: true,
+
+    //         tabBarIcon: ({focused}) => (
+    //           <TabIcon name="search" active={focused}/>
+    //         )
+    //       } as BottomTabNavigationOptions}  />
+    //       <Tabs.Screen name="Cart" options={{
+            
+    //         // title : "home",
+    //         // href:  null,
+    //         tabBarIcon: ({focused}) => (
+    //           <TabIcon name="cart" active={focused} count={Cart?.items_count}/>
+    //         )
+
+    //       } as BottomTabNavigationOptions}  />
+    //       <Tabs.Screen name="Orders" options={{
+    //         // href:  null,
+    //         tabBarIcon: ({focused}) => (
+    //           <TabIcon name="order" active={focused}/>
+    //         )
+
+    //       } as BottomTabNavigationOptions}  />
+
+    // {/* hidden tub buttons */}
+    //       <Tabs.Screen name="Profile" options={{
+    //         // title : "home",
+    //                   // unmountOnBlur: true,
+    //         href:  null,
+    //       } as BottomTabNavigationOptions}  />
+    //       <Tabs.Screen name="Notifications" options={{
+    //         // title : "home",
+    //                   // unmountOnBlur: true,
+
+    //         href:  null,
+    //       } as BottomTabNavigationOptions}  />
+    //       <Tabs.Screen name="Map/[id]" options={{
+    //         // title : "home",
+    //                   // unmountOnBlur: true,
+
+    //         href:  null,
+    //       } as BottomTabNavigationOptions}  />
+    //       <Tabs.Screen name="product-details/[id]" options={{
+    //         // title : "home",
+    //         href:  null,
+    //                   // unmountOnBlur: true,
+
+    //       } as BottomTabNavigationOptions}  />
+    //       <Tabs.Screen name="vendor/[id]" options={{
+    //         // title : "home",
+    //         href:  null,
+    //                   // unmountOnBlur: true,
+
+    //       } as BottomTabNavigationOptions}  />
+    //     </Tabs>
+    //   </Context.Provider>
   );
 };
 

@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "1031077594785",
-    "project_id": "vepo-e975a",
-    "storage_bucket": "vepo-e975a.firebasestorage.app"
+    "project_number": "459973864689",
+    "project_id": "vepo-80601",
+    "storage_bucket": "vepo-80601.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1031077594785:android:cb2ef3993e68206eb192e0",
+        "mobilesdk_app_id": "1:459973864689:android:7580a2974122cda3b14d50",
         "android_client_info": {
-          "package_name": "com.vepo.multivendor"
+          "package_name": "com.mohol.VEPO"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAUs7JBM8mVUnMZslgSeQkYU8nIPch2Pd8"
+          "current_key": "AIzaSyDWU72Ci4Hr2j4HziOWYdE3ADMqN1qRcFk"
         }
       ],
       "services": {

@@ -192,14 +192,17 @@ export default function Cart() {
 				barStyle={darkTheme?"light-content":"dark-content"}
 			/>
 
-			<View className={`flex-1 w-full ${darkTheme?"bg-black":"bg-white"}`}>
-				<Animated.View className="flex-1 pb-2">
+			<SafeAreaView className={`flex-1 w-full ${darkTheme?"bg-black":"bg-white"}`}>
+				<Animated.View 
+					className="flex-1 pb-2"
+					style={{
+								marginBottom: 50,
+							}}
+				>
 					<View className={`w-full z-30  ${darkTheme?"bg-black":"bg-white"} shadow-2xl bg-gray flex-row items-center px-5 `}>
 						<View
 							className="flex-row items-center w-full h-[70px]"
-							style={{
-								marginTop: StatusBar.currentHeight,
-							}}
+						
 						>
 							<TouchableOpacity
 								className=""
@@ -356,7 +359,7 @@ export default function Cart() {
 						}
 					</LinearGradient>
 				</Animated.View>
-			</View>
+			</SafeAreaView>
 			{/* Modals */}
 			{/* <------------------------------CHECKOUT MODAL------------------------------> */}
 			<Modal visible={CheckoutVisible} backdropColor={"transparent"}>

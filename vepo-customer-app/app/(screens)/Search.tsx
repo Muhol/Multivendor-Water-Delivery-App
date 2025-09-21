@@ -58,15 +58,15 @@ const Search = () => {
 					>
 						<BackButtonMinimal />
 					</TouchableOpacity>
-					{/* <SearchBar
+					<SearchBar
 						width={"w-[70%]"}
 						height={"h-[40px]"}
 						buttonStyle={""}
 						setFunc={(value: string) => {
 							setSearch(value);
 						}}
-					/> */}
-					<GooglePlacesAutocomplete
+					/>
+					{/* <GooglePlacesAutocomplete
 								placeholder='Search'
 								onPress={(data, details = null) => {
 									// 'details' is provided when fetchDetails = true
@@ -76,12 +76,12 @@ const Search = () => {
 									key: 'YOUR API KEY',
 									language: 'en',
 								}}
-							/>
+							/> */}
 					<TouchableOpacity onPress={handleSearch}>
 						<View
 							className={`w-[40px] h-[40px] items-center justify-center ${
 								darkTheme ? "bg-gray-200/20" : "bg-gray-200"
-							} rounded-2xl`}
+							} rounded-full`}
 						>
 							<Image
 								source={icons.search}

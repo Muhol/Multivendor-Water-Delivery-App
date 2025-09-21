@@ -1,6 +1,6 @@
 import Search from '../../assets/icons/search-icon-black.png'
 import Cart from '../../assets/icons/cart-black.png'
-import Location from '../../assets/icons/maps-black.png'
+// import search from '../../assets/icons/search-icon-black.png'
 import Notifications from '../../assets/icons/notification-black.png'
 import add from '../../assets/icons/add-black.png'
 import minus from '../../assets/icons/minus-black.png'
@@ -9,6 +9,7 @@ import downArrow from '../../assets/icons/down-arrow.png'
 import upArrow from '../../assets/icons/up-arrow.png'
 import myLocation from '../../assets/icons/myLocation.png'
 import location from '../../assets/icons/location.png'
+import home from '../../assets/icons/home-black.png'
 import gps from '../../assets/icons/gps.png'
 import gift from '../../assets/icons/gift.png'
 import discount from '../../assets/icons/discount.png'
@@ -50,6 +51,7 @@ const icons = {
     search : Search,
     bike : bike,
     cart : Cart,
+    home,
     // location: Location,
     notifications: Notifications,
     add: add,

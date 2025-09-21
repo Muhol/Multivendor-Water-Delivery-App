@@ -12,8 +12,7 @@ import {
 	Alert,
 	// AppRegistry,
 } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 // import { StatusBar } from "expo-status-bar";
 import { usePathname, useRouter } from "expo-router";
 import ComicText from "@/components/styled-components/custom-texts/ComicText";
@@ -52,6 +51,10 @@ const VendorDetails = (props: Props) => {
 	// <-------------------FUNCTIONS--------------------->
 	// API CALLS
 	const fetchVendorDetails = async () => {
+		setVendorDetails(null)
+		setVendorDetailsLoaded(false)
+		setOffers([])
+		setProducts([])
 		try {
 			const apiCall = await fetch(ApiRoutes.VendorShopDetails.path, {
 				method: ApiRoutes.VendorShopDetails.method,
@@ -91,7 +94,11 @@ const VendorDetails = (props: Props) => {
 	// });
 
 	
-	useEffect(() => {
+	useLayoutEffect(() => {
+		setVendorDetailsLoaded(false)
+		setVendorDetails(null)
+		setOffers([])
+		setProducts([])
 		fetchVendorDetails();
 	}, []);
 

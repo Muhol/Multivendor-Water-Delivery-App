@@ -2,7 +2,7 @@
 
 
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import MapView, { Callout, Marker } from "react-native-maps";
+import MapView, { Callout, Marker, Region } from "react-native-maps";
 import {
 	Dimensions,
 	Keyboard,
@@ -492,10 +492,12 @@ export default function Maps() {
 	const rawParams = pathParts[2] ?? ""; // fallback to empty string if not present
 	const pathVariables = rawParams.split("%");
 
-	const pathLat = Number(pathVariables?.[0]?.split("=")[1]) || null;
-	const pathlng = Number(pathVariables?.[1]?.split("=")[1]) || null;
+
+	const pathLat = Number(pathVariables?.[0]?.split("=")[1]) || 1;
+	const pathlng = Number(pathVariables?.[1]?.split("=")[1]) || 1;
 	const pathid = pathVariables?.[2]?.split("=")[1] || null;
 
+	// console.log("pathLat", pathLat)
 	// <------------------------STATES------------------------->
 	const [dataShown, setDataShown] = useState("orders"); // either ['setLocation', 'vendorDetails', 'orders', 'all'] : View for a vendor picked on the map, View for ongoing orders/in transit or View for edit and set location
 	const [Loading, setLoading] = useState(false);
@@ -515,11 +517,9 @@ export default function Maps() {
 	// 	router.push("/(screens)")
 	// }
 
-	const initialRegion = {
-		// latitude: pathLat || User?.lat || 1, 
-		// longitude: pathlng || User?.lng || 36,
-		latitude: pathLat || 1, 
-		longitude: pathlng || 36,
+	const initialRegion : Region = {
+		latitude: pathLat, 
+		longitude: pathlng,
 		latitudeDelta: 0.5922,
 		longitudeDelta: 0.5421,
 	};
@@ -528,7 +528,7 @@ export default function Maps() {
 
 	// <-----------------------VARIABLES----------------------->
 	const StatusBarHeight = StatusBar.currentHeight || 0;
-	const finalHeight = height + StatusBarHeight - 55;
+	const finalHeight = height + StatusBarHeight;
 	// const mapHeight = useSharedValue(finalHeight);
 	const mapHeight = useSharedValue(finalHeight);
 	const viewHeight = useSharedValue(0);
@@ -803,7 +803,7 @@ export default function Maps() {
 					{/* <------ANIMATED MINI VENDOR CARD------> */}
 					{ ShowFloatingVendor && Vendor != null && Vendor != undefined && (
 						<Animated.View
-							className="absolute bottom-16 w-full px-7"
+							className="absolute bottom-[80px] w-full px-7"
 							style={[animatedFloatingVendorView]}
 						>
 							<View className="relative self-center max-w-[400px] w-full ">
@@ -846,7 +846,7 @@ export default function Maps() {
 
 					{ShowFloatingOrder && (
 						<Animated.View 
-							className="absolute bottom-16 w-full px-7"
+							className="absolute bottom-[80px] w-full px-7"
 							style={[
 								animatedFloatingOrderView,
 							]}

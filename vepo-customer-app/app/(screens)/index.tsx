@@ -1,7 +1,6 @@
 import {
 	View,
 	Text,
-	SafeAreaView,
 	Image,
 	TextInput,
 	TouchableWithoutFeedback,
@@ -36,6 +35,7 @@ import VerticalList from "@/components/common/VerticalList";
 import Context from "@/context/context";
 import VerticalLoadingList from "@/components/common/VerticalLoadingList";
 import { set } from "date-fns";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const width = Dimensions.get("window").width;
 
@@ -357,10 +357,10 @@ export default function Home() {
 				onPress={Keyboard.dismiss}
 				accessible={false}
 			>
-				<View
-					className={`flex-1 ${darkTheme?"bg-black":""}`}
+				<SafeAreaView
+					className={`flex-1 h-full ${darkTheme?"bg-black":""}`}
 					style={{
-						paddingTop: statusBarHieght,
+						// paddingTop: statusBarHieght,
 					}}
 				>
 					{/* <--------------<<HEADER>-----------------> */}
@@ -369,7 +369,7 @@ export default function Home() {
 							darkTheme ? "bg-black" : "bg-white"
 						} shadow-2xl py-3 z-20 gap-3 rounded-b[20px] `}
 					>
-						{/* SEARCH AND NOTIFICATION */}
+						{/* PROFILE AND NOTIFICATION */}
 						<View className="px-5">
 							<View className=" flex-row items-center w-full h-[40px] gap-4 justify-between ">
 								<View className={`flex-row gap-2 items-center`}>
@@ -379,8 +379,8 @@ export default function Home() {
 											router.push("/(screens)/Profile")
 										}}
 									>
-										<View className={`w-[50px] h-[50px] rounded-full overflow-hidden relative items-center justify-center`}>
-											<Image source={icons.profile2} className="w-[45px] h-[45px]" tintColor={darkTheme ? "gray" : "dimgray"}/>
+										<View className={`w-12 h-12 rounded-full overflow-hidden relative items-center justify-center`}>
+											<Image source={icons.profile2} className="w-[42px] h-[42px]" tintColor={darkTheme ? "gray" : "dimgray"}/>
 											<Image source={{uri: User?.profile_pic}} className="w-full h-full rounded-full absolute"/>
 										</View>
 									</TouchableOpacity>
@@ -621,7 +621,7 @@ export default function Home() {
 							</View>
 						}
 					/>
-				</View>
+				</SafeAreaView>
 			</TouchableWithoutFeedback>
 		</>
 	);

@@ -12,7 +12,7 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import Animated from "react-native-reanimated";
 import icons from "@/constants/icons/icons";
 import { Redirect, SplashScreen, useRouter } from "expo-router";
-import { preloadImages } from "@/constants/images/images";
+import images, { preloadImages } from "@/constants/images/images";
 import { UIThemeContext } from "@/context/ThemeContext";
 import * as Location from "expo-location";
 import ApiRoutes from "@/API/routes/ApiRoutes";
@@ -136,17 +136,39 @@ export default function Index() {
 				>
 					<Animated.View>
 						<Animated.View
-							className={
-								"animate-spin transition-all duration-700"
+							className={` gap-4`
+								// "animate-spin transition-all duration-700"
 							}
 						>
-							<Image
+							{/* <Image
 								source={icons.spinner}
 								className="w-28 h-28"
 								tintColor={"#d9a31b"}
+							/> */}
+							<View className="h-5"></View>
+							<Image
+								source={images.logo}
+								className="w-44 h-20"
 							/>
 						</Animated.View>
 					</Animated.View>
+							<Animated.View className={`flex-row gap-2 self-center animate- absolute bottom-[150px]`}>
+								<Animated.View className={`animate-pulse flex-row gap-1 items-center`}>
+										<View className={`w-1 h-1 bg-accentbg/20 rounded-full`}/>
+										<View className={`w-2 h-2 bg-accentbg/30 rounded-full`}/>
+										{/* <View className={`w-1 h-1 bg-accentbg/30 rounded-full`}/> */}
+										<View className={`w-3 h-3 bg-accentbg/50 rounded-full`}/>
+										{/* <View className={`w-1 h-1 bg-accentbg/30 rounded-full`}/> */}
+										<View className={`w-2 h-2 bg-accentbg/30 rounded-full`}/>
+										<View className={`w-1 h-1 bg-accentbg/20 rounded-full`}/>
+										{/* <Image
+													source={icons.spinner}
+													className="w-24 h-24"
+													tintColor={"#d9a31b"}
+												/> */}
+								</Animated.View>
+
+							</Animated.View>
 					<Modal isVisible={ShowLocationPrompt}>
 						<View className="items-center">
 							<View
